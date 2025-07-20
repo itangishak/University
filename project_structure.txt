@@ -1,0 +1,22 @@
+d:\University\                  # Project root
+├── config/                    # Configuration files
+│   ├── database.php           # Database connection
+│   └── config.php             # Site configuration
+├── includes/                  # Reusable components
+│   ├── header.php             # Site header with language detection
+│   ├── footer.php             # Site footer
+│   └── functions.php          # Helper functions
+├── languages/                 # Language files
+│   ├── fr.php                 # French translations
+│   └── en.php                 # English translations
+├── assets/                    # Static assets
+│   ├── css/                   # Stylesheets
+│   ├── js/                    # JavaScript files
+│   └── images/                # Images and media
+├── modules/                   # Feature modules
+│   ├── news/                  # News & events system
+│   ├── courses/               # Course catalog
+│   ├── faculty/               # Faculty directory
+│   ├── alumni/                # Alumni portal
+│   └── student/               # Student portal
+└── index.php                  # Homepage
