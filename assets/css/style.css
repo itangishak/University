@@ -94,9 +94,66 @@ h3 {
     z-index: 2;
 }
 
+.hero-bullets {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 3;
+}
+
+
+/* Animated stars behind hero content */
+.hero-bullets .bullet {
+    position: absolute;
+    bottom: -10px;
+    width: 4px;
+    height: 4px;
+    background: var(--white);
+    border-radius: 50%;
+    opacity: 0.9;
+    box-shadow: 0 0 6px rgba(255, 255, 255, 0.8);
+    animation: star-move linear infinite;
+}
+
+.hero-bullets .bullet:nth-child(1)  { left: 5%;  width: 2px; height: 2px;  animation-duration: 8s;  }
+.hero-bullets .bullet:nth-child(2)  { left: 12%; width: 4px; height: 4px;  animation-duration: 12s; animation-delay: 1s; }
+.hero-bullets .bullet:nth-child(3)  { left: 18%; width: 3px; height: 3px;  animation-duration: 10s; animation-delay: 2s; }
+.hero-bullets .bullet:nth-child(4)  { left: 25%; width: 5px; height: 5px;  animation-duration: 15s; animation-delay: 0.5s; }
+.hero-bullets .bullet:nth-child(5)  { left: 32%; width: 3px; height: 3px;  animation-duration: 11s; animation-delay: 3s; }
+.hero-bullets .bullet:nth-child(6)  { left: 40%; width: 4px; height: 4px;  animation-duration: 13s; animation-delay: 4s; }
+.hero-bullets .bullet:nth-child(7)  { left: 46%; width: 2px; height: 2px;  animation-duration: 9s;  animation-delay: 1.5s; }
+.hero-bullets .bullet:nth-child(8)  { left: 52%; width: 3px; height: 3px;  animation-duration: 14s; animation-delay: 2.5s; }
+.hero-bullets .bullet:nth-child(9)  { left: 58%; width: 5px; height: 5px;  animation-duration: 12s; animation-delay: 0.8s; }
+.hero-bullets .bullet:nth-child(10) { left: 64%; width: 4px; height: 4px;  animation-duration: 16s; animation-delay: 3.5s; }
+.hero-bullets .bullet:nth-child(11) { left: 70%; width: 3px; height: 3px;  animation-duration: 10s; animation-delay: 2.2s; }
+.hero-bullets .bullet:nth-child(12) { left: 75%; width: 2px; height: 2px;  animation-duration: 8s;  animation-delay: 4.2s; }
+.hero-bullets .bullet:nth-child(13) { left: 80%; width: 6px; height: 6px;  animation-duration: 18s; animation-delay: 0.6s; }
+.hero-bullets .bullet:nth-child(14) { left: 84%; width: 3px; height: 3px;  animation-duration: 14s; animation-delay: 1.8s; }
+.hero-bullets .bullet:nth-child(15) { left: 88%; width: 4px; height: 4px;  animation-duration: 12s; animation-delay: 5s; }
+.hero-bullets .bullet:nth-child(16) { left: 90%; width: 2px; height: 2px;  animation-duration: 9s;  animation-delay: 3.2s; }
+.hero-bullets .bullet:nth-child(17) { left: 92%; width: 5px; height: 5px;  animation-duration: 17s; animation-delay: 0.3s; }
+.hero-bullets .bullet:nth-child(18) { left: 94%; width: 3px; height: 3px;  animation-duration: 11s; animation-delay: 2.9s; }
+.hero-bullets .bullet:nth-child(19) { left: 96%; width: 2px; height: 2px;  animation-duration: 8s;  animation-delay: 1.1s; }
+.hero-bullets .bullet:nth-child(20) { left: 98%; width: 4px; height: 4px;  animation-duration: 13s; animation-delay: 4.5s; }
+
+@keyframes star-move {
+    from {
+        transform: translateY(0) scale(0.5);
+        opacity: 1;
+    }
+    to {
+        transform: translateY(-120vh) scale(1);
+        opacity: 0;
+    }
+}
+
 .hero-content {
     position: relative;
-    z-index: 3;
+    z-index: 4;
     width: 100%;
 }
 
