@@ -16,7 +16,7 @@
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
             <div class="container">
                 <a class="navbar-brand" href="/">
-                    <img src="/assets/images/logo.png" alt="<?php echo __('site_name'); ?>" height="60">
+                    <img src="./assets/images/icon.ico" alt="<?php echo __('site_name'); ?>" height="60">
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain">
                     <span class="navbar-toggler-icon"></span>
@@ -56,10 +56,10 @@
                     <!-- Language Switcher -->
                     <div class="language-switcher">
                         <a href="?lang=fr" class="<?php echo $current_lang == 'fr' ? 'active' : ''; ?>">
-                            <img src="/assets/images/flag-fr.png" alt="Français" width="24" height="16">
+                            <img src="./assets/images/french.png" alt="Français" width="24" height="16">
                         </a>
                         <a href="?lang=en" class="<?php echo $current_lang == 'en' ? 'active' : ''; ?>">
-                            <img src="/assets/images/flag-en.png" alt="English" width="24" height="16">
+                            <img src="./assets/images/english.png" alt="English" width="24" height="16">
                         </a>
                     </div>
                     

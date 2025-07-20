@@ -35,7 +35,7 @@ $events_stmt->execute([$current_lang]);
             <div class="row align-items-center min-vh-100">
                 <div class="col-lg-8 col-md-10 mx-auto text-center">
                     <div class="hero-logo-container fade-in-up">
-                        <img src="/assets/images/uab-logo.png" alt="UAB Logo" class="hero-logo mb-4">
+                        <img src="./assets/images/logo.jpg" alt="UAB Logo" class="hero-logo mb-4">
                     </div>
                     <h1 class="hero-title fade-in-up delay-1"><?php echo __('welcome_message'); ?></h1>
                     <p class="hero-subtitle fade-in-up delay-2"><?php echo __('hero_subtitle'); ?></p>
