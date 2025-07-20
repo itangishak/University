@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo __('site_name'); ?> - <?php echo __('page_title'); ?></title>
     <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/assets/css/styles.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
     <!-- WCAG 2.2 AA compliance styles -->
     <link rel="stylesheet" href="/assets/css/accessibility.css">
 </head>
