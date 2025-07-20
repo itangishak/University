@@ -1864,3 +1864,126 @@ h3 {
 ::-webkit-scrollbar-thumb:hover {
     background: var(--secondary-blue);
 }
+/* Hero Section */
+.hero-section {
+    position: relative;
+    min-height: 30vh;  /* Reduced height to match simple header in image */
+    background: #0f4477;  /* Solid dark blue to match image */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    text-align: center;
+}
+
+.hero-overlay {
+    display: none;  /* Remove overlay for simplicity */
+}
+
+.hero-content {
+    position: relative;
+    z-index: 3;
+    width: 100%;
+}
+
+.hero-logo {
+    max-width: 150px;  /* Smaller size to match image */
+    height: auto;
+    background: black;  /* Black square background */
+    padding: 1rem;
+    border-radius: 0;  /* Square shape */
+}
+
+.hero-title {
+    color: white;  /* White text to match image */
+    font-size: 2.5rem;
+    margin: 1rem 0;
+    text-shadow: none;
+}
+
+.hero-subtitle {
+    display: none;  /* Hide if not in image, but keeping content */
+}
+
+.hero-tagline .tagline-text {
+    color: #ffd700;  /* Yellow to match image */
+    font-size: 1.2rem;
+    text-transform: none;
+    letter-spacing: normal;
+}
+
+.hero-tagline .tagline-text::before, .tagline-text::after {
+    display: none;  /* Remove lines for simplicity */
+}
+
+.hero-buttons {
+    display: none;  /* Hide buttons as not visible in image, but content remains in HTML */
+}
+
+/* Navbar adjustments for white top bar */
+.navbar {
+    background: white !important;
+    border-bottom: 1px solid #ddd;
+}
+
+.navbar-brand img {
+    height: 40px;  /* Small icon in navbar */
+}
+
+.navbar-nav .nav-link {
+    color: black;
+}
+
+/* Language Switcher */
+.language-switcher {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.language-switcher a {
+    display: inline-block;
+    position: relative;
+    padding: 0.25rem;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow-light);
+    opacity: 0.9;
+}
+
+.language-switcher a:hover {
+    opacity: 1;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-medium);
+}
+
+.language-switcher a.active {
+    opacity: 1;
+    border: 2px solid var(--accent-gold);
+}
+
+.language-switcher a img {
+    border-radius: 2px;
+}
+
+/* Tooltip */
+.language-switcher a::after {
+    content: attr(alt);
+    position: absolute;
+    bottom: -2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--text-dark);
+    color: var(--white);
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.language-switcher a:hover::after {
+    opacity: 1;
+}
