@@ -64,13 +64,13 @@
                     </div>
                     
                     <!-- Search Form -->
-                    <form class="d-flex ms-3" action="/search" method="get">
-                        <input class="form-control me-2" type="search" name="q" placeholder="<?php echo __('search_placeholder'); ?>">
-                        <button class="btn btn-outline-light" type="submit"><?php echo __('search_button'); ?></button>
+                    <form class="header-search d-flex ms-3" action="/search" method="get">
+                        <input class="search-input me-2" type="search" name="q" placeholder="<?php echo __('search_placeholder'); ?>">
+                        <button class="search-btn" type="submit"><?php echo __('search_button'); ?></button>
                     </form>
-                    
+
                     <!-- Login/Portal Button -->
-                    <a href="/portal" class="btn btn-outline-light ms-3"><?php echo __('portal_login'); ?></a>
+                    <a href="/portal" class="portal-btn ms-3"><?php echo __('portal_login'); ?></a>
                 </div>
             </div>
         </nav>
