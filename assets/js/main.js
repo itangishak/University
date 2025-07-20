@@ -47,21 +47,20 @@ function initMobileMenu() {
 
 // Language Switcher
 function initLanguageSwitcher() {
-    const languageSelector = document.querySelector('.language-selector');
-    
-    if (languageSelector) {
-        languageSelector.addEventListener('change', function(e) {
-            const selectedLang = e.target.value;
-            
-            // Add loading state
-            e.target.classList.add('loading');
-            
-            // Smooth transition
-            document.body.style.opacity = '0.8';
-            
-            setTimeout(() => {
-                window.location.href = `/language.php?lang=${selectedLang}`;
-            }, 300);
+    const links = document.querySelectorAll('.language-switcher a[data-lang]');
+
+    if (links.length) {
+        links.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const selectedLang = this.getAttribute('data-lang');
+
+                document.body.style.opacity = '0.8';
+
+                setTimeout(() => {
+                    window.location.href = `?lang=${selectedLang}`;
+                }, 300);
+            });
         });
     }
 }

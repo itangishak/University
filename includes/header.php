@@ -54,10 +54,14 @@
                     </ul>
                     
                     <!-- Language Switcher -->
-                    <select class="language-selector form-select ms-3" onchange="window.location.href='?lang='+this.value">
-                        <option value="fr" <?php echo $current_lang == 'fr' ? 'selected' : ''; ?>>Français</option>
-                        <option value="en" <?php echo $current_lang == 'en' ? 'selected' : ''; ?>>English</option>
-                    </select>
+                    <div class="language-switcher ms-3">
+                        <a href="?lang=fr" data-lang="fr" class="<?php echo $current_lang == 'fr' ? 'active' : ''; ?>">
+                            <img src="/assets/images/french.png" alt="Français">
+                        </a>
+                        <a href="?lang=en" data-lang="en" class="<?php echo $current_lang == 'en' ? 'active' : ''; ?>">
+                            <img src="/assets/images/english.png" alt="English">
+                        </a>
+                    </div>
                     
                     <!-- Search Form -->
                     <form class="d-flex ms-3" action="/search" method="get">
