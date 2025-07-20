@@ -30,6 +30,14 @@ $events_stmt->execute([$current_lang]);
 <!-- Hero Section -->
 <section class="hero-section">
     <div class="hero-overlay"></div>
+    <div class="hero-bullets">
+        <span class="bullet"></span>
+        <span class="bullet"></span>
+        <span class="bullet"></span>
+        <span class="bullet"></span>
+        <span class="bullet"></span>
+        <span class="bullet"></span>
+    </div>
     <div class="hero-content">
         <div class="container">
             <div class="row align-items-center min-vh-100">

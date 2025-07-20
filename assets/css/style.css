@@ -94,9 +94,49 @@ h3 {
     z-index: 2;
 }
 
+.hero-bullets {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 3;
+}
+
+.hero-bullets .bullet {
+    position: absolute;
+    bottom: -20px;
+    width: 12px;
+    height: 12px;
+    background: var(--accent-gold);
+    border-radius: 50%;
+    opacity: 0.8;
+    animation: bullet-move 12s linear infinite;
+}
+
+.hero-bullets .bullet:nth-child(1) { left: 10%; animation-duration: 10s; }
+.hero-bullets .bullet:nth-child(2) { left: 30%; animation-duration: 14s; animation-delay: 2s; }
+.hero-bullets .bullet:nth-child(3) { left: 50%; animation-duration: 12s; animation-delay: 4s; }
+.hero-bullets .bullet:nth-child(4) { left: 70%; animation-duration: 16s; animation-delay: 1s; }
+.hero-bullets .bullet:nth-child(5) { left: 85%; animation-duration: 13s; animation-delay: 3s; }
+.hero-bullets .bullet:nth-child(6) { left: 95%; animation-duration: 11s; animation-delay: 5s; }
+
+@keyframes bullet-move {
+    from {
+        transform: translateY(0) scale(1);
+        opacity: 0.8;
+    }
+    to {
+        transform: translateY(-110vh) scale(0.5);
+        opacity: 0;
+    }
+}
+
 .hero-content {
     position: relative;
-    z-index: 3;
+    z-index: 4;
     width: 100%;
 }
 
