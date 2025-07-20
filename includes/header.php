@@ -64,9 +64,9 @@
                     </div>
                     
                     <!-- Search Form -->
-                    <form class="d-flex ms-3" action="/search" method="get">
-                        <input class="form-control me-2" type="search" name="q" placeholder="<?php echo __('search_placeholder'); ?>">
-                        <button class="btn btn-outline-light" type="submit"><?php echo __('search_button'); ?></button>
+                    <form class="header-search ms-3" action="/search" method="get">
+                        <input class="search-input" type="search" name="q" placeholder="<?php echo __('search_placeholder'); ?>">
+                        <button class="search-btn" type="submit"><?php echo __('search_button'); ?></button>
                     </form>
                     
                     <!-- Login/Portal Button -->
