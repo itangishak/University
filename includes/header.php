@@ -56,10 +56,10 @@
                     <!-- Language Switcher -->
                     <div class="language-switcher ms-3">
                         <a href="?lang=fr" data-lang="fr" class="<?php echo $current_lang == 'fr' ? 'active' : ''; ?>">
-                            <img src="/assets/images/french.png" alt="Français">
+                            <img src="./assets/images/french.png" alt="Français">
                         </a>
                         <a href="?lang=en" data-lang="en" class="<?php echo $current_lang == 'en' ? 'active' : ''; ?>">
-                            <img src="/assets/images/english.png" alt="English">
+                            <img src="./assets/images/english.png" alt="English">
                         </a>
                     </div>
                     
