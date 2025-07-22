@@ -16,7 +16,7 @@
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
             <div class="container">
                 <a class="navbar-brand" href="/">
-                    <img src="./assets/images/icon.ico" alt="<?php echo __('site_name'); ?>" height="60">
+                    <img src="./assets/images/logo.png" alt="<?php echo __('site_name'); ?>" height="60">
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain">
                     <span class="navbar-toggler-icon"></span>
