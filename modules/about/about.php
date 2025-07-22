@@ -1,6 +1,6 @@
 <?php
-require_once 'includes/header.php';
-require_once 'config/database.php';
+require_once '../../includes/header.php';
+require_once '../../config/database.php';
 
 $database = new Database();
 $db = $database->getConnection();
@@ -24,4 +24,4 @@ $about = $stmt->fetch(PDO::FETCH_ASSOC);
     </div>
 </div>
 
-<?php require_once 'includes/footer.php'; ?>
+<?php require_once '../../includes/footer.php'; ?>

@@ -6,8 +6,8 @@
         <div class="footer-content">
             <div class="footer-section">
                 <h3>Contact Us</h3>
-                <p>Email: info@university.com</p>
-                <p>Phone: +1 234 567 890</p>
+                <p>Email: info@uab.edu.bi</p>
+                <p>Phone: +257 69210815//+257 79155869  </p>
                 <p>Address: 123 University Street</p>
             </div>
             <div class="footer-section">
