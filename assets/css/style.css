@@ -1688,13 +1688,22 @@ h3 {
     .container {
         padding: 0 1.5rem;
     }
-    
+
     .search-input {
         width: 150px;
     }
-    
+
     .search-input:focus {
         width: 200px;
+    }
+
+    /* Larger desktop enhancements */
+    .hero-title {
+        font-size: 3.5rem;
+    }
+
+    .stat-number {
+        font-size: 2.5rem;
     }
 }
 
