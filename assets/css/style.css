@@ -444,9 +444,8 @@ p {
     display: flex;
     align-items: center;
     overflow: hidden;
-    width: 100vw; /* full viewport width */
-    margin-left: calc(50% - 50vw);
-    margin-right: calc(50% - 50vw);
+    width: 100%;
+    margin: 0;
 }
 
 /* Ensure hero section container spans full width */
@@ -610,6 +609,54 @@ p {
     background: var(--white);
     color: var(--primary-blue);
     transform: translateY(-3px);
+}
+
+/* Hero bullets for slideshow indicators */
+.hero-bullets {
+    position: absolute;
+    bottom: 1.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 0.5rem;
+    z-index: 4;
+}
+
+.hero-bullets .bullet {
+    width: 10px;
+    height: 10px;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 50%;
+    transition: background 0.3s;
+}
+
+.hero-bullets .bullet.active {
+    background: var(--accent-gold);
+}
+
+/* Scroll indicator arrow */
+.scroll-indicator {
+    position: absolute;
+    bottom: 3rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 4;
+    animation: bounce 2s infinite;
+}
+
+.scroll-arrow {
+    width: 24px;
+    height: 24px;
+    border-left: 2px solid var(--white);
+    border-bottom: 2px solid var(--white);
+    transform: rotate(-45deg);
+    margin: 0 auto;
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+    40% { transform: translateX(-50%) translateY(-10px); }
+    60% { transform: translateX(-50%) translateY(-5px); }
 }
 
 /* ================================================================== */

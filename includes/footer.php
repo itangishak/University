@@ -1,6 +1,7 @@
 <?php
 // Footer content
 ?>
+</main>
 <footer class="site-footer">
     <div class="container">
         <div class="footer-content">
@@ -30,3 +31,4 @@
     <script src="./assets/js/main.js"></script>
 </body>
 </html>
+
