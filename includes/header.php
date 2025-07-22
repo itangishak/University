@@ -7,7 +7,7 @@
     <title><?php echo __('site_name'); ?> - <?php echo __('page_title'); ?></title>
     <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="./assets/css/style.css">
-     <link rel="icon" type="image/x-icon" href="icon.ico">
+     <link rel="icon" type="image/x-icon" href="./assets/images/icon.ico">
     <!-- WCAG 2.2 AA compliance styles -->
     <link rel="stylesheet" href="./assets/css/accessibility.css">
 </head>
@@ -16,7 +16,7 @@
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
             <div class="container">
                 <a class="navbar-brand" href="/">
-                    <img src="./assets/images/logo.png" alt="<?php echo __('site_name'); ?>" height="60">
+                    <img src="./assets/images/logouab.png" alt="<?php echo __('site_name'); ?>" height="70">
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain">
                     <span class="navbar-toggler-icon"></span>
