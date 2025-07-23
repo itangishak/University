@@ -1,4 +1,5 @@
 <?php 
+ob_start();
 require_once 'includes/header.php';
 require_once 'config/database.php';
 
@@ -30,25 +31,94 @@ $events_stmt->execute([$current_lang]);
 <!-- Hero Section -->
 <section class="hero-section">
     <div class="hero-overlay"></div>
-    <div class="hero-bullets">
-        <span class="bullet"></span>
-        <span class="bullet"></span>
-        <span class="bullet"></span>
-        <span class="bullet"></span>
-        <span class="bullet"></span>
-        <span class="bullet"></span>
+    <div class="hero-galaxy-bullets">
+        <?php
+        // Create dense galaxy field with multiple layers
+        
+        // Layer 1: Dense background stars
+        for ($i = 0; $i < 80; $i++) {
+            $size = rand(1, 3);
+            $x = rand(0, 100) . '%';
+            $y = rand(0, 100) . '%';
+            $tx = (rand(-20, 20) / 10) . 'vw';
+            $ty = (rand(-20, 20) / 10) . 'vh';
+            $delay = rand(0, 30) . 's';
+            $duration = rand(20, 40) . 's';
+            $opacity = (rand(2, 5) / 10);
+            
+            echo '<span class="galaxy-bullet" style="
+                width: ' . $size . 'px;
+                height: ' . $size . 'px;
+                left: ' . $x . ';
+                top: ' . $y . ';
+                --tx: ' . $tx . ';
+                --ty: ' . $ty . ';
+                animation-delay: ' . $delay . ';
+                animation-duration: ' . $duration . ';
+                opacity: ' . $opacity . ';
+            "></span>';
+        }
+        
+        // Layer 2: Medium stars
+        for ($i = 0; $i < 40; $i++) {
+            $size = rand(3, 6);
+            $x = rand(0, 100) . '%';
+            $y = rand(0, 100) . '%';
+            $tx = (rand(-35, 35) / 10) . 'vw';
+            $ty = (rand(-35, 35) / 10) . 'vh';
+            $delay = rand(0, 25) . 's';
+            $duration = rand(15, 30) . 's';
+            $opacity = (rand(4, 7) / 10);
+            
+            echo '<span class="galaxy-bullet" style="
+                width: ' . $size . 'px;
+                height: ' . $size . 'px;
+                left: ' . $x . ';
+                top: ' . $y . ';
+                --tx: ' . $tx . ';
+                --ty: ' . $ty . ';
+                animation-delay: ' . $delay . ';
+                animation-duration: ' . $duration . ';
+                opacity: ' . $opacity . ';
+            "></span>';
+        }
+        
+        // Layer 3: Bright focal stars
+        for ($i = 0; $i < 20; $i++) {
+            $size = rand(5, 10);
+            $x = rand(0, 100) . '%';
+            $y = rand(0, 100) . '%';
+            $tx = (rand(-50, 50) / 10) . 'vw';
+            $ty = (rand(-50, 50) / 10) . 'vh';
+            $delay = rand(0, 20) . 's';
+            $duration = rand(12, 25) . 's';
+            $opacity = (rand(6, 9) / 10);
+            
+            echo '<span class="galaxy-bullet" style="
+                width: ' . $size . 'px;
+                height: ' . $size . 'px;
+                left: ' . $x . ';
+                top: ' . $y . ';
+                --tx: ' . $tx . ';
+                --ty: ' . $ty . ';
+                animation-delay: ' . $delay . ';
+                animation-duration: ' . $duration . ';
+                opacity: ' . $opacity . ';
+            "></span>';
+        }
+        ?>
     </div>
     <div class="hero-content">
         <div class="container">
             <div class="row align-items-center min-vh-100">
                 <div class="col-lg-8 col-md-10 mx-auto text-center">
                     <div class="hero-logo-container fade-in-up">
-                        <img src="./assets/images/logo.jpg" alt="UAB Logo" class="hero-logo mb-4">
+                        <img src="<?php echo BASE_PATH; ?>/assets/images/logo.jpg" alt="UAB Logo" class="hero-logo mb-4">
                     </div>
                     <h1 class="hero-title fade-in-up delay-1"><?php echo __('welcome_message'); ?></h1>
                     <p class="hero-subtitle fade-in-up delay-2"><?php echo __('hero_subtitle'); ?></p>
                     <div class="hero-tagline fade-in-up delay-3">
-                        <span class="tagline-text">Créativité, Excellence et Développement</span>
+                        <span class="tagline-text"><?php echo __('tagline'); ?></span>
                     </div>
                     <div class="hero-buttons fade-in-up delay-4">
                         <a href="/admissions" class="btn btn-primary btn-hero me-3">
@@ -130,7 +200,7 @@ $events_stmt->execute([$current_lang]);
             <div class="col-lg-8">
                 <div class="section-header mb-5">
                     <h2 class="section-title"><?php echo __('latest_news'); ?></h2>
-                    <p class="section-subtitle">Stay updated with the latest happenings at UAB</p>
+                    <p class="section-subtitle"><?php echo __('news_subtitle'); ?></p>
                 </div>
                 
                 <div class="row g-4 mb-4">
@@ -224,7 +294,7 @@ $events_stmt->execute([$current_lang]);
                 <!-- Quick Links -->
                 <div class="sidebar-section">
                     <div class="section-header mb-4">
-                        <h3 class="section-title">Quick Links</h3>
+                        <h3 class="section-title"><?php echo __('sidebar_quick_links'); ?></h3>
                     </div>
                     
                     <div class="quick-links">
@@ -233,8 +303,8 @@ $events_stmt->execute([$current_lang]);
                                 <i class="bi bi-mortarboard"></i>
                             </div>
                             <div class="quick-link-content">
-                                <h4>Admissions</h4>
-                                <p>Apply to join our community</p>
+                                <h4><?php echo __('admissions_title'); ?></h4>
+                                <p><?php echo __('admissions_desc'); ?></p>
                             </div>
                             <i class="bi bi-arrow-right quick-link-arrow"></i>
                         </a>
@@ -244,8 +314,8 @@ $events_stmt->execute([$current_lang]);
                                 <i class="bi bi-book"></i>
                             </div>
                             <div class="quick-link-content">
-                                <h4>Academics</h4>
-                                <p>Explore our programs</p>
+                                <h4><?php echo __('academics_title'); ?></h4>
+                                <p><?php echo __('academics_desc'); ?></p>
                             </div>
                             <i class="bi bi-arrow-right quick-link-arrow"></i>
                         </a>
@@ -255,8 +325,8 @@ $events_stmt->execute([$current_lang]);
                                 <i class="bi bi-people"></i>
                             </div>
                             <div class="quick-link-content">
-                                <h4>Student Life</h4>
-                                <p>Campus experience</p>
+                                <h4><?php echo __('student_life_title'); ?></h4>
+                                <p><?php echo __('student_life_desc'); ?></p>
                             </div>
                             <i class="bi bi-arrow-right quick-link-arrow"></i>
                         </a>
@@ -266,8 +336,8 @@ $events_stmt->execute([$current_lang]);
                                 <i class="bi bi-envelope"></i>
                             </div>
                             <div class="quick-link-content">
-                                <h4>Contact Us</h4>
-                                <p>Get in touch</p>
+                                <h4><?php echo __('contact_us_title'); ?></h4>
+                                <p><?php echo __('contact_us_desc'); ?></p>
                             </div>
                             <i class="bi bi-arrow-right quick-link-arrow"></i>
                         </a>

@@ -1,0 +1,17 @@
+RewriteEngine On
+RewriteBase /
+
+# Redirect /about to /modules/about/index.php
+RewriteRule ^about/?$ modules/about/about.php [L]
+
+# Redirect /about/history to /modules/about/history.php
+RewriteRule ^about/history/?$ modules/about/history.php [L]
+
+# Redirect /about/mission to /modules/about/mission.php
+RewriteRule ^about/mission/?$ modules/about/mission.php [L]
+
+# Handle missing trailing slashes
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} !(.*)/$
+RewriteRule ^(.*)$ $1/ [L,R=301]

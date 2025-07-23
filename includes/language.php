@@ -1,6 +1,14 @@
 <?php
 session_start();
 
+// Debug output
+if (isset($_GET['debug_lang']) && $_GET['debug_lang'] === 'raw') {
+    header('Content-Type: text/plain');
+    echo 'Current Session Language: ' . ($_SESSION['language'] ?? 'not set') . "\n";
+    echo 'Current Translations: ' . print_r($GLOBALS['translations'] ?? [], true);
+    exit;
+}
+
 // Default language
 $default_language = 'fr';
 
@@ -27,7 +35,13 @@ if (isset($_GET['lang']) && in_array($_GET['lang'], ['fr', 'en'])) {
 
 // Load language file
 $current_lang = $_SESSION['language'];
-require_once __DIR__ . '/../languages/' . $current_lang . '.php';
+
+// Debug path
+$langPath = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'languages' . DIRECTORY_SEPARATOR . $current_lang . '.php';
+if (!file_exists($langPath)) {
+    die('Language file not found at: ' . $langPath);
+}
+require_once $langPath;
 
 // Translation function
 function __($key) {

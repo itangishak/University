@@ -257,43 +257,20 @@ function initSmoothScrolling() {
     scrollLinks.forEach(link => {
         link.addEventListener('click', function(e) {
             const targetId = this.getAttribute('href');
+            
+            // Skip if href is just "#"
+            if (targetId === '#') return;
+            
             const targetElement = document.querySelector(targetId);
             
             if (targetElement) {
                 e.preventDefault();
-                
                 targetElement.scrollIntoView({
                     behavior: 'smooth',
                     block: 'start'
                 });
-                
-                // Update URL without jumping
-                history.pushState(null, null, targetId);
             }
         });
-    });
-    
-    // Scroll to top functionality
-    const scrollToTop = document.createElement('button');
-    scrollToTop.className = 'scroll-to-top';
-    scrollToTop.innerHTML = '<i class="bi bi-arrow-up"></i>';
-    scrollToTop.setAttribute('aria-label', 'Scroll to top');
-    document.body.appendChild(scrollToTop);
-    
-    scrollToTop.addEventListener('click', () => {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
-    });
-    
-    // Show/hide scroll to top button
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 500) {
-            scrollToTop.classList.add('visible');
-        } else {
-            scrollToTop.classList.remove('visible');
-        }
     });
 }
 
@@ -428,14 +405,16 @@ function throttle(func, limit) {
 }
 
 // Performance Optimization
-const debouncedScrollHandler = debounce(() => {
-    // Handle scroll-based animations
-    requestAnimationFrame(() => {
-        // Update any scroll-dependent elements
-    });
-}, 10);
+if (typeof debouncedScrollHandler === 'undefined') {
+    const debouncedScrollHandler = debounce(() => {
+        // Handle scroll-based animations
+        requestAnimationFrame(() => {
+            // Update any scroll-dependent elements
+        });
+    }, 10);
 
-window.addEventListener('scroll', debouncedScrollHandler);
+    window.addEventListener('scroll', debouncedScrollHandler);
+}
 
 // Error Handling
 window.addEventListener('error', (e) => {
@@ -446,7 +425,7 @@ window.addEventListener('error', (e) => {
 // Service Worker Registration (if available)
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js')
+        navigator.serviceWorker.register('./sw.js')
             .then(registration => {
                 console.log('SW registered: ', registration);
             })
