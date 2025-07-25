@@ -6,7 +6,7 @@ define('DEFAULT_LANGUAGE', 'fr');
 define('AVAILABLE_LANGUAGES', ['en', 'fr']);
 
 // Base path configuration
-define('BASE_PATH', '/');
+define('BASE_PATH', 'https://uab.edu.bi/');
 
 // Database Configuration
 define('DB_HOST', 'localhost');
