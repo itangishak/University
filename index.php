@@ -169,7 +169,7 @@ $events_stmt->execute([$current_lang]);
                     <div class="stat-icon">
                         <i class="bi bi-person-check-fill"></i>
                     </div>
-                    <div class="stat-number counter" data-target="<?php echo $universityStats['faculty']; ?>">0</div>
+                    <div class="stat-number counter" data-target="<?php echo $universityStats['faculty']; ?>">3</div>
                     <div class="stat-label"><?php echo __('faculty'); ?></div>
                 </div>
             </div>
@@ -178,7 +178,7 @@ $events_stmt->execute([$current_lang]);
                     <div class="stat-icon">
                         <i class="bi bi-book-fill"></i>
                     </div>
-                    <div class="stat-number counter" data-target="<?php echo $universityStats['programs']; ?>">0</div>
+                    <div class="stat-number counter" data-target="<?php echo $universityStats['programs']; ?>">1</div>
                     <div class="stat-label"><?php echo __('programs'); ?></div>
                 </div>
             </div>
