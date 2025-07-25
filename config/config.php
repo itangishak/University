@@ -35,7 +35,7 @@ define('TIMEZONE', 'UTC');
 define('UNIVERSITY_PHONE_1', '+257 69210815');
 define('UNIVERSITY_PHONE_2', '+257 79155869');
 define('UNIVERSITY_EMAIL', 'info@uab.edu.bi');
-define('UNIVERSITY_ADDRESS', 'Commune Mukaza, Avenue de la Jeunesse'); // Can be overridden by translations
+define('UNIVERSITY_ADDRESS', 'Bujumbura, Commune Mukaza, Avenue de la Jeunesse'); // Can be overridden by translations
 
 // Social Media Links
 define('SOCIAL_FACEBOOK', 'https://facebook.com/burundiadventistu');
