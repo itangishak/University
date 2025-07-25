@@ -37,16 +37,31 @@ require_once __DIR__ . '/functions.php';
                         <!-- Language Switcher -->
                         <div class="language-switcher">
                             <?php 
-                            $current_url = $_SERVER['REQUEST_URI'];
-                            $url_parts = parse_url($current_url);
-                            $path = $url_parts['path'];
-                            parse_str($url_parts['query'] ?? '', $query_params);
+                            $current_path = $_SERVER['REQUEST_URI'];
+                            $base_url = BASE_PATH;
+                            
+                            // Remove existing lang parameter from current URL
+                            $current_url = strtok($_SERVER['REQUEST_URI'], '?');
+                            $query_params = $_GET;
+                            unset($query_params['lang']);
+                            
+                            // Build clean URLs for each language
+                            $french_url = $current_url;
+                            $english_url = $current_url;
+                            
+                            if (count($query_params) > 0) {
+                                $french_url .= '?' . http_build_query(array_merge($query_params, ['lang' => 'fr']));
+                                $english_url .= '?' . http_build_query(array_merge($query_params, ['lang' => 'en']));
+                            } else {
+                                $french_url .= '?lang=fr';
+                                $english_url .= '?lang=en';
+                            }
                             ?>
-                            <a href="<?php echo $path; ?>?<?php echo http_build_query(array_merge($query_params, ['lang' => 'fr'])); ?>" data-lang="fr" class="lang-btn <?php echo $current_lang == 'fr' ? 'active' : ''; ?>" title="Français">
+                            <a href="<?php echo $french_url; ?>" data-lang="fr" class="lang-btn <?php echo $current_lang == 'fr' ? 'active' : ''; ?>" title="Français">
                                 <img src="<?php echo BASE_PATH; ?>/assets/images/french.png" alt="FR">
                                 <span>FR</span>
                             </a>
-                            <a href="<?php echo $path; ?>?<?php echo http_build_query(array_merge($query_params, ['lang' => 'en'])); ?>" data-lang="en" class="lang-btn <?php echo $current_lang == 'en' ? 'active' : ''; ?>" title="English">
+                            <a href="<?php echo $english_url; ?>" data-lang="en" class="lang-btn <?php echo $current_lang == 'en' ? 'active' : ''; ?>" title="English">
                                 <img src="<?php echo BASE_PATH; ?>/assets/images/english.png" alt="EN">
                                 <span>EN</span>
                             </a>
