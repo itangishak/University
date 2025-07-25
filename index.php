@@ -187,7 +187,7 @@ $events_stmt->execute([$current_lang]);
                     <div class="stat-icon">
                         <i class="bi bi-trophy-fill"></i>
                     </div>
-                    <div class="stat-number counter" data-target="<?php echo $universityStats['years_established']; ?>">0</div>
+                    <div class="stat-number counter" data-target="<?php echo $universityStats['years_established']; ?>">2024</div>
                     <div class="stat-label"><?php echo __('years_established'); ?></div>
                 </div>
             </div>
