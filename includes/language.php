@@ -34,7 +34,13 @@ if (isset($_GET['lang']) && in_array($_GET['lang'], ['fr', 'en'])) {
     }
     
     // Ensure proper path handling for different environments
-    if (strpos($current_path, '/University/') === false) {
+    if ($_SERVER['HTTP_HOST'] === 'uab.edu.bi' && ($current_path === '/' || $current_path === '/index.php')) {
+        $redirect_url = '/index.php';
+        if (count($query) > 0) {
+            $redirect_url .= '?' . http_build_query($query);
+        }
+    }
+    elseif (strpos($current_path, '/University/') === false) {
         // Handle root paths
         if ($current_path === '/' || $current_path === 'index.php') {
             $redirect_url = 'index.php';
