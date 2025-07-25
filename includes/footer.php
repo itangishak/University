@@ -13,10 +13,11 @@
                 <div class="social-links-container">
                     <h3><?php echo __('follow_us'); ?></h3>
                     <div class="social-links">
-                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                        <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                        <a href="<?php echo SOCIAL_FACEBOOK; ?>" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="<?php echo SOCIAL_TWITTER; ?>" target="_blank" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="<?php echo SOCIAL_INSTAGRAM; ?>" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="<?php echo SOCIAL_YOUTUBE; ?>" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                        <a href="<?php echo SOCIAL_LINKEDIN; ?>" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
                     </div>
                 </div>
             </div>
@@ -36,17 +37,17 @@
                 <div class="contact-info-single-line">
                     <span><i class="fas fa-map-marker-alt"></i> <?php echo __('address'); ?></span>
                     <span><i class="fas fa-clock"></i> <?php echo __('hours'); ?></span>
-                    <span><i class="fas fa-phone"></i> <a href="tel:+25769210815">+257 69210815</a> / <a href="tel:+25779155869">+257 79155869</a></span>
-                    <span><i class="fas fa-envelope"></i> <a href="mailto:info@uab.edu.bi">info@uab.edu.bi</a></span>
+                    <span><i class="fas fa-phone"></i> <a href="tel:<?php echo str_replace(' ', '', UNIVERSITY_PHONE_1); ?>"><?php echo UNIVERSITY_PHONE_1; ?></a> / <a href="tel:<?php echo str_replace(' ', '', UNIVERSITY_PHONE_2); ?>"><?php echo UNIVERSITY_PHONE_2; ?></a></span>
+                    <span><i class="fas fa-envelope"></i> <a href="mailto:<?php echo UNIVERSITY_EMAIL; ?>"><?php echo UNIVERSITY_EMAIL; ?></a></span>
                 </div>
             </div>
         </div>
         
         <div class="footer-bottom">
-            <p>&copy; <?php echo date('Y'); ?> <?php echo __('site_name'); ?>. <?php echo __('all_rights_reserved'); ?>.</p>
+            <p>&copy; <?php echo date('Y'); ?> <?php echo UNIVERSITY_FULL_NAME; ?>. <?php echo __('all_rights_reserved'); ?>.</p>
             <div class="footer-links">
-                <a href="<?php echo BASE_PATH; ?>/university/modules/privacy/privacy.php"><?php echo __('privacy_policy'); ?></a>
-                <a href="<?php echo BASE_PATH; ?>/university/modules/terms/terms.php"><?php echo __('terms_of_service'); ?></a>
+                <a href="<?php echo PRIVACY_POLICY_URL; ?>"><?php echo __('privacy_policy'); ?></a>
+                <a href="<?php echo TERMS_SERVICE_URL; ?>"><?php echo __('terms_of_service'); ?></a>
             </div>
         </div>
     </div>
