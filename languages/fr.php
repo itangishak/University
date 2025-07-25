@@ -67,6 +67,7 @@ $translations = [
     'faculty' => 'Corps professoral',
     'programs' => 'Programmes',
     'employment_rate' => 'Taux d\'emploi',
+    'years_established' => 'Années d\'Existence',
     'campus_view' => 'Vue du campus',
 
     // About page

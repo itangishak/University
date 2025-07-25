@@ -152,4 +152,71 @@ function getFooterLink($type) {
             return '#';
     }
 }
+
+/**
+ * Get university statistics from database
+ * @return array Array of statistics (students, faculty, programs, years_established)
+ */
+function getUniversityStats() {
+    try {
+        $pdo = new PDO(
+            "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME,
+            DB_USER,
+            DB_PASS,
+            [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
+        );
+        
+        // Count students (users with role 'student')
+        $stmt = $pdo->prepare("SELECT COUNT(*) FROM users WHERE role = 'student' AND status = 'active'");
+        $stmt->execute();
+        $students = $stmt->fetchColumn();
+        
+        // Count faculty (users with roles other than 'student')
+        $stmt = $pdo->prepare("SELECT COUNT(*) FROM users WHERE role IN ('administrator', 'communication_officer', 'admission_officer') AND status = 'active'");
+        $stmt->execute();
+        $faculty = $stmt->fetchColumn();
+        
+        // Count programs
+        $stmt = $pdo->prepare("SELECT COUNT(*) FROM programs");
+        $stmt->execute();
+        $programs = $stmt->fetchColumn();
+        
+        // Calculate years since establishment
+        $currentYear = date('Y');
+        $establishedYear = UNIVERSITY_ESTABLISHED_YEAR;
+        $yearsEstablished = $currentYear - $establishedYear;
+        
+        return [
+            'students' => (int)$students,
+            'faculty' => (int)$faculty,
+            'programs' => (int)$programs,
+            'years_established' => max(1, $yearsEstablished) // At least 1 year
+        ];
+        
+    } catch (PDOException $e) {
+        // Return default values if database connection fails
+        error_log("Database error in getUniversityStats: " . $e->getMessage());
+        return [
+            'students' => 500,  // Default fallback values
+            'faculty' => 50,
+            'programs' => 15,
+            'years_established' => 1
+        ];
+    }
+}
+
+/**
+ * Get a specific university statistic
+ * @param string $type Type of statistic (students, faculty, programs, years_established)
+ * @return int Statistic value
+ */
+function getUniversityStat($type) {
+    static $stats = null;
+    
+    if ($stats === null) {
+        $stats = getUniversityStats();
+    }
+    
+    return isset($stats[$type]) ? $stats[$type] : 0;
+}
 ?>

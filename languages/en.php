@@ -66,6 +66,7 @@ $translations = [
     'faculty' => 'Faculty',
     'programs' => 'Programs',
     'employment_rate' => 'Employment Rate',
+    'years_established' => 'Years Established',
     'campus_view' => 'Campus view',
 
     // About page

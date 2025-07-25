@@ -7,6 +7,9 @@ require_once 'config/database.php';
 $database = new Database();
 $db = $database->getConnection();
 
+// Get university statistics for Quick Stats section
+$universityStats = getUniversityStats();
+
 // Get latest news
 $news_query = "SELECT n.id, n.published_at, n.hero_image_url, t.title, t.summary 
               FROM news_articles n 
@@ -157,7 +160,7 @@ $events_stmt->execute([$current_lang]);
                     <div class="stat-icon">
                         <i class="bi bi-people-fill"></i>
                     </div>
-                    <div class="stat-number counter" data-target="3500">0</div>
+                    <div class="stat-number counter" data-target="<?php echo $universityStats['students']; ?>">0</div>
                     <div class="stat-label"><?php echo __('students'); ?></div>
                 </div>
             </div>
@@ -166,7 +169,7 @@ $events_stmt->execute([$current_lang]);
                     <div class="stat-icon">
                         <i class="bi bi-person-check-fill"></i>
                     </div>
-                    <div class="stat-number counter" data-target="150">0</div>
+                    <div class="stat-number counter" data-target="<?php echo $universityStats['faculty']; ?>">0</div>
                     <div class="stat-label"><?php echo __('faculty'); ?></div>
                 </div>
             </div>
@@ -175,7 +178,7 @@ $events_stmt->execute([$current_lang]);
                     <div class="stat-icon">
                         <i class="bi bi-book-fill"></i>
                     </div>
-                    <div class="stat-number counter" data-target="25">0</div>
+                    <div class="stat-number counter" data-target="<?php echo $universityStats['programs']; ?>">0</div>
                     <div class="stat-label"><?php echo __('programs'); ?></div>
                 </div>
             </div>
@@ -184,8 +187,8 @@ $events_stmt->execute([$current_lang]);
                     <div class="stat-icon">
                         <i class="bi bi-trophy-fill"></i>
                     </div>
-                    <div class="stat-number counter" data-target="95">0</div>
-                    <div class="stat-label"><?php echo __('employment_rate'); ?>%</div>
+                    <div class="stat-number counter" data-target="<?php echo $universityStats['years_established']; ?>">0</div>
+                    <div class="stat-label"><?php echo __('years_established'); ?></div>
                 </div>
             </div>
         </div>
