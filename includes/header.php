@@ -91,19 +91,19 @@ require_once __DIR__ . '/../config/config.php';
                             </a>
                             <ul class="dropdown-menu dropdown-menu-modern">
                                 <li>
-                                    <a class="dropdown-item" href="<?php echo BASE_PATH; ?>/about/history.php">
+                                    <a class="dropdown-item" href="<?php echo BASE_PATH; ?>modules/about/history.php">
                                         <i class="fas fa-history"></i>
                                         <?php echo __('menu_history'); ?>
                                     </a>
                                 </li>
                                 <li>
-                                    <a class="dropdown-item" href="<?php echo BASE_PATH; ?>/about/mission.php">
+                                    <a class="dropdown-item" href="<?php echo BASE_PATH; ?>modules/about/mission.php">
                                         <i class="fas fa-bullseye"></i>
                                         <?php echo __('menu_mission'); ?>
                                     </a>
                                 </li>
                                 <li>
-                                    <a class="dropdown-item" href="<?php echo BASE_PATH; ?>/leadership/leadership.php">
+                                    <a class="dropdown-item" href="<?php echo BASE_PATH; ?>modules/leadership/leadership.php">
                                         <i class="fas fa-users-cog"></i>
                                         <?php echo __('menu_leadership'); ?>
                                     </a>
@@ -117,25 +117,25 @@ require_once __DIR__ . '/../config/config.php';
                             </a>
                             <ul class="dropdown-menu dropdown-menu-modern">
                                 <li>
-                                    <a class="dropdown-item" href="<?php echo BASE_PATH; ?>/faculty/faculties.php">
+                                    <a class="dropdown-item" href="<?php echo BASE_PATH; ?>modules/faculty/faculties.php">
                                         <i class="fas fa-building"></i>
                                         <?php echo __('menu_faculties'); ?>
                                     </a>
                                 </li>
                                 <li>
-                                    <a class="dropdown-item" href="<?php echo BASE_PATH; ?>/admission/admissions.php">
+                                    <a class="dropdown-item" href="<?php echo BASE_PATH; ?>modules/admission/admissions.php">
                                         <i class="fas fa-user-graduate"></i>
                                         <?php echo __('menu_admissions'); ?>
                                     </a>
                                 </li>
                                 <li>
-                                    <a class="dropdown-item" href="<?php echo BASE_PATH; ?>/library/libraries.php">
+                                    <a class="dropdown-item" href="<?php echo BASE_PATH; ?>modules/library/libraries.php">
                                         <i class="fas fa-book"></i>
                                         <?php echo __('menu_libraries'); ?>
                                     </a>
                                 </li>
                                 <li>
-                                    <a class="dropdown-item" href="<?php echo BASE_PATH; ?>/question/questions.php">
+                                    <a class="dropdown-item" href="<?php echo BASE_PATH; ?>modules/question/questions.php">
                                         <i class="fas fa-question-circle"></i>
                                         <?php echo __('menu_questions'); ?>
                                     </a>
@@ -143,13 +143,13 @@ require_once __DIR__ . '/../config/config.php';
                             </ul>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="<?php echo BASE_PATH; ?>/news/news.php">
+                            <a class="nav-link" href="<?php echo BASE_PATH; ?>modules/news/news.php">
                                 <i class="fas fa-newspaper nav-icon"></i>
                                 <?php echo __('menu_news'); ?>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="<?php echo BASE_PATH; ?>/contact/contact.php">
+                            <a class="nav-link" href="<?php echo BASE_PATH; ?>modules/contact/contact.php">
                                 <i class="fas fa-envelope nav-icon"></i>
                                 <?php echo __('menu_contact'); ?>
                             </a>
@@ -158,7 +158,7 @@ require_once __DIR__ . '/../config/config.php';
                     
                     <!-- Search Form -->
                     <div class="navbar-search">
-                        <form class="search-form" action="<?php echo BASE_PATH; ?>/university/search.php" method="get">
+                        <form class="search-form" action="<?php echo BASE_PATH; ?>search.php" method="get">
                             <div class="search-input-group">
                                 <input class="search-input" type="search" name="q" placeholder="<?php echo __('search_placeholder'); ?>" aria-label="Search">
                                 <button class="search-btn" type="submit" aria-label="<?php echo __('search_button'); ?>">
