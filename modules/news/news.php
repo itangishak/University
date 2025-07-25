@@ -269,7 +269,7 @@ function truncateText($text, $length = 150) {
 <?php endif; ?>
 
 <!-- All News Section -->
-<section class="py-5 <?php echo empty($search) ? 'bg-light' : ''; ?>">
+<section class="py-5">
     <div class="container">
         <div class="text-center mb-5">
             <h2 class="h3 mb-3">

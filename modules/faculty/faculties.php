@@ -179,7 +179,7 @@ require_once __DIR__ . '/../../includes/header.php';
 </section>
 
 <!-- Academic Information Section -->
-<section class="py-5 bg-light">
+<section class="py-5">
     <div class="container">
         <div class="row">
             <div class="col-lg-10 mx-auto">
