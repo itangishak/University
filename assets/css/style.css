@@ -599,7 +599,7 @@ p {
     left: 0;
     right: 0;
     bottom: 0;
-    background: url('../assets/images/campus-main.png') center center/cover;
+    background: url('../images/campus-main.png') center center/cover;
     opacity: 0.1;
     z-index: 1;
 }
