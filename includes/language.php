@@ -34,12 +34,19 @@ if (isset($_GET['lang']) && in_array($_GET['lang'], ['fr', 'en'])) {
     }
     
     // Ensure proper path handling for different environments
-    if ($_SERVER['HTTP_HOST'] === 'uab.edu.bi' && ($current_path === '/' || $current_path === '/index.php')) {
-        $redirect_url = 'https://uab.edu.bi/index.php';
+    if ($_SERVER['HTTP_HOST'] === 'uab.edu.bi') {
+        // Handle production URLs with full domain
+        $base_url = 'https://uab.edu.bi';
+        if ($current_path === '/' || $current_path === '/index.php') {
+            $redirect_url = $base_url . '/index.php';
+        } else {
+            $redirect_url = $base_url . $current_path;
+        }
         if (count($query) > 0) {
             $redirect_url .= '?' . http_build_query($query);
         }
     }
+    // Handle local development paths
     elseif (strpos($current_path, '/University/') === false) {
         // Handle root paths
         if ($current_path === '/' || $current_path === 'index.php') {
