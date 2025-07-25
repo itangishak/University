@@ -45,8 +45,8 @@
         <div class="footer-bottom">
             <p>&copy; <?php echo date('Y'); ?> <?php echo __('site_name'); ?>. <?php echo __('all_rights_reserved'); ?>.</p>
             <div class="footer-links">
-                <a href="/privacy"><?php echo __('privacy_policy'); ?></a>
-                <a href="/terms"><?php echo __('terms_of_service'); ?></a>
+                <a href="<?php echo BASE_PATH; ?>/university/modules/privacy/privacy.php"><?php echo __('privacy_policy'); ?></a>
+                <a href="<?php echo BASE_PATH; ?>/university/modules/terms/terms.php"><?php echo __('terms_of_service'); ?></a>
             </div>
         </div>
     </div>

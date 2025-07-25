@@ -1,10 +1,11 @@
 <?php
 require_once __DIR__ . '/../../../config/config.php';
 require_once __DIR__ . '/../../../config/oauth.php';
+require_once __DIR__ . '/../../../includes/Database.php';
 require_once __DIR__ . '/../../../includes/Auth.php';
-require_once __DIR__ . '/../../../includes/NotificationSystem.php';
+require_once __DIR__ . '/../../../includes/SimpleEmailService.php';
 
-// Handle login request
+// Handle signup request
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     header('Content-Type: application/json');
     
@@ -15,39 +16,79 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $input = $_POST;
         }
         
-        $identifier = $input['identifier'] ?? '';
+        $firstName = trim($input['first_name'] ?? '');
+        $lastName = trim($input['last_name'] ?? '');
+        $email = trim($input['email'] ?? '');
+        $phone = trim($input['phone'] ?? '');
         $password = $input['password'] ?? '';
+        $confirmPassword = $input['confirm_password'] ?? '';
         
-        if (empty($identifier) || empty($password)) {
-            throw new Exception('Username/email and password are required');
+        // Validation
+        if (empty($firstName) || empty($lastName) || empty($email) || empty($password)) {
+            throw new Exception('All required fields must be filled');
         }
         
-        $auth = new Auth();
-        $sessionToken = $auth->login($identifier, $password);
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            throw new Exception('Please enter a valid email address');
+        }
         
-        if ($sessionToken) {
-            $user = $auth->getCurrentUser();
+        if (strlen($password) < 8) {
+            throw new Exception('Password must be at least 8 characters long');
+        }
+        
+        if ($password !== $confirmPassword) {
+            throw new Exception('Passwords do not match');
+        }
+        
+        $db = Database::getInstance()->getConnection();
+        
+        // Check if email already exists
+        $stmt = $db->prepare("SELECT id FROM users WHERE email = ?");
+        $stmt->execute([$email]);
+        if ($stmt->fetch()) {
+            throw new Exception('Email already exists');
+        }
+        
+        // Generate email verification token
+        $verificationToken = bin2hex(random_bytes(32));
+        
+        // Create user account with student role (email as username) - status pending verification
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+        $stmt = $db->prepare("
+            INSERT INTO users (username, email, password_hash, first_name, last_name, phone, role, status, email_verification_token, created_at) 
+            VALUES (?, ?, ?, ?, ?, ?, 'student', 'pending_verification', ?, NOW())
+        ");
+        
+        $result = $stmt->execute([$email, $email, $hashedPassword, $firstName, $lastName, $phone, $verificationToken]);
+        
+        if ($result) {
+            // Send verification email with confirmation number
+            $confirmationNumber = substr($verificationToken, 0, 8); // Use first 8 chars as confirmation number
+            $emailService = new SimpleEmailService();
             
-            // Create welcome notification
-            $notificationSystem = new NotificationSystem();
-            $notificationSystem->notify(
-                $user['id'],
-                'welcome',
-                'Welcome back!',
-                'You have successfully logged in to your account.',
-                null,
-                [],
-                false
+            $emailSent = $emailService->sendVerificationEmail(
+                $email, 
+                $firstName . ' ' . $lastName, 
+                $confirmationNumber
             );
             
-            echo json_encode([
-                'success' => true,
-                'token' => $sessionToken,
-                'user' => $user,
-                'redirect' => BASE_PATH . '/dashboard/' . $user['role']
-            ]);
+            if ($emailSent) {
+                echo json_encode([
+                    'success' => true,
+                    'message' => 'Account created successfully! A verification code has been sent to your email address. Please check your email and enter the code to verify your account.',
+                    'redirect' => BASE_PATH . '/modules/admin/verify/verify.php?email=' . urlencode($email)
+                ]);
+            } else {
+                // Account created but email failed - still allow verification
+                echo json_encode([
+                    'success' => true,
+                    'message' => 'Account created successfully! However, there was an issue sending the verification email. Your verification code is: ' . strtoupper($confirmationNumber),
+                    'confirmation_info' => 'Please use this code to verify your account: ' . strtoupper($confirmationNumber),
+                    'redirect' => BASE_PATH . '/modules/admin/verify/verify.php?email=' . urlencode($email)
+                ]);
+            }
         } else {
-            throw new Exception('Invalid credentials');
+            throw new Exception('Failed to create account. Please try again.');
         }
         
     } catch (Exception $e) {
@@ -57,15 +98,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'error' => $e->getMessage()
         ]);
     }
-    exit;
-}
-
-// Handle logout request
-if (isset($_GET['action']) && $_GET['action'] === 'logout') {
-    $auth = new Auth();
-    $auth->logout();
-    
-    header('Location: ' . BASE_PATH . '/modules/admin/login/login.php');
     exit;
 }
 
@@ -88,7 +120,7 @@ $errorMessage = $_GET['error'] ?? '';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Burundi Adventist University</title>
+    <title>Create Student Account - Burundi Adventist University</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
     <style>
@@ -99,76 +131,71 @@ $errorMessage = $_GET['error'] ?? '';
             align-items: center;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        .login-container {
+        .signup-container {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
             border-radius: 20px;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
             overflow: hidden;
+            max-width: 500px;
+            width: 100%;
         }
-        .login-header {
-            background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+        .signup-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             padding: 2rem;
             text-align: center;
         }
-        .login-body {
+        .university-logo {
+            width: 80px;
+            height: 80px;
+        }
+        .signup-body {
             padding: 2rem;
         }
-        .form-control {
-            border-radius: 10px;
-            border: 2px solid #e9ecef;
-            padding: 12px 16px;
-            transition: all 0.3s ease;
-        }
-        .form-control:focus {
-            border-color: #4a90e2;
-            box-shadow: 0 0 0 0.2rem rgba(74, 144, 226, 0.25);
-        }
-        .btn-login {
-            background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+        .btn-signup {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             border: none;
             border-radius: 10px;
             padding: 12px;
             font-weight: 600;
             transition: all 0.3s ease;
         }
-        .btn-login:hover {
+        .btn-signup:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(74, 144, 226, 0.3);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
         }
-        .role-badge {
-            display: inline-block;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            margin: 2px;
-        }
-        .alert {
+        .form-control {
             border-radius: 10px;
-            border: none;
+            border: 2px solid #e9ecef;
+            padding: 12px 15px;
+            transition: all 0.3s ease;
         }
-        .university-logo {
-            width: 80px;
-            height: 80px;
-            margin-bottom: 1rem;
+        .form-control:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        }
+        .form-label {
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 8px;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-6 col-lg-5">
-                <div class="login-container">
-                    <div class="login-header">
+            <div class="col-md-8 col-lg-6">
+                <div class="signup-container">
+                    <div class="signup-header">
                         <div class="university-logo mx-auto mb-3 d-flex align-items-center justify-content-center bg-white rounded-circle">
                             <i class="bi bi-mortarboard-fill text-primary" style="font-size: 2rem;"></i>
                         </div>
-                        <h2 class="mb-0">Welcome Back</h2>
+                        <h2 class="mb-0">Create Student Account</h2>
                         <p class="mb-0 opacity-75">Burundi Adventist University</p>
                     </div>
                     
-                    <div class="login-body">
+                    <div class="signup-body">
                         <div id="alertContainer"></div>
                         
                         <?php if ($errorMessage): ?>
@@ -178,7 +205,7 @@ $errorMessage = $_GET['error'] ?? '';
                         </div>
                         <?php endif; ?>
                         
-                        <!-- Google Sign In Button -->
+                        <!-- Google Sign Up Button -->
                         <div class="mb-4">
                             <a href="<?php echo htmlspecialchars($googleAuthUrl); ?>" class="btn btn-outline-danger w-100 py-3 mb-3">
                                 <svg width="18" height="18" viewBox="0 0 24 24" class="me-2">
@@ -200,17 +227,39 @@ $errorMessage = $_GET['error'] ?? '';
                             </div>
                         </div>
                         
-                        <form id="loginForm">
-                            <div class="mb-3">
-                                <label for="identifier" class="form-label">
-                                    <i class="bi bi-person-fill me-2"></i>Username or Email
-                                </label>
-                                <input type="text" class="form-control" id="identifier" name="identifier" required>
+                        <form id="signupForm">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="first_name" class="form-label">
+                                        <i class="bi bi-person-fill me-2"></i>First Name *
+                                    </label>
+                                    <input type="text" class="form-control" id="first_name" name="first_name" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="last_name" class="form-label">
+                                        <i class="bi bi-person-fill me-2"></i>Last Name *
+                                    </label>
+                                    <input type="text" class="form-control" id="last_name" name="last_name" required>
+                                </div>
                             </div>
                             
-                            <div class="mb-4">
+                            <div class="mb-3">
+                                <label for="email" class="form-label">
+                                    <i class="bi bi-envelope-fill me-2"></i>Email Address *
+                                </label>
+                                <input type="email" class="form-control" id="email" name="email" required>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="phone" class="form-label">
+                                    <i class="bi bi-telephone-fill me-2"></i>Phone Number
+                                </label>
+                                <input type="tel" class="form-control" id="phone" name="phone">
+                            </div>
+                            
+                            <div class="mb-3">
                                 <label for="password" class="form-label">
-                                    <i class="bi bi-lock-fill me-2"></i>Password
+                                    <i class="bi bi-lock-fill me-2"></i>Password *
                                 </label>
                                 <div class="input-group">
                                     <input type="password" class="form-control" id="password" name="password" required>
@@ -218,26 +267,28 @@ $errorMessage = $_GET['error'] ?? '';
                                         <i class="bi bi-eye-fill"></i>
                                     </button>
                                 </div>
+                                <small class="text-muted">Minimum 8 characters</small>
                             </div>
                             
-                            <button type="submit" class="btn btn-login btn-primary w-100 mb-3">
-                                <span class="spinner-border spinner-border-sm me-2 d-none" id="loginSpinner"></span>
-                                <i class="bi bi-box-arrow-in-right me-2"></i>
-                                Sign In
+                            <div class="mb-4">
+                                <label for="confirm_password" class="form-label">
+                                    <i class="bi bi-lock-fill me-2"></i>Confirm Password *
+                                </label>
+                                <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-signup btn-primary w-100 mb-3">
+                                <span class="spinner-border spinner-border-sm me-2 d-none" id="signupSpinner"></span>
+                                <i class="bi bi-person-plus-fill me-2"></i>
+                                Create Account
                             </button>
                         </form>
                         
-                        <div class="text-center mb-3">
-                            <a href="#" class="text-decoration-none text-primary" onclick="showForgotPassword()">
-                                <i class="bi bi-key-fill me-1"></i>Forgot Password?
-                            </a>
-                        </div>
-                        
                         <div class="text-center">
                             <small class="text-muted">
-                                Don't have an account? 
-                                <a href="<?php echo BASE_PATH; ?>/modules/admin/signup/signup.php" class="text-decoration-none">
-                                    Create Student Account
+                                Already have an account? 
+                                <a href="<?php echo BASE_PATH; ?>/modules/admin/login/login.php" class="text-decoration-none">
+                                    Sign In
                                 </a>
                             </small>
                         </div>
@@ -263,12 +314,12 @@ $errorMessage = $_GET['error'] ?? '';
             }
         });
         
-        // Handle login form submission
-        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+        // Handle signup form submission
+        document.getElementById('signupForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
             const submitBtn = this.querySelector('button[type="submit"]');
-            const spinner = document.getElementById('loginSpinner');
+            const spinner = document.getElementById('signupSpinner');
             const alertContainer = document.getElementById('alertContainer');
             
             // Show loading state
@@ -279,8 +330,13 @@ $errorMessage = $_GET['error'] ?? '';
             try {
                 const formData = new FormData(this);
                 const data = {
-                    identifier: formData.get('identifier'),
-                    password: formData.get('password')
+                    first_name: formData.get('first_name'),
+                    last_name: formData.get('last_name'),
+                    email: formData.get('email'),
+                    phone: formData.get('phone'),
+                    username: formData.get('username'),
+                    password: formData.get('password'),
+                    confirm_password: formData.get('confirm_password')
                 };
                 
                 const response = await fetch(window.location.href, {
@@ -294,18 +350,14 @@ $errorMessage = $_GET['error'] ?? '';
                 const result = await response.json();
                 
                 if (result.success) {
-                    // Store token for future requests
-                    sessionStorage.setItem('auth_token', result.token);
-                    
-                    // Show success message
-                    showAlert('Login successful! Redirecting...', 'success');
+                    showAlert(result.message, 'success');
                     
                     // Redirect after short delay
                     setTimeout(() => {
                         window.location.href = result.redirect;
-                    }, 1000);
+                    }, 2000);
                 } else {
-                    showAlert(result.error || 'Login failed', 'danger');
+                    showAlert(result.error || 'Signup failed', 'danger');
                 }
                 
             } catch (error) {
@@ -327,18 +379,8 @@ $errorMessage = $_GET['error'] ?? '';
             `;
         }
         
-        function showForgotPassword() {
-            const email = prompt('Please enter your email address to reset your password:');
-            if (email && email.includes('@')) {
-                // Here you would typically send a request to a password reset endpoint
-                showAlert('Password reset instructions have been sent to your email address.', 'info');
-            } else if (email) {
-                showAlert('Please enter a valid email address.', 'warning');
-            }
-        }
-        
-        // Auto-focus on identifier field
-        document.getElementById('identifier').focus();
+        // Auto-focus on first name field
+        document.getElementById('first_name').focus();
     </script>
 </body>
 </html>

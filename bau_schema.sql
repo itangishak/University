@@ -27,16 +27,23 @@ INSERT IGNORE INTO languages (language_code, name) VALUES
 
 /* User roles kept simple; can be moved to a dedicated table if preferred */
 CREATE TABLE users (
-  id                 BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-  role               ENUM('student','staff','admin','alumni','partner') NOT NULL,
-  username           VARCHAR(60)  NOT NULL UNIQUE,
-  email              VARCHAR(100) NOT NULL UNIQUE,
-  password_hash      VARCHAR(255) NOT NULL,
-  first_name         VARCHAR(100),
-  last_name          VARCHAR(100),
-  preferred_language CHAR(2) DEFAULT 'fr',
-  created_at         TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  updated_at         TIMESTAMP NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  id                      BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  role                    ENUM('student','administrator','communication_officer','admission_officer') NOT NULL,
+  username                VARCHAR(60)  NOT NULL UNIQUE,
+  email                   VARCHAR(100) NOT NULL UNIQUE,
+  password_hash           VARCHAR(255),  -- Nullable for OAuth users
+  first_name              VARCHAR(100),
+  last_name               VARCHAR(100),
+  phone                   VARCHAR(20),
+  status                  ENUM('active','pending_verification','suspended','inactive') DEFAULT 'pending_verification',
+  email_verification_token VARCHAR(64),
+  email_verified_at       TIMESTAMP NULL,
+  oauth_provider          VARCHAR(20),    -- 'google', 'facebook', etc.
+  oauth_provider_id       VARCHAR(100),   -- Provider's user ID
+  avatar_url              VARCHAR(255),   -- Profile picture URL
+  preferred_language      CHAR(2) DEFAULT 'fr',
+  created_at              TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at              TIMESTAMP NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   CONSTRAINT fk_users_language FOREIGN KEY (preferred_language)
             REFERENCES languages(language_code)
             ON UPDATE CASCADE
