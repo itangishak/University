@@ -20,6 +20,7 @@ require_once __DIR__ . '/../../includes/header.php';
 </section>
 
 <!-- Faculties Section -->
+<div class="container-fluid" style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); min-height: 100vh; padding: 2rem 0;">
 <section class="py-5">
     <div class="container">
         <div class="row g-4 mb-5">
@@ -377,5 +378,6 @@ require_once __DIR__ . '/../../includes/header.php';
     background-color: #6f42c1 !important;
 }
 </style>
+</div>
 
 <?php require_once __DIR__ . '/../../includes/footer.php'; ?>

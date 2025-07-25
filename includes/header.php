@@ -36,11 +36,11 @@ require_once __DIR__ . '/functions.php';
                     <div class="top-actions">
                         <!-- Language Switcher -->
                         <div class="language-switcher">
-                            <a href="?lang=fr" data-lang="fr" class="lang-btn <?php echo $current_lang == 'fr' ? 'active' : ''; ?>" title="Français">
+                            <a href="<?php echo BASE_PATH; ?>/index.php?lang=fr" data-lang="fr" class="lang-btn <?php echo $current_lang == 'fr' ? 'active' : ''; ?>" title="Français">
                                 <img src="<?php echo BASE_PATH; ?>/assets/images/french.png" alt="FR">
                                 <span>FR</span>
                             </a>
-                            <a href="?lang=en" data-lang="en" class="lang-btn <?php echo $current_lang == 'en' ? 'active' : ''; ?>" title="English">
+                            <a href="<?php echo BASE_PATH; ?>/index.php?lang=en" data-lang="en" class="lang-btn <?php echo $current_lang == 'en' ? 'active' : ''; ?>" title="English">
                                 <img src="<?php echo BASE_PATH; ?>/assets/images/english.png" alt="EN">
                                 <span>EN</span>
                             </a>

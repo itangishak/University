@@ -158,6 +158,7 @@ function truncateText($text, $length = 150) {
 
 <?php if (!empty($featured_news) && empty($search)): ?>
 <!-- Featured News Section -->
+<div class="container-fluid" style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); min-height: 100vh; padding: 2rem 0;">
 <section class="py-5">
     <div class="container">
         <div class="text-center mb-5">
@@ -266,6 +267,7 @@ function truncateText($text, $length = 150) {
         </div>
     </div>
 </section>
+</div>
 <?php endif; ?>
 
 <!-- All News Section -->
@@ -806,5 +808,6 @@ function truncateText($text, $length = 150) {
     }
 }
 </style>
+</div>
 
 <?php require_once __DIR__ . '/../../includes/footer.php'; ?>
