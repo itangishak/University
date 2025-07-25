@@ -23,12 +23,24 @@ if (isset($_GET['lang']) && in_array($_GET['lang'], ['fr', 'en'])) {
     $_SESSION['language'] = $_GET['lang'];
     
     // Redirect to remove 'lang' from URL
-    $redirect_url = strtok($_SERVER['REQUEST_URI'], '?');
+    $current_path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
     $query = $_GET;
     unset($query['lang']);
+    
+    // Build redirect URL
+    $redirect_url = $current_path;
     if (count($query) > 0) {
         $redirect_url .= '?' . http_build_query($query);
     }
+    
+    // Handle homepage redirect properly
+    if (basename($current_path) === 'index.php' || $current_path === '/' || $current_path === '') {
+        $redirect_url = '/University/index.php';
+        if (count($query) > 0) {
+            $redirect_url .= '?' . http_build_query($query);
+        }
+    }
+    
     header('Location: ' . $redirect_url);
     exit;
 }
