@@ -1,12 +1,12 @@
 <?php
 // Site Configuration
 define('SITE_NAME', 'University Website');
-define('SITE_URL', 'https://uab.edu.bi/');
+define('SITE_URL', 'https://uab.edu.bi');
 define('DEFAULT_LANGUAGE', 'fr');
 define('AVAILABLE_LANGUAGES', ['en', 'fr']);
 
 // Base path configuration
-define('BASE_PATH', '/University');
+define('BASE_PATH', '/');
 
 // Database Configuration
 define('DB_HOST', 'localhost');
