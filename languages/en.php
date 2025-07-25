@@ -10,6 +10,7 @@ $translations = [
     'menu_about' => 'About',
     'menu_history' => 'History',
     'menu_mission' => 'Mission',
+    'menu_leadership' => 'Leadership',
     'menu_academics' => 'Academics',
     'menu_faculties' => 'Faculties',
     'menu_admissions' => 'Admissions',
@@ -357,6 +358,78 @@ $translations = [
     'no_spam' => 'No Spam',
     'unsubscribe_anytime' => 'Unsubscribe Anytime',
     'privacy_notice' => 'We respect your privacy and will never share your data.',
-    'subscription_success' => 'Thank you! Your subscription has been confirmed successfully.'
+    'subscription_success' => 'Thank you! Your subscription has been confirmed successfully.',
+    
+    // Leadership page
+    'leadership_title' => 'Leadership',
+    'leadership_description' => 'Meet the dedicated leaders who guide Burundi Adventist University towards excellence in education and spiritual development.',
+    'leadership_subtitle' => 'Meet the dedicated leaders who guide our university towards excellence in education and spiritual development.',
+    'rector_section_title' => 'University Rector',
+    'rector_section_subtitle' => 'The visionary leader of Burundi Adventist University',
+    'rector_name' => 'Dr. Jethron Nsabiyaremye',
+    'rector_title' => 'University Rector',
+    'rector_biography' => '<p>Dr. Jethron Nsabiyaremye serves as the Rector of Burundi Adventist University, bringing extensive experience in church leadership and academic administration. He holds a Doctor of Ministry (D.Min.) from Adventist University of Africa in Nairobi, Kenya, and a licence in geography from Burundi University.</p><p>Dr. Nsabiyaremye has demonstrated exceptional leadership throughout his career, having served as president of the Adventist Church in Burundi for ten years. His deep understanding of both educational and spiritual leadership makes him uniquely qualified to guide BAU in its mission to provide quality Christian education.</p><p>Under his visionary leadership, BAU continues to grow as a leading institution of higher learning in Burundi, committed to academic excellence, spiritual development, and community service. Dr. Nsabiyaremye is passionate about empowering students to become leaders who will make a positive impact in their communities, their country, and beyond. His vision for BAU includes expanding academic programs, strengthening partnerships, and continuing to provide education that integrates faith, learning, and service.</p>',
+    'leadership_team_title' => 'Leadership Team',
+    'leadership_team_subtitle' => 'Our dedicated team of administrators and academic leaders',
+    'coming_soon' => 'Coming Soon',
+    'more_leadership_profiles_coming' => 'More leadership profiles will be added soon.',
+    'email' => 'Email',
+    'phone' => 'Phone',
+    
+    // Government Accreditation
+    'government_accreditation_title' => 'Government Accreditation',
+    'government_accreditation_subtitle' => 'Official recognition and authorization from the Ministry of Education',
+    'ministry_authorization_1' => 'Ministry Authorization Document 1',
+    'ministry_authorization_2' => 'Ministry Authorization Document 2',
+    'ministry_authorization_1_title' => 'Official Authorization',
+    'ministry_authorization_1_desc' => 'Government approval for university establishment and operation',
+    'ministry_authorization_2_title' => 'Academic Accreditation',
+    'ministry_authorization_2_desc' => 'Certification for academic programs and degree conferment',
+    'officially_accredited' => 'Officially Accredited Institution',
+    'accreditation_description' => 'Burundi Adventist University is officially recognized and accredited by the Government of Burundi, ensuring our degrees meet national and international standards.',
+    'document_loading' => 'Document image not available',
+    
+    // Zoom functionality
+    'click_to_zoom' => 'Click to Zoom',
+    'document_viewer' => 'Document Viewer',
+    'zoom_in' => 'Zoom In',
+    'zoom_out' => 'Zoom Out',
+    'reset_zoom' => 'Reset Zoom',
+    'download_document' => 'Download Document',
+    'download' => 'Download',
+    'zoom_instructions' => 'Use mouse wheel to zoom, drag to pan when zoomed, or use the control buttons',
+    
+    // Updated Faculty Information (Official)
+    'faculty_theology' => 'Faculty of Theology',
+    'faculty_theology_desc' => 'Comprehensive theological education preparing students for ministry and religious leadership.',
+    'faculty_economics_management' => 'Faculty of Economic Sciences and Management',
+    'faculty_economics_management_desc' => 'Business and economic education with focus on management and entrepreneurial skills.',
+    'faculty_sciences_technologies' => 'Faculty of Sciences and Technologies',
+    'faculty_sciences_technologies_desc' => 'Technology and computer science education preparing students for the digital economy.',
+    
+    // Departments (Official)
+    'departments' => 'Departments',
+    'department_theology' => 'Department of Theology',
+    'department_management_business' => 'Department of Management and Business Administration',
+    'department_computer_sciences' => 'Department of Computer Sciences',
+    
+    // Specialization Options (Official)
+    'specialization_option' => 'Specialization Option',
+    'option_entrepreneurship' => 'Entrepreneurship',
+    'option_management_information_systems' => 'Management Information Systems',
+    
+    // Key Subjects
+    'key_subjects' => 'Key Subjects',
+    'biblical_studies' => 'Biblical Studies',
+    'church_history' => 'Church History',
+    'pastoral_ministry' => 'Pastoral Ministry',
+    'adventist_theology' => 'Adventist Theology',
+    'business_administration' => 'Business Administration',
+    'economics' => 'Economics',
+    'entrepreneurship' => 'Entrepreneurship',
+    'programming_development' => 'Programming & Development',
+    'information_systems' => 'Information Systems',
+    'database_management' => 'Database Management',
+    'learn_more' => 'Learn More'
 ];
 ?>

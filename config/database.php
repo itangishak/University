@@ -1,9 +1,9 @@
 <?php
 class Database {
-    private $host = 'localhost';
-    private $db_name = 'bau_website';
-    private $username = 'root'; // Change in production
-    private $password = ''; // Change in production
+    private $host = 'localhost:3306';
+    private $db_name = 'bumadste_bau_website';
+    private $username = 'bumadste_bau'; // Change in production
+    private $password = 'Bau2025!'; // Change in production
     private $conn;
     
     public function getConnection() {

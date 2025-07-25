@@ -23,110 +23,154 @@ require_once __DIR__ . '/../../includes/header.php';
 <section class="py-5">
     <div class="container">
         <div class="row g-4 mb-5">
-            <!-- Theology Faculty -->
+            <!-- Faculty of Theology -->
             <div class="col-lg-4">
                 <div class="card h-100 border-0 shadow-lg faculty-card">
                     <div class="card-header bg-primary text-white text-center py-4">
                         <div class="mb-3">
                             <i class="bi bi-book-half" style="font-size: 3rem;"></i>
                         </div>
-                        <h3 class="h4 mb-0"><?php echo __('theology_faculty'); ?></h3>
+                        <h3 class="h4 mb-0"><?php echo __('faculty_theology'); ?></h3>
                     </div>
                     <div class="card-body p-4">
-                        <p class="text-muted mb-4"><?php echo __('theology_desc'); ?></p>
+                        <p class="text-muted mb-4"><?php echo __('faculty_theology_desc'); ?></p>
+                        
+                        <h6 class="fw-bold mb-3"><?php echo __('departments'); ?>:</h6>
                         <div class="features-list">
                             <div class="d-flex align-items-center mb-2">
                                 <i class="bi bi-check-circle text-success me-2"></i>
-                                <small>Études bibliques approfondies</small>
+                                <small><?php echo __('department_theology'); ?></small>
+                            </div>
+                        </div>
+                        
+                        <h6 class="fw-bold mb-3 mt-4"><?php echo __('key_subjects'); ?>:</h6>
+                        <div class="features-list">
+                            <div class="d-flex align-items-center mb-2">
+                                <i class="bi bi-check-circle text-success me-2"></i>
+                                <small><?php echo __('biblical_studies'); ?></small>
                             </div>
                             <div class="d-flex align-items-center mb-2">
                                 <i class="bi bi-check-circle text-success me-2"></i>
-                                <small>Histoire de l'Église</small>
+                                <small><?php echo __('church_history'); ?></small>
                             </div>
                             <div class="d-flex align-items-center mb-2">
                                 <i class="bi bi-check-circle text-success me-2"></i>
-                                <small>Ministère pastoral</small>
+                                <small><?php echo __('pastoral_ministry'); ?></small>
                             </div>
                             <div class="d-flex align-items-center">
                                 <i class="bi bi-check-circle text-success me-2"></i>
-                                <small>Éthique chrétienne</small>
+                                <small><?php echo __('adventist_theology'); ?></small>
                             </div>
                         </div>
                     </div>
-                    <div class="card-footer bg-light text-center">
-                        <button class="btn btn-outline-primary btn-sm">En savoir plus</button>
+                    <div class="card-footer bg-transparent border-0 p-4 pt-0">
+                        <div class="d-grid">
+                            <a href="#" class="btn btn-outline-primary"><?php echo __('learn_more'); ?></a>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- IT Management Faculty -->
+            <!-- Faculty of Economic Sciences and Management -->
             <div class="col-lg-4">
                 <div class="card h-100 border-0 shadow-lg faculty-card">
                     <div class="card-header bg-success text-white text-center py-4">
                         <div class="mb-3">
-                            <i class="bi bi-laptop" style="font-size: 3rem;"></i>
+                            <i class="bi bi-graph-up-arrow" style="font-size: 3rem;"></i>
                         </div>
-                        <h3 class="h4 mb-0"><?php echo __('it_management_faculty'); ?></h3>
+                        <h3 class="h4 mb-0"><?php echo __('faculty_economics_management'); ?></h3>
                     </div>
                     <div class="card-body p-4">
-                        <p class="text-muted mb-4"><?php echo __('it_management_desc'); ?></p>
+                        <p class="text-muted mb-4"><?php echo __('faculty_economics_management_desc'); ?></p>
+                        
+                        <h6 class="fw-bold mb-3"><?php echo __('departments'); ?>:</h6>
                         <div class="features-list">
                             <div class="d-flex align-items-center mb-2">
                                 <i class="bi bi-check-circle text-success me-2"></i>
-                                <small>Programmation & Développement</small>
+                                <small><?php echo __('department_management_business'); ?></small>
+                            </div>
+                        </div>
+                        
+                        <h6 class="fw-bold mb-3 mt-4"><?php echo __('specialization_option'); ?>:</h6>
+                        <div class="features-list">
+                            <div class="d-flex align-items-center mb-2">
+                                <i class="bi bi-star text-warning me-2"></i>
+                                <small><?php echo __('option_entrepreneurship'); ?></small>
+                            </div>
+                        </div>
+                        
+                        <h6 class="fw-bold mb-3 mt-4"><?php echo __('key_subjects'); ?>:</h6>
+                        <div class="features-list">
+                            <div class="d-flex align-items-center mb-2">
+                                <i class="bi bi-check-circle text-success me-2"></i>
+                                <small><?php echo __('business_administration'); ?></small>
                             </div>
                             <div class="d-flex align-items-center mb-2">
                                 <i class="bi bi-check-circle text-success me-2"></i>
-                                <small>Bases de données</small>
-                            </div>
-                            <div class="d-flex align-items-center mb-2">
-                                <i class="bi bi-check-circle text-success me-2"></i>
-                                <small>Systèmes d'information</small>
+                                <small><?php echo __('economics'); ?></small>
                             </div>
                             <div class="d-flex align-items-center">
                                 <i class="bi bi-check-circle text-success me-2"></i>
-                                <small>Gestion de projets IT</small>
+                                <small><?php echo __('entrepreneurship'); ?></small>
                             </div>
                         </div>
                     </div>
-                    <div class="card-footer bg-light text-center">
-                        <button class="btn btn-outline-success btn-sm">En savoir plus</button>
+                    <div class="card-footer bg-transparent border-0 p-4 pt-0">
+                        <div class="d-grid">
+                            <a href="#" class="btn btn-outline-success"><?php echo __('learn_more'); ?></a>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Entrepreneurship Faculty -->
+            <!-- Faculty of Sciences and Technologies -->
             <div class="col-lg-4">
                 <div class="card h-100 border-0 shadow-lg faculty-card">
                     <div class="card-header bg-warning text-white text-center py-4">
                         <div class="mb-3">
-                            <i class="bi bi-lightbulb" style="font-size: 3rem;"></i>
+                            <i class="bi bi-cpu" style="font-size: 3rem;"></i>
                         </div>
-                        <h3 class="h4 mb-0"><?php echo __('entrepreneurship_faculty'); ?></h3>
+                        <h3 class="h4 mb-0"><?php echo __('faculty_sciences_technologies'); ?></h3>
                     </div>
                     <div class="card-body p-4">
-                        <p class="text-muted mb-4"><?php echo __('entrepreneurship_desc'); ?></p>
+                        <p class="text-muted mb-4"><?php echo __('faculty_sciences_technologies_desc'); ?></p>
+                        
+                        <h6 class="fw-bold mb-3"><?php echo __('departments'); ?>:</h6>
                         <div class="features-list">
                             <div class="d-flex align-items-center mb-2">
                                 <i class="bi bi-check-circle text-success me-2"></i>
-                                <small>Création d'entreprise</small>
+                                <small><?php echo __('department_computer_sciences'); ?></small>
+                            </div>
+                        </div>
+                        
+                        <h6 class="fw-bold mb-3 mt-4"><?php echo __('specialization_option'); ?>:</h6>
+                        <div class="features-list">
+                            <div class="d-flex align-items-center mb-2">
+                                <i class="bi bi-star text-warning me-2"></i>
+                                <small><?php echo __('option_management_information_systems'); ?></small>
+                            </div>
+                        </div>
+                        
+                        <h6 class="fw-bold mb-3 mt-4"><?php echo __('key_subjects'); ?>:</h6>
+                        <div class="features-list">
+                            <div class="d-flex align-items-center mb-2">
+                                <i class="bi bi-check-circle text-success me-2"></i>
+                                <small><?php echo __('programming_development'); ?></small>
                             </div>
                             <div class="d-flex align-items-center mb-2">
                                 <i class="bi bi-check-circle text-success me-2"></i>
-                                <small>Plan d'affaires</small>
-                            </div>
-                            <div class="d-flex align-items-center mb-2">
-                                <i class="bi bi-check-circle text-success me-2"></i>
-                                <small>Marketing & Ventes</small>
+                                <small><?php echo __('information_systems'); ?></small>
                             </div>
                             <div class="d-flex align-items-center">
                                 <i class="bi bi-check-circle text-success me-2"></i>
-                                <small>Gestion financière</small>
+                                <small><?php echo __('database_management'); ?></small>
                             </div>
                         </div>
                     </div>
-                    <div class="card-footer bg-light text-center">
-                        <button class="btn btn-outline-warning btn-sm">En savoir plus</button>
+                    <div class="card-footer bg-transparent border-0 p-4 pt-0">
+                        <div class="d-grid">
+                            <a href="#" class="btn btn-outline-warning"><?php echo __('learn_more'); ?></a>
+                        </div>
                     </div>
                 </div>
             </div>

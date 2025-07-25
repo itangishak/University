@@ -102,6 +102,12 @@ require_once __DIR__ . '/../config/config.php';
                                         <?php echo __('menu_mission'); ?>
                                     </a>
                                 </li>
+                                <li>
+                                    <a class="dropdown-item" href="<?php echo BASE_PATH; ?>/modules/leadership/leadership.php">
+                                        <i class="fas fa-users-cog"></i>
+                                        <?php echo __('menu_leadership'); ?>
+                                    </a>
+                                </li>
                             </ul>
                         </li>
                         <li class="nav-item dropdown">

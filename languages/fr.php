@@ -10,6 +10,7 @@ $translations = [
     'menu_about' => 'À Propos',
     'menu_history' => 'Histoire',
     'menu_mission' => 'Mission',
+    'menu_leadership' => 'Direction',
     'menu_academics' => 'Académique',
     'menu_faculties' => 'Facultés',
     'menu_admissions' => 'Admissions',
@@ -357,6 +358,78 @@ $translations = [
     'no_spam' => 'Aucun spam',
     'unsubscribe_anytime' => 'Désabonnement facile',
     'privacy_notice' => 'Nous respectons votre vie privée et ne partagerons jamais vos données.',
-    'subscription_success' => 'Merci ! Votre abonnement a été confirmé avec succès.'
+    'subscription_success' => 'Merci ! Votre abonnement a été confirmé avec succès.',
+    
+    // Leadership page
+    'leadership_title' => 'Direction',
+    'leadership_description' => 'Rencontrez les dirigeants dévoués qui guident l\'Université Adventiste du Burundi vers l\'excellence en éducation et développement spirituel.',
+    'leadership_subtitle' => 'Rencontrez les dirigeants dévoués qui guident notre université vers l\'excellence en éducation et développement spirituel.',
+    'rector_section_title' => 'Recteur de l\'Université',
+    'rector_section_subtitle' => 'Le leader visionnaire de l\'Université Adventiste du Burundi',
+    'rector_name' => 'Dr. Jethron Nsabiyaremye',
+    'rector_title' => 'Recteur de l\'Université',
+    'rector_biography' => '<p>Dr. Jethron Nsabiyaremye sert comme Recteur de l\'Université Adventiste du Burundi, apportant une vaste expérience en leadership ecclésiastique et administration académique. Il détient un Doctorat en Ministère (D.Min.) de l\'Université Adventiste d\'Afrique à Nairobi, Kenya, et une licence en géographie de l\'Université du Burundi.</p><p>Dr. Nsabiyaremye a démontré un leadership exceptionnel tout au long de sa carrière, ayant servi comme président de l\'Église Adventiste au Burundi pendant dix ans. Sa compréhension approfondie du leadership éducationnel et spirituel le qualifie uniquement pour guider l\'UAB dans sa mission de fournir une éducation chrétienne de qualité.</p><p>Sous son leadership visionnaire, l\'UAB continue de croître comme une institution de premier plan dans l\'enseignement supérieur au Burundi, engagée envers l\'excellence académique, le développement spirituel et le service communautaire. Dr. Nsabiyaremye est passionné par l\'autonomisation des étudiants pour qu\'ils deviennent des leaders qui auront un impact positif dans leurs communautés, leur pays et au-delà. Sa vision pour l\'UAB inclut l\'expansion des programmes académiques, le renforcement des partenariats, et la poursuite de la fourniture d\'une éducation qui intègre foi, apprentissage et service.</p>',
+    'leadership_team_title' => 'Équipe de Direction',
+    'leadership_team_subtitle' => 'Notre équipe dévouée d\'administrateurs et de leaders académiques',
+    'coming_soon' => 'Bientôt Disponible',
+    'more_leadership_profiles_coming' => 'Plus de profils de dirigeants seront ajoutés bientôt.',
+    'email' => 'E-mail',
+    'phone' => 'Téléphone',
+    
+    // Government Accreditation
+    'government_accreditation_title' => 'Accréditation Gouvernementale',
+    'government_accreditation_subtitle' => 'Reconnaissance officielle et autorisation du Ministère de l\'Éducation',
+    'ministry_authorization_1' => 'Document d\'Autorisation Ministérielle 1',
+    'ministry_authorization_2' => 'Document d\'Autorisation Ministérielle 2',
+    'ministry_authorization_1_title' => 'Autorisation Officielle',
+    'ministry_authorization_1_desc' => 'Approbation gouvernementale pour l\'établissement et le fonctionnement de l\'université',
+    'ministry_authorization_2_title' => 'Accréditation Académique',
+    'ministry_authorization_2_desc' => 'Certification pour les programmes académiques et la délivrance de diplômes',
+    'officially_accredited' => 'Institution Officiellement Accréditée',
+    'accreditation_description' => 'L\'Université Adventiste du Burundi est officiellement reconnue et accréditée par le Gouvernement du Burundi, garantissant que nos diplômes répondent aux normes nationales et internationales.',
+    'document_loading' => 'Image du document non disponible',
+    
+    // Zoom functionality
+    'click_to_zoom' => 'Cliquer pour Zoomer',
+    'document_viewer' => 'Visionneuse de Document',
+    'zoom_in' => 'Zoomer',
+    'zoom_out' => 'Dézoomer',
+    'reset_zoom' => 'Réinitialiser le Zoom',
+    'download_document' => 'Télécharger le Document',
+    'download' => 'Télécharger',
+    'zoom_instructions' => 'Utilisez la molette de la souris pour zoomer, faites glisser pour déplacer lorsque zoomé, ou utilisez les boutons de contrôle',
+    
+    // Updated Faculty Information (Official)
+    'faculty_theology' => 'Faculté de Théologie',
+    'faculty_theology_desc' => 'Formation théologique complète préparant les étudiants au ministère et au leadership religieux.',
+    'faculty_economics_management' => 'Faculté des Sciences Économiques et Gestion',
+    'faculty_economics_management_desc' => 'Formation en économie et gestion d\'entreprise avec accent sur les compétences managériales et entrepreneuriales.',
+    'faculty_sciences_technologies' => 'Faculté des Sciences et Technologies',
+    'faculty_sciences_technologies_desc' => 'Formation en technologie et informatique préparant les étudiants à l\'économie numérique.',
+    
+    // Departments (Official)
+    'departments' => 'Départements',
+    'department_theology' => 'Département de Théologie',
+    'department_management_business' => 'Département de Gestion et Administration des Affaires',
+    'department_computer_sciences' => 'Département des Sciences Informatiques',
+    
+    // Specialization Options (Official)
+    'specialization_option' => 'Option de Spécialisation',
+    'option_entrepreneurship' => 'Entrepreneuriat',
+    'option_management_information_systems' => 'Informatique de Gestion',
+    
+    // Key Subjects
+    'key_subjects' => 'Matières Principales',
+    'biblical_studies' => 'Études Bibliques',
+    'church_history' => 'Histoire de l\'Église',
+    'pastoral_ministry' => 'Ministère Pastoral',
+    'adventist_theology' => 'Théologie Adventiste',
+    'business_administration' => 'Administration des Affaires',
+    'economics' => 'Économie',
+    'entrepreneurship' => 'Entrepreneuriat',
+    'programming_development' => 'Programmation & Développement',
+    'information_systems' => 'Systèmes d\'Information',
+    'database_management' => 'Gestion de Bases de Données',
+    'learn_more' => 'En Savoir Plus'
 ];
 ?>

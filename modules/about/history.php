@@ -67,6 +67,95 @@ require_once __DIR__ . '/../../includes/header.php';
                     </div>
                 </div>
 
+                <!-- Government Accreditation Section -->
+                <div class="row mt-5">
+                    <div class="col-12">
+                        <div class="text-center mb-4">
+                            <h2 class="h3 mb-3"><?php echo __('government_accreditation_title'); ?></h2>
+                            <p class="text-muted"><?php echo __('government_accreditation_subtitle'); ?></p>
+                        </div>
+                        
+                        <div class="card shadow-sm border-0">
+                            <div class="card-body p-4">
+                                <div class="row g-4">
+                                    <div class="col-lg-6">
+                                        <div class="accreditation-document text-center">
+                                            <div class="document-frame p-3 border rounded bg-light position-relative">
+                                                <img src="<?php echo BASE_PATH; ?>/assets/images/autorisation_ministr1.png" 
+                                                     alt="<?php echo __('ministry_authorization_1'); ?>" 
+                                                     class="img-fluid rounded shadow-sm zoom-image"
+                                                     style="max-height: 400px; width: auto; cursor: pointer;"
+                                                     data-bs-toggle="modal" 
+                                                     data-bs-target="#imageModal"
+                                                     data-image-src="<?php echo BASE_PATH; ?>/assets/images/autorisation_ministr1.png"
+                                                     data-image-title="<?php echo __('ministry_authorization_1_title'); ?>"
+                                                     onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                                                <div class="text-muted p-4" style="display: none;">
+                                                    <i class="fas fa-file-image fa-3x mb-3"></i>
+                                                    <p><?php echo __('document_loading'); ?></p>
+                                                </div>
+                                                <!-- Zoom indicator -->
+                                                <div class="position-absolute top-0 end-0 m-2">
+                                                    <span class="badge bg-primary">
+                                                        <i class="fas fa-search-plus me-1"></i><?php echo __('click_to_zoom'); ?>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <h5 class="mt-3 mb-2"><?php echo __('ministry_authorization_1_title'); ?></h5>
+                                            <p class="text-muted small"><?php echo __('ministry_authorization_1_desc'); ?></p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-lg-6">
+                                        <div class="accreditation-document text-center">
+                                            <div class="document-frame p-3 border rounded bg-light position-relative">
+                                                <img src="<?php echo BASE_PATH; ?>/assets/images/autorisation_ministr2.png" 
+                                                     alt="<?php echo __('ministry_authorization_2'); ?>" 
+                                                     class="img-fluid rounded shadow-sm zoom-image"
+                                                     style="max-height: 400px; width: auto; cursor: pointer;"
+                                                     data-bs-toggle="modal" 
+                                                     data-bs-target="#imageModal"
+                                                     data-image-src="<?php echo BASE_PATH; ?>/assets/images/autorisation_ministr2.png"
+                                                     data-image-title="<?php echo __('ministry_authorization_2_title'); ?>"
+                                                     onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                                                <div class="text-muted p-4" style="display: none;">
+                                                    <i class="fas fa-file-image fa-3x mb-3"></i>
+                                                    <p><?php echo __('document_loading'); ?></p>
+                                                </div>
+                                                <!-- Zoom indicator -->
+                                                <div class="position-absolute top-0 end-0 m-2">
+                                                    <span class="badge bg-primary">
+                                                        <i class="fas fa-search-plus me-1"></i><?php echo __('click_to_zoom'); ?>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <h5 class="mt-3 mb-2"><?php echo __('ministry_authorization_2_title'); ?></h5>
+                                            <p class="text-muted small"><?php echo __('ministry_authorization_2_desc'); ?></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Accreditation Info -->
+                                <div class="row mt-4">
+                                    <div class="col-12">
+                                        <div class="bg-success bg-opacity-10 border border-success border-opacity-25 rounded p-4">
+                                            <div class="d-flex align-items-center">
+                                                <div class="flex-shrink-0">
+                                                    <i class="fas fa-certificate text-success fa-2x"></i>
+                                                </div>
+                                                <div class="flex-grow-1 ms-3">
+                                                    <h6 class="text-success mb-1"><?php echo __('officially_accredited'); ?></h6>
+                                                    <p class="mb-0 text-muted"><?php echo __('accreditation_description'); ?></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Key Features Section -->
                 <div class="row mt-5">
                     <div class="col-md-6 mb-4">
@@ -137,5 +226,176 @@ require_once __DIR__ . '/../../includes/header.php';
         </div>
     </div>
 </section>
+
+<!-- Image Zoom Modal -->
+<div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content bg-dark">
+            <div class="modal-header border-0">
+                <h5 class="modal-title text-white" id="imageModalLabel"><?php echo __('document_viewer'); ?></h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-0 position-relative">
+                <div class="image-container text-center" style="overflow: auto; max-height: 80vh;">
+                    <img id="modalImage" src="" alt="" class="img-fluid" style="max-width: none; cursor: grab;">
+                </div>
+                <!-- Zoom Controls -->
+                <div class="position-absolute top-0 start-0 m-3">
+                    <div class="btn-group-vertical" role="group">
+                        <button type="button" class="btn btn-light btn-sm" id="zoomIn" title="<?php echo __('zoom_in'); ?>">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                        <button type="button" class="btn btn-light btn-sm" id="zoomOut" title="<?php echo __('zoom_out'); ?>">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-light btn-sm" id="resetZoom" title="<?php echo __('reset_zoom'); ?>">
+                            <i class="fas fa-expand-arrows-alt"></i>
+                        </button>
+                    </div>
+                </div>
+                <!-- Download Button -->
+                <div class="position-absolute top-0 end-0 m-3">
+                    <a id="downloadBtn" href="" download class="btn btn-success btn-sm" title="<?php echo __('download_document'); ?>">
+                        <i class="fas fa-download me-1"></i><?php echo __('download'); ?>
+                    </a>
+                </div>
+            </div>
+            <div class="modal-footer border-0 bg-dark">
+                <p class="text-white-50 mb-0 small">
+                    <i class="fas fa-info-circle me-1"></i>
+                    <?php echo __('zoom_instructions'); ?>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.zoom-image:hover {
+    transform: scale(1.02);
+    transition: transform 0.2s ease;
+}
+
+.modal-xl {
+    max-width: 95vw;
+}
+
+#modalImage {
+    transition: transform 0.2s ease;
+}
+
+#modalImage:active {
+    cursor: grabbing;
+}
+
+.image-container {
+    background: #000;
+    border-radius: 0.375rem;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const imageModal = document.getElementById('imageModal');
+    const modalImage = document.getElementById('modalImage');
+    const modalTitle = document.getElementById('imageModalLabel');
+    const downloadBtn = document.getElementById('downloadBtn');
+    const zoomInBtn = document.getElementById('zoomIn');
+    const zoomOutBtn = document.getElementById('zoomOut');
+    const resetZoomBtn = document.getElementById('resetZoom');
+    
+    let currentScale = 1;
+    let isDragging = false;
+    let startX, startY, scrollLeft, scrollTop;
+    
+    // Handle modal show event
+    imageModal.addEventListener('show.bs.modal', function(event) {
+        const button = event.relatedTarget;
+        const imageSrc = button.getAttribute('data-image-src');
+        const imageTitle = button.getAttribute('data-image-title');
+        
+        modalImage.src = imageSrc;
+        modalImage.alt = imageTitle;
+        modalTitle.textContent = imageTitle;
+        downloadBtn.href = imageSrc;
+        downloadBtn.download = imageTitle + '.png';
+        
+        // Reset zoom
+        currentScale = 1;
+        modalImage.style.transform = 'scale(1)';
+    });
+    
+    // Zoom functionality
+    zoomInBtn.addEventListener('click', function() {
+        currentScale = Math.min(currentScale + 0.25, 3);
+        modalImage.style.transform = `scale(${currentScale})`;
+    });
+    
+    zoomOutBtn.addEventListener('click', function() {
+        currentScale = Math.max(currentScale - 0.25, 0.5);
+        modalImage.style.transform = `scale(${currentScale})`;
+    });
+    
+    resetZoomBtn.addEventListener('click', function() {
+        currentScale = 1;
+        modalImage.style.transform = 'scale(1)';
+        const container = modalImage.parentElement;
+        container.scrollLeft = 0;
+        container.scrollTop = 0;
+    });
+    
+    // Mouse wheel zoom
+    modalImage.addEventListener('wheel', function(e) {
+        e.preventDefault();
+        const delta = e.deltaY > 0 ? -0.1 : 0.1;
+        currentScale = Math.max(0.5, Math.min(3, currentScale + delta));
+        modalImage.style.transform = `scale(${currentScale})`;
+    });
+    
+    // Drag functionality for zoomed images
+    const container = modalImage.parentElement;
+    
+    modalImage.addEventListener('mousedown', function(e) {
+        if (currentScale > 1) {
+            isDragging = true;
+            modalImage.style.cursor = 'grabbing';
+            startX = e.pageX - container.offsetLeft;
+            startY = e.pageY - container.offsetTop;
+            scrollLeft = container.scrollLeft;
+            scrollTop = container.scrollTop;
+        }
+    });
+    
+    container.addEventListener('mouseleave', function() {
+        isDragging = false;
+        modalImage.style.cursor = currentScale > 1 ? 'grab' : 'default';
+    });
+    
+    container.addEventListener('mouseup', function() {
+        isDragging = false;
+        modalImage.style.cursor = currentScale > 1 ? 'grab' : 'default';
+    });
+    
+    container.addEventListener('mousemove', function(e) {
+        if (!isDragging || currentScale <= 1) return;
+        e.preventDefault();
+        const x = e.pageX - container.offsetLeft;
+        const y = e.pageY - container.offsetTop;
+        const walkX = (x - startX) * 2;
+        const walkY = (y - startY) * 2;
+        container.scrollLeft = scrollLeft - walkX;
+        container.scrollTop = scrollTop - walkY;
+    });
+    
+    // Update cursor based on zoom level
+    function updateCursor() {
+        modalImage.style.cursor = currentScale > 1 ? 'grab' : 'default';
+    }
+    
+    // Call updateCursor when zoom changes
+    const observer = new MutationObserver(updateCursor);
+    observer.observe(modalImage, { attributes: true, attributeFilter: ['style'] });
+});
+</script>
 
 <?php require_once __DIR__ . '/../../includes/footer.php'; ?>
