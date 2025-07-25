@@ -496,7 +496,7 @@ require_once __DIR__ . '/../../includes/header.php';
                                 <i class="bi bi-telephone fs-4"></i>
                             </div>
                             <div class="fw-bold"><?php echo __('telephone'); ?></div>
-                            <small>+257 XX XX XX XX</small>
+                            <small>+257 79 155 869</small>
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -505,7 +505,7 @@ require_once __DIR__ . '/../../includes/header.php';
                                 <i class="bi bi-envelope fs-4"></i>
                             </div>
                             <div class="fw-bold"><?php echo __('email'); ?></div>
-                            <small>admissions@uab.bi</small>
+                            <small>admissions@uab.edu.bi</small>
                         </div>
                     </div>
                     <div class="col-md-4">
