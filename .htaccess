@@ -1,7 +1,12 @@
 RewriteEngine On
 RewriteBase /
 
-# Redirect /about to /modules/about/index.php
+# General rule to remove .php extensions
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}\.php -f
+RewriteRule ^([^/]+)/?$ $1.php [L]
+
+# Redirect /about to /modules/about/about.php
 RewriteRule ^about/?$ modules/about/about.php [L]
 
 # Redirect /about/history to /modules/about/history.php
