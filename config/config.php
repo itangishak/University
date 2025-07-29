@@ -10,9 +10,9 @@ define('BASE_PATH', 'https://uab.edu.bi/');
 
 // Database Configuration
 define('DB_HOST', 'localhost'); // Change to your production DB server if different
-define('DB_NAME', 'uab_website'); // Use production database name
-define('DB_USER', 'uab_admin'); // Use production database username
-define('DB_PASS', 'secure_password_here'); // Use strong production password
+define('DB_NAME', 'bumadste_bau_website'); // Use production database name
+define('DB_USER', 'bumadste_bau'); // Use production database username
+define('DB_PASS', 'Bau2025!'); // Use strong production password
 
 // Email configuration
 define('SMTP_HOST', 'smtp.gmail.com');
