@@ -301,7 +301,7 @@ $events_stmt->execute([$current_lang]);
                     </div>
                     
                     <div class="quick-links">
-                        <a href="/admissions" class="quick-link-item">
+                        <a href="<?php echo BASE_PATH; ?>/modules/admission/admission.php" class="quick-link-item">
                             <div class="quick-link-icon">
                                 <i class="bi bi-mortarboard"></i>
                             </div>
@@ -312,7 +312,7 @@ $events_stmt->execute([$current_lang]);
                             <i class="bi bi-arrow-right quick-link-arrow"></i>
                         </a>
                         
-                        <a href="/academics" class="quick-link-item">
+                        <a href="<?php echo BASE_PATH; ?>/modules/faculty/faculties.php" class="quick-link-item">
                             <div class="quick-link-icon">
                                 <i class="bi bi-book"></i>
                             </div>
@@ -323,7 +323,7 @@ $events_stmt->execute([$current_lang]);
                             <i class="bi bi-arrow-right quick-link-arrow"></i>
                         </a>
                         
-                        <a href="/student-life" class="quick-link-item">
+                        <a href="<?php echo BASE_PATH; ?>/modules/student/student.php" class="quick-link-item">
                             <div class="quick-link-icon">
                                 <i class="bi bi-people"></i>
                             </div>
@@ -334,7 +334,7 @@ $events_stmt->execute([$current_lang]);
                             <i class="bi bi-arrow-right quick-link-arrow"></i>
                         </a>
                         
-                        <a href="/contact" class="quick-link-item">
+                        <a href="<?php echo BASE_PATH; ?>/modules/contact/contact.php" class="quick-link-item">
                             <div class="quick-link-icon">
                                 <i class="bi bi-envelope"></i>
                             </div>
