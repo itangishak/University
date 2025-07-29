@@ -99,6 +99,42 @@ require_once __DIR__ . '/functions.php';
                 
                 <!-- Navigation Menu -->
                 <div class="collapse navbar-collapse" id="navbarMain">
+                    <!-- Mobile Language Switcher -->
+                    <div class="mobile-language-switcher d-lg-none mb-3">
+                        <div class="d-flex justify-content-center gap-2">
+                            <?php 
+                            // Use the same language switching logic as in top bar
+                            $current_path = $_SERVER['REQUEST_URI'];
+                            $base_url = BASE_PATH;
+                            
+                            // Remove existing lang parameter from current URL
+                            $current_url = strtok($_SERVER['REQUEST_URI'], '?');
+                            $query_params = $_GET;
+                            unset($query_params['lang']);
+                            
+                            // Build clean URLs for each language
+                            $french_url = $current_url;
+                            $english_url = $current_url;
+                            
+                            if (count($query_params) > 0) {
+                                $french_url .= '?' . http_build_query(array_merge($query_params, ['lang' => 'fr']));
+                                $english_url .= '?' . http_build_query(array_merge($query_params, ['lang' => 'en']));
+                            } else {
+                                $french_url .= '?lang=fr';
+                                $english_url .= '?lang=en';
+                            }
+                            ?>
+                            <a href="<?php echo $french_url; ?>" data-lang="fr" class="mobile-lang-btn <?php echo $current_lang == 'fr' ? 'active' : ''; ?>" title="Français">
+                                <img src="<?php echo BASE_PATH; ?>/assets/images/french.png" alt="FR">
+                                <span>Français</span>
+                            </a>
+                            <a href="<?php echo $english_url; ?>" data-lang="en" class="mobile-lang-btn <?php echo $current_lang == 'en' ? 'active' : ''; ?>" title="English">
+                                <img src="<?php echo BASE_PATH; ?>/assets/images/english.png" alt="EN">
+                                <span>English</span>
+                            </a>
+                        </div>
+                    </div>
+                    
                     <ul class="navbar-nav mx-auto">
                         <li class="nav-item">
                             <a class="nav-link" href="<?php echo BASE_PATH; ?>/index.php">

@@ -1763,6 +1763,56 @@ p {
     }
 }
 
+/* Mobile Language Switcher Styles */
+.mobile-language-switcher {
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--border-light);
+    margin-bottom: 1rem !important;
+}
+
+.mobile-lang-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background: var(--light-bg);
+    border: 2px solid var(--border-light);
+    border-radius: var(--border-radius-small);
+    text-decoration: none;
+    color: var(--text-dark);
+    font-weight: 500;
+    transition: all 0.3s ease;
+    min-width: 120px;
+    justify-content: center;
+}
+
+.mobile-lang-btn:hover {
+    background: var(--primary-blue);
+    color: white;
+    border-color: var(--primary-blue);
+    text-decoration: none;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-light);
+}
+
+.mobile-lang-btn.active {
+    background: var(--primary-blue);
+    color: white;
+    border-color: var(--primary-blue);
+}
+
+.mobile-lang-btn img {
+    width: 20px;
+    height: 15px;
+    object-fit: cover;
+    border-radius: 2px;
+}
+
+.mobile-lang-btn span {
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
 /* Mobile responsiveness and subtle animations to navigation bar */
 @media (max-width: 991.98px) {
   .top-info-bar {
