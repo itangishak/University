@@ -82,7 +82,7 @@ require_once __DIR__ . '/functions.php';
                 <!-- Brand/Logo -->
                 <a class="navbar-brand" href="<?php echo BASE_PATH; ?>/index.php">
                     <div class="brand-container">
-                        <img src="<?php echo BASE_PATH; ?>/assets/images/logouab.png" alt="<?php echo __('site_name'); ?>" class="brand-logo">
+                        <img src="<?php echo BASE_PATH; ?>/assets/images/logo.jpg" alt="<?php echo __('site_name'); ?>" class="brand-logo">
                         <div class="brand-text">
                             <span class="brand-name">BAU</span>
                             <span class="brand-subtitle">Burundi Adventist University</span>
