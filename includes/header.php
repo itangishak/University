@@ -67,7 +67,7 @@ require_once __DIR__ . '/functions.php';
                             </a>
                         </div>
                         <!-- Portal Button -->
-                        <a href="<?php echo BASE_PATH; ?>/university/modules/admin/login/login.php" class="portal-btn">
+                        <a href="<?php echo BASE_PATH; ?>/modules/admin/login/login.php" class="portal-btn">
                             <i class="fas fa-user-circle"></i>
                             <?php echo __('portal_login'); ?>
                         </a>
