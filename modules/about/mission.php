@@ -177,10 +177,10 @@ require_once __DIR__ . '/../../includes/header.php';
                         <h3 class="mb-3">Join Our Mission</h3>
                         <p class="text-muted mb-4">Be part of a community dedicated to academic excellence and Christian values.</p>
                         <div class="d-flex flex-wrap gap-3 justify-content-center">
-                            <a href="<?php echo BASE_PATH; ?>/modules/admissions/" class="btn btn-primary btn-lg">
+                            <a href="<?php echo BASE_PATH; ?>/modules/admission/admissions.php" class="btn btn-primary btn-lg">
                                 <i class="bi bi-mortarboard me-2"></i><?php echo __('admissions'); ?>
                             </a>
-                            <a href="<?php echo BASE_PATH; ?>/modules/academics/" class="btn btn-outline-primary btn-lg">
+                            <a href="<?php echo BASE_PATH; ?>/modules/faculty/faculties.php" class="btn btn-outline-primary btn-lg">
                                 <i class="bi bi-book me-2"></i><?php echo __('academics'); ?>
                             </a>
                             <a href="<?php echo BASE_PATH; ?>/modules/about/history.php" class="btn btn-outline-secondary btn-lg">

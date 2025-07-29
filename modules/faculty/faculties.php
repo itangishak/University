@@ -341,7 +341,7 @@ require_once __DIR__ . '/../../includes/header.php';
                 <h2 class="h3 mb-4">Prêt à rejoindre nos facultés ?</h2>
                 <p class="lead mb-4">Découvrez nos programmes et commencez votre parcours académique avec nous.</p>
                 <div class="d-flex flex-wrap gap-3 justify-content-center">
-                    <a href="<?php echo BASE_PATH; ?>/modules/admissions/" class="btn btn-light btn-lg">
+                    <a href="<?php echo BASE_PATH; ?>/modules/admission/admissions.php" class="btn btn-light btn-lg">
                         <i class="bi bi-mortarboard me-2"></i><?php echo __('admissions'); ?>
                     </a>
                     <a href="<?php echo BASE_PATH; ?>/modules/contact/" class="btn btn-outline-light btn-lg">

@@ -210,10 +210,10 @@ require_once __DIR__ . '/../../includes/header.php';
                         <h4 class="mb-3">Ready to Join Our Community?</h4>
                         <p class="text-muted mb-4">Discover more about our programs and admission process.</p>
                         <div class="d-flex flex-wrap gap-3 justify-content-center">
-                            <a href="<?php echo BASE_PATH; ?>/modules/admissions/" class="btn btn-primary">
+                            <a href="<?php echo BASE_PATH; ?>/modules/admission/admissions.php" class="btn btn-primary">
                                 <i class="bi bi-mortarboard me-2"></i><?php echo __('admissions'); ?>
                             </a>
-                            <a href="<?php echo BASE_PATH; ?>/modules/academics/" class="btn btn-outline-primary">
+                            <a href="<?php echo BASE_PATH; ?>/modules/faculty/faculties.php" class="btn btn-outline-primary">
                                 <i class="bi bi-book me-2"></i><?php echo __('academics'); ?>
                             </a>
                             <a href="<?php echo BASE_PATH; ?>/modules/contact/" class="btn btn-outline-secondary">

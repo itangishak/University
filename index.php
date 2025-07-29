@@ -124,7 +124,7 @@ $events_stmt->execute([$current_lang]);
                         <span class="tagline-text"><?php echo __('tagline'); ?></span>
                     </div>
                     <div class="hero-buttons fade-in-up delay-4">
-                        <a href="<?php echo BASE_PATH; ?>/modules/admission/admission.php" class="btn btn-primary btn-hero me-3">
+                        <a href="<?php echo BASE_PATH; ?>/modules/admission/admissions.php" class="btn btn-primary btn-hero me-3">
                             <i class="bi bi-mortarboard me-2"></i><?php echo __('apply_now'); ?>
                         </a>
                         <a href="<?php echo BASE_PATH; ?>/modules/about/history.php" class="btn btn-outline-light btn-hero">
@@ -301,7 +301,7 @@ $events_stmt->execute([$current_lang]);
                     </div>
                     
                     <div class="quick-links">
-                        <a href="<?php echo BASE_PATH; ?>/modules/admission/admission.php" class="quick-link-item">
+                        <a href="<?php echo BASE_PATH; ?>/modules/admission/admissions.php" class="quick-link-item">
                             <div class="quick-link-icon">
                                 <i class="bi bi-mortarboard"></i>
                             </div>
@@ -323,7 +323,7 @@ $events_stmt->execute([$current_lang]);
                             <i class="bi bi-arrow-right quick-link-arrow"></i>
                         </a>
                         
-                        <a href="<?php echo BASE_PATH; ?>/modules/student/student.php" class="quick-link-item">
+                        <a href="#" class="quick-link-item">
                             <div class="quick-link-icon">
                                 <i class="bi bi-people"></i>
                             </div>
