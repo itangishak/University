@@ -7,7 +7,7 @@
         <div class="footer-grid">
             <div class="footer-brand">
                 <div class="footer-logo">
-                    <img src="<?php echo BASE_PATH; ?>/assets/images/logouab.png" alt="University Logo">
+                    <img src="<?php echo BASE_PATH; ?>/assets/images/logo.png" alt="University Logo">
                     <span><?php echo __('site_name'); ?></span>
                 </div>
                 <div class="social-links-container">

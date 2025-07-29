@@ -38,11 +38,11 @@ define('UNIVERSITY_EMAIL', 'info@uab.edu.bi');
 define('UNIVERSITY_ADDRESS', 'Bujumbura, Commune Mukaza, Avenue de la Jeunesse'); // Can be overridden by translations
 
 // Social Media Links
-define('SOCIAL_FACEBOOK', 'https://facebook.com/burundiadventistu');
-define('SOCIAL_TWITTER', 'https://twitter.com/uab_burundi');
-define('SOCIAL_INSTAGRAM', 'https://instagram.com/uab_burundi');
-define('SOCIAL_YOUTUBE', 'https://youtube.com/@uab_burundi');
-define('SOCIAL_LINKEDIN', 'https://linkedin.com/company/burundi-adventist-university');
+define('SOCIAL_FACEBOOK', 'https://www.facebook.com/profile.php?id=61578755886310');
+define('SOCIAL_TWITTER', '#');
+define('SOCIAL_INSTAGRAM', '#');
+define('SOCIAL_YOUTUBE', 'https://youtube.com/@UniversitéAdventisteduBurundi');
+define('SOCIAL_LINKEDIN', '#');
 
 // Footer Links
 define('PRIVACY_POLICY_URL', BASE_PATH . '/modules/privacy/privacy.php');

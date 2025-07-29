@@ -116,7 +116,7 @@ $events_stmt->execute([$current_lang]);
             <div class="row align-items-center min-vh-100">
                 <div class="col-lg-8 col-md-10 mx-auto text-center">
                     <div class="hero-logo-container fade-in-up">
-                        <img src="<?php echo BASE_PATH; ?>/assets/images/logo.jpg" alt="UAB Logo" class="hero-logo mb-4">
+                        <img src="<?php echo BASE_PATH; ?>/assets/images/logo.png" alt="UAB Logo" class="hero-logo mb-4">
                     </div>
                     <h1 class="hero-title fade-in-up delay-1"><?php echo __('welcome_message'); ?></h1>
                     <p class="hero-subtitle fade-in-up delay-2"><?php echo __('hero_subtitle'); ?></p>
@@ -124,10 +124,10 @@ $events_stmt->execute([$current_lang]);
                         <span class="tagline-text"><?php echo __('tagline'); ?></span>
                     </div>
                     <div class="hero-buttons fade-in-up delay-4">
-                        <a href="/admissions" class="btn btn-primary btn-hero me-3">
+                        <a href="<?php echo BASE_PATH; ?>modules/admission/admissions.php" class="btn btn-primary btn-hero me-3">
                             <i class="bi bi-mortarboard me-2"></i><?php echo __('apply_now'); ?>
                         </a>
-                        <a href="/about" class="btn btn-outline-light btn-hero">
+                        <a href="<?php echo BASE_PATH; ?>modules/about/history.php" class="btn btn-outline-light btn-hero">
                             <i class="bi bi-info-circle me-2"></i><?php echo __('learn_more'); ?>
                         </a>
                     </div>
