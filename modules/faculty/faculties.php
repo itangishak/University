@@ -344,7 +344,7 @@ require_once __DIR__ . '/../../includes/header.php';
                     <a href="<?php echo BASE_PATH; ?>/modules/admission/admissions.php" class="btn btn-light btn-lg">
                         <i class="bi bi-mortarboard me-2"></i><?php echo __('admissions'); ?>
                     </a>
-                    <a href="<?php echo BASE_PATH; ?>/modules/contact/" class="btn btn-outline-light btn-lg">
+                    <a href="<?php echo BASE_PATH; ?>/modules/contact/contact.php" class="btn btn-outline-light btn-lg">
                         <i class="bi bi-envelope me-2"></i><?php echo __('contact'); ?>
                     </a>
                     <a href="<?php echo BASE_PATH; ?>/modules/about/mission.php" class="btn btn-outline-light btn-lg">

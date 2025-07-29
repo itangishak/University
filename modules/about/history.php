@@ -216,7 +216,7 @@ require_once __DIR__ . '/../../includes/header.php';
                             <a href="<?php echo BASE_PATH; ?>/modules/faculty/faculties.php" class="btn btn-outline-primary">
                                 <i class="bi bi-book me-2"></i><?php echo __('academics'); ?>
                             </a>
-                            <a href="<?php echo BASE_PATH; ?>/modules/contact/" class="btn btn-outline-secondary">
+                            <a href="<?php echo BASE_PATH; ?>/modules/contact/contact.php" class="btn btn-outline-secondary">
                                 <i class="bi bi-envelope me-2"></i><?php echo __('contact'); ?>
                             </a>
                         </div>
