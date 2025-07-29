@@ -187,7 +187,7 @@ require_once __DIR__ . '/functions.php';
                                     </a>
                                 </li>
                                 <li>
-                                    <a class="dropdown-item" href="<?php echo BASE_PATH; ?>modules/library/libraries.php">
+                                    <a class="dropdown-item" href="#">
                                         <i class="fas fa-book"></i>
                                         <?php echo __('menu_libraries'); ?>
                                     </a>

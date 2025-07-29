@@ -298,7 +298,7 @@ require_once '../../includes/header.php';
                     </div>
                     <h4 class="text-muted mb-3"><?php echo __('faq_no_results'); ?></h4>
                     <p class="text-muted"><?php echo __('faq_contact_support'); ?></p>
-                    <a href="<?php echo BASE_PATH; ?>/university/modules/contact/contact.php" class="btn btn-primary">
+                    <a href="<?php echo BASE_PATH; ?>/modules/contact/contact.php" class="btn btn-primary">
                         <i class="fas fa-envelope me-2"></i><?php echo __('faq_contact_us'); ?>
                     </a>
                 </div>
@@ -312,7 +312,7 @@ require_once '../../includes/header.php';
                     <div class="card-body text-center py-5">
                         <h3 class="mb-3"><?php echo __('faq_contact_support'); ?></h3>
                         <p class="mb-4 opacity-75">Our support team is here to help you with any questions not covered in our FAQ.</p>
-                        <a href="<?php echo BASE_PATH; ?>/university/modules/contact/contact.php" class="btn btn-light btn-lg">
+                        <a href="<?php echo BASE_PATH; ?>/modules/contact/contact.php" class="btn btn-light btn-lg">
                             <i class="fas fa-envelope me-2"></i><?php echo __('faq_contact_us'); ?>
                         </a>
                     </div>
