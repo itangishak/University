@@ -9,10 +9,10 @@ define('AVAILABLE_LANGUAGES', ['en', 'fr']);
 define('BASE_PATH', 'https://uab.edu.bi/');
 
 // Database Configuration
-define('DB_HOST', 'localhost');
-define('DB_NAME', 'bau_website');
-define('DB_USER', 'root');
-define('DB_PASS', '');
+define('DB_HOST', 'localhost'); // Change to your production DB server if different
+define('DB_NAME', 'uab_website'); // Use production database name
+define('DB_USER', 'uab_admin'); // Use production database username
+define('DB_PASS', 'secure_password_here'); // Use strong production password
 
 // Email configuration
 define('SMTP_HOST', 'smtp.gmail.com');
