@@ -124,10 +124,10 @@ $events_stmt->execute([$current_lang]);
                         <span class="tagline-text"><?php echo __('tagline'); ?></span>
                     </div>
                     <div class="hero-buttons fade-in-up delay-4">
-                        <a href="<?php echo BASE_PATH; ?>modules/admission/admissions.php" class="btn btn-primary btn-hero me-3">
+                        <a href="<?php echo BASE_PATH; ?>/modules/admission/admission.php" class="btn btn-primary btn-hero me-3">
                             <i class="bi bi-mortarboard me-2"></i><?php echo __('apply_now'); ?>
                         </a>
-                        <a href="<?php echo BASE_PATH; ?>modules/about/history.php" class="btn btn-outline-light btn-hero">
+                        <a href="<?php echo BASE_PATH; ?>/modules/about/history.php" class="btn btn-outline-light btn-hero">
                             <i class="bi bi-info-circle me-2"></i><?php echo __('learn_more'); ?>
                         </a>
                     </div>
@@ -217,7 +217,7 @@ $events_stmt->execute([$current_lang]);
                                 <img src="<?php echo htmlspecialchars($news['hero_image_url']); ?>" 
                                      alt="<?php echo htmlspecialchars($news['title']); ?>">
                                 <div class="news-overlay">
-                                    <a href="/news/<?php echo $news['id']; ?>" class="news-link">
+                                    <a href="<?php echo BASE_PATH; ?>/modules/news/news.php?id=<?php echo $news['id']; ?>" class="news-link">
                                         <i class="bi bi-arrow-right"></i>
                                     </a>
                                 </div>
@@ -232,10 +232,10 @@ $events_stmt->execute([$current_lang]);
                                     </time>
                                 </div>
                                 <h3 class="news-title">
-                                    <a href="/news/<?php echo $news['id']; ?>"><?php echo htmlspecialchars($news['title']); ?></a>
+                                    <a href="<?php echo BASE_PATH; ?>/modules/news/news.php?id=<?php echo $news['id']; ?>"><?php echo htmlspecialchars($news['title']); ?></a>
                                 </h3>
                                 <p class="news-summary"><?php echo htmlspecialchars($news['summary']); ?></p>
-                                <a href="/news/<?php echo $news['id']; ?>" class="news-read-more">
+                                <a href="<?php echo BASE_PATH; ?>/modules/news/news.php?id=<?php echo $news['id']; ?>" class="news-read-more">
                                     <?php echo __('read_more'); ?>
                                     <i class="bi bi-arrow-right ms-1"></i>
                                 </a>
@@ -247,7 +247,7 @@ $events_stmt->execute([$current_lang]);
                 </div>
                 
                 <div class="text-center">
-                    <a href="/news" class="btn btn-outline-primary btn-lg">
+                    <a href="<?php echo BASE_PATH; ?>/modules/news/news.php" class="btn btn-outline-primary btn-lg">
                         <i class="bi bi-newspaper me-2"></i><?php echo __('all_news'); ?>
                     </a>
                 </div>
@@ -270,7 +270,7 @@ $events_stmt->execute([$current_lang]);
                             </div>
                             <div class="event-details">
                                 <h4 class="event-title">
-                                    <a href="/events/<?php echo $event['id']; ?>"><?php echo htmlspecialchars($event['title']); ?></a>
+                                    <a href="<?php echo BASE_PATH; ?>/modules/news/news.php?type=events&id=<?php echo $event['id']; ?>"><?php echo htmlspecialchars($event['title']); ?></a>
                                 </h4>
                                 <div class="event-meta">
                                     <div class="event-time">
@@ -288,7 +288,7 @@ $events_stmt->execute([$current_lang]);
                     </div>
                     
                     <div class="text-center mt-4">
-                        <a href="/events" class="btn btn-outline-primary">
+                        <a href="<?php echo BASE_PATH; ?>/modules/news/news.php?type=events" class="btn btn-outline-primary">
                             <i class="bi bi-calendar-event me-2"></i><?php echo __('all_events'); ?>
                         </a>
                     </div>

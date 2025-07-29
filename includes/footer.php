@@ -25,10 +25,10 @@
             <div class="footer-section">
                 <h3><?php echo __('quick_links'); ?></h3>
                 <ul>
-                    <li><a href="/about"><?php echo __('about_us_link'); ?></a></li>
-                    <li><a href="/admissions"><?php echo __('admissions'); ?></a></li>
-                    <li><a href="/academics"><?php echo __('academics'); ?></a></li>
-                    <li><a href="/contact"><?php echo __('contact'); ?></a></li>
+                    <li><a href="<?php echo BASE_PATH; ?>modules/about/history.php"><?php echo __('about_us_link'); ?></a></li>
+                    <li><a href="<?php echo BASE_PATH; ?>modules/admission/admissions.php"><?php echo __('admissions'); ?></a></li>
+                    <li><a href="<?php echo BASE_PATH; ?>modules/faculty/faculties.php"><?php echo __('academics'); ?></a></li>
+                    <li><a href="<?php echo BASE_PATH; ?>modules/contact/contact.php"><?php echo __('contact'); ?></a></li>
                 </ul>
             </div>
             
