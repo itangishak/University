@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initNewsCardEffects();
     initParallaxEffect();
     initTypewriterEffect();
+    initAnnouncementPopup();
 });
 
 // Mobile Menu Toggle
@@ -376,6 +377,104 @@ function initTypewriterEffect() {
             }
         }, 100);
     }, 1500);
+}
+
+// Announcement Popup
+let announcementPopupTimer = null;
+
+function initAnnouncementPopup() {
+    createAnnouncementPopup();
+
+    // Show on full page load
+    window.addEventListener('load', () => {
+        showAnnouncementPopup();
+    });
+
+    // Exit-intent: show when cursor leaves viewport at top (desktop)
+    let exitIntentCooldown = false;
+    document.addEventListener('mouseout', (e) => {
+        if (e.relatedTarget === null && e.clientY <= 0) {
+            if (!exitIntentCooldown) {
+                showAnnouncementPopup();
+                // Avoid rapid re-triggers
+                exitIntentCooldown = true;
+                setTimeout(() => exitIntentCooldown = false, 90000);
+            }
+        }
+    });
+}
+
+function createAnnouncementPopup() {
+    if (document.getElementById('announcement-popup')) return;
+
+    // Inject minimal styles once
+    if (!document.getElementById('announcement-popup-styles')) {
+        const styles = document.createElement('style');
+        styles.id = 'announcement-popup-styles';
+        styles.textContent = `
+        #announcement-popup { position: fixed; inset: 0; display: none; align-items: center; justify-content: center; z-index: 10000; }
+        #announcement-popup.visible { display: flex; }
+        #announcement-popup .announcement-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.6); }
+        #announcement-popup .announcement-dialog { position: relative; background: transparent; border-radius: 12px; max-width: 90vw; max-height: 90vh; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.4); animation: popupIn 200ms ease-out; }
+        #announcement-popup .announcement-image { display: block; max-width: 90vw; max-height: 85vh; object-fit: contain; }
+        #announcement-popup .announcement-close { position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.65); color: #fff; border: 0; border-radius: 50%; width: 36px; height: 36px; font-size: 22px; cursor: pointer; line-height: 36px; }
+        @keyframes popupIn { from { transform: translateY(8px); opacity: 0.01; } to { transform: translateY(0); opacity: 1; } }
+        @media (max-width: 480px) { #announcement-popup .announcement-dialog { width: 95vw; } #announcement-popup .announcement-image { width: 100%; height: auto; } }
+        `;
+        document.head.appendChild(styles);
+    }
+
+    const overlay = document.createElement('div');
+    overlay.id = 'announcement-popup';
+    overlay.setAttribute('aria-hidden', 'true');
+    overlay.innerHTML = `
+        <div class="announcement-backdrop" data-close></div>
+        <div class="announcement-dialog" role="dialog" aria-modal="true" aria-labelledby="announcement-title">
+            <button class="announcement-close" aria-label="Close" data-close>&times;</button>
+            <img src="/assets/images/admission.jpeg" alt="Admission Announcement" class="announcement-image" />
+        </div>
+    `;
+    document.body.appendChild(overlay);
+
+    // Close handlers
+    overlay.addEventListener('click', (e) => {
+        if (e.target.hasAttribute('data-close') || (e.target.closest && e.target.closest('[data-close]'))) {
+            hideAnnouncementPopup();
+        }
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') hideAnnouncementPopup();
+    });
+}
+
+function showAnnouncementPopup() {
+    let overlay = document.getElementById('announcement-popup');
+    if (!overlay) {
+        createAnnouncementPopup();
+        overlay = document.getElementById('announcement-popup');
+    }
+    if (!overlay) return;
+
+    overlay.classList.add('visible');
+    overlay.setAttribute('aria-hidden', 'false');
+
+    // Auto-hide after 60 seconds
+    if (announcementPopupTimer) clearTimeout(announcementPopupTimer);
+    announcementPopupTimer = setTimeout(() => {
+        hideAnnouncementPopup();
+    }, 60000);
+}
+
+function hideAnnouncementPopup() {
+    const overlay = document.getElementById('announcement-popup');
+    if (!overlay) return;
+    overlay.classList.remove('visible');
+    overlay.setAttribute('aria-hidden', 'true');
+    if (announcementPopupTimer) {
+        clearTimeout(announcementPopupTimer);
+        announcementPopupTimer = null;
+    }
 }
 
 // Utility Functions
