@@ -71,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             echo json_encode([
                 'success' => true,
                 'message' => 'Email verified successfully! Welcome to Burundi Adventist University. You can now login with your credentials.',
-                'redirect' => BASE_PATH . '/modules/admin/login/login.php'
+                'redirect' => rtrim(BASE_PATH, '/') . '/modules/admin/login/login.php'
             ]);
         } else {
             throw new Exception('Failed to verify email. Please try again.');

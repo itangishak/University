@@ -31,7 +31,7 @@ class SimpleEmailService {
         }
         
         // Attempt to send email
-        $result = mail($recipientEmail, $subject, $message, $headers);
+        $result = mail($recipientEmail, $subject, $message, $headers, '-f ' . $this->senderEmail);
         
         if (!$result) {
             error_log("Failed to send verification email to: $recipientEmail");

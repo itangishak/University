@@ -69,31 +69,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $result = $stmt->execute([$email, $email, $hashedPassword, $firstName, $lastName, $phone, $verificationToken]);
         
         if ($result) {
-            // Send verification email with confirmation number
-            $confirmationNumber = substr($verificationToken, 0, 8); // Use first 8 chars as confirmation number
+            $confirmationNumber = substr($verificationToken, 0, 8);
+            $response = [
+                'success' => true,
+                'message' => 'Account created successfully! A verification code has been sent to your email address. Please check your email and enter the code to verify your account.',
+                'redirect' => rtrim(BASE_PATH, '/') . '/modules/admin/verify/verify.php?email=' . urlencode($email)
+            ];
+            echo json_encode($response);
+            header('Connection: close');
+            ignore_user_abort(true);
+            if (function_exists('fastcgi_finish_request')) { 
+                fastcgi_finish_request(); 
+            } else { 
+                while (ob_get_level() > 0) { @ob_end_flush(); }
+                flush(); 
+            }
             $emailService = new SimpleEmailService();
-            
-            $emailSent = $emailService->sendVerificationEmail(
-                $email, 
-                $firstName . ' ' . $lastName, 
+            $emailService->sendVerificationEmail(
+                $email,
+                $firstName . ' ' . $lastName,
                 $confirmationNumber
             );
-            
-            if ($emailSent) {
-                echo json_encode([
-                    'success' => true,
-                    'message' => 'Account created successfully! A verification code has been sent to your email address. Please check your email and enter the code to verify your account.',
-                    'redirect' => BASE_PATH . '/modules/admin/verify/verify.php?email=' . urlencode($email)
-                ]);
-            } else {
-                // Account created but email failed - still allow verification
-                echo json_encode([
-                    'success' => true,
-                    'message' => 'Account created successfully! However, there was an issue sending the verification email. Your verification code is: ' . strtoupper($confirmationNumber),
-                    'confirmation_info' => 'Please use this code to verify your account: ' . strtoupper($confirmationNumber),
-                    'redirect' => BASE_PATH . '/modules/admin/verify/verify.php?email=' . urlencode($email)
-                ]);
-            }
         } else {
             throw new Exception('Failed to create account. Please try again.');
         }
@@ -346,7 +342,7 @@ $errorMessage = $_GET['error'] ?? '';
                     confirm_password: formData.get('confirm_password')
                 };
                 
-                const response = await fetch(window.location.href, {
+                const response = await fetch('/modules/admin/signup/signup.php', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
