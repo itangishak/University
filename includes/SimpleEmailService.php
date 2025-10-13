@@ -5,7 +5,7 @@
  */
 
 class SimpleEmailService {
-    private $senderEmail = 'itangishakajohnesterique@gmail.com';
+    private $senderEmail = 'info@uab.edu.bi';
     private $senderName = 'Burundi Adventist University';
     
     /**
@@ -150,6 +150,41 @@ class SimpleEmailService {
                         <li>Enter the verification code above</li>
                         <li>Click 'Verify Email' to activate your account</li>
                     </ol>
+                    
+                    <h3 style='margin-top:30px;'>University Email Account Settings</h3>
+                    <p>Use the following settings to configure your mail client.</p>
+                    <table style='width:100%; border-collapse:collapse; background:#f8f9fa; border:1px solid #e9ecef;'>
+                        <tbody>
+                            <tr>
+                                <td style='padding:10px; border:1px solid #e9ecef; width:45%;'><strong>Username</strong></td>
+                                <td style='padding:10px; border:1px solid #e9ecef;'>info@uab.edu.bi</td>
+                            </tr>
+                            <tr>
+                                <td style='padding:10px; border:1px solid #e9ecef;'><strong>Password</strong></td>
+                                <td style='padding:10px; border:1px solid #e9ecef;'>Default2025!</td>
+                            </tr>
+                            <tr>
+                                <td style='padding:10px; border:1px solid #e9ecef;'><strong>Incoming Server</strong></td>
+                                <td style='padding:10px; border:1px solid #e9ecef;'>mail.uab.edu.bi</td>
+                            </tr>
+                            <tr>
+                                <td style='padding:10px; border:1px solid #e9ecef;'><strong>IMAP Port</strong></td>
+                                <td style='padding:10px; border:1px solid #e9ecef;'>993 (SSL/TLS)</td>
+                            </tr>
+                            <tr>
+                                <td style='padding:10px; border:1px solid #e9ecef;'><strong>POP3 Port</strong></td>
+                                <td style='padding:10px; border:1px solid #e9ecef;'>995 (SSL/TLS)</td>
+                            </tr>
+                            <tr>
+                                <td style='padding:10px; border:1px solid #e9ecef;'><strong>Outgoing Server (SMTP)</strong></td>
+                                <td style='padding:10px; border:1px solid #e9ecef;'>mail.uab.edu.bi</td>
+                            </tr>
+                            <tr>
+                                <td style='padding:10px; border:1px solid #e9ecef;'><strong>SMTP Port</strong></td>
+                                <td style='padding:10px; border:1px solid #e9ecef;'>465 (SSL/TLS)</td>
+                            </tr>
+                        </tbody>
+                    </table>
                     
                     <div class='warning'>
                         <strong>⚠️ Important:</strong> This verification code will expire in 24 hours for security reasons. If you don't verify within this time, you'll need to register again.

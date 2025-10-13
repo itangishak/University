@@ -15,15 +15,15 @@ define('DB_USER', 'bumadste_bau'); // Use production database username
 define('DB_PASS', 'Bau2025!'); // Use strong production password
 
 // Email configuration
-define('SMTP_HOST', 'smtp.gmail.com');
-define('SMTP_PORT', 587);
-define('SMTP_USERNAME', 'itangishakajohnesterique@gmail.com');
-define('SMTP_PASSWORD', 'your-app-password'); // Use Gmail App Password
-define('FROM_EMAIL', 'itangishakajohnesterique@gmail.com');
+define('SMTP_HOST', 'mail.uab.edu.bi');
+define('SMTP_PORT', 465);
+define('SMTP_USERNAME', 'info@uab.edu.bi');
+define('SMTP_PASSWORD', 'Default2025!');
+define('FROM_EMAIL', 'info@uab.edu.bi');
 define('FROM_NAME', 'Burundi Adventist University');
 
 // Email debug mode (set to true for development)
-define('EMAIL_DEBUG', true); // Set to false in production
+define('EMAIL_DEBUG', false);
 
 // Debug Settings
 define('DEBUG_MODE', true);
