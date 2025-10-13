@@ -18,8 +18,8 @@ if (!isset($_SESSION['language'])) {
     $_SESSION['language'] = in_array($browser_lang, ['fr', 'en']) ? $browser_lang : $default_language;
 }
 
-// Manual language switch
-if (isset($_GET['lang']) && in_array($_GET['lang'], ['fr', 'en'])) {
+// Manual language switch (only on GET to avoid breaking POST/AJAX requests)
+if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['lang']) && in_array($_GET['lang'], ['fr', 'en'])) {
     $_SESSION['language'] = $_GET['lang'];
     
     // Get current path without query parameters

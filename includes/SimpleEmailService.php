@@ -12,6 +12,10 @@ class SimpleEmailService {
      * Send verification email with confirmation number
      */
     public function sendVerificationEmail($recipientEmail, $recipientName, $confirmationNumber) {
+        if (!function_exists('mail')) {
+            error_log("mail() is disabled on this server. Verification email not sent.");
+            return false;
+        }
         $subject = 'Verify Your Email - Burundi Adventist University';
         $message = $this->getVerificationEmailTemplate($recipientName, $confirmationNumber);
         $headers = $this->getEmailHeaders();
@@ -209,6 +213,10 @@ class SimpleEmailService {
      * Send welcome email after successful verification
      */
     public function sendWelcomeEmail($recipientEmail, $recipientName) {
+        if (!function_exists('mail')) {
+            error_log("mail() is disabled on this server. Welcome email not sent.");
+            return false;
+        }
         $subject = 'Welcome to Burundi Adventist University!';
         $message = $this->getWelcomeEmailTemplate($recipientName);
         $headers = $this->getEmailHeaders();
