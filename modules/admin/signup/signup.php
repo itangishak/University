@@ -7,17 +7,40 @@ require_once __DIR__ . '/../../../includes/SimpleEmailService.php';
 
 // Handle signup request
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    error_log('=== SIGNUP REQUEST STARTED ===');
+    error_log('Request URI: ' . $_SERVER['REQUEST_URI']);
+    error_log('Content-Type: ' . ($_SERVER['CONTENT_TYPE'] ?? 'not set'));
+    
     header('Content-Type: application/json');
     if (defined('DEBUG_MODE') && DEBUG_MODE) {
         ini_set('display_errors', '0');
         ini_set('log_errors', '1');
-        set_error_handler(function($severity, $message, $file, $line) { throw new ErrorException($message, 0, $severity, $file, $line); });
-        set_exception_handler(function($e) { http_response_code(500); echo json_encode(['success' => false, 'error' => $e->getMessage()]); });
-        register_shutdown_function(function() { $error = error_get_last(); if ($error && in_array($error['type'], [E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR])) { http_response_code(500); header('Content-Type: application/json'); echo json_encode(['success' => false, 'error' => 'Fatal: ' . $error['message'] . ' in ' . $error['file'] . ':' . $error['line']]); } });
+        set_error_handler(function($severity, $message, $file, $line) { 
+            error_log("PHP Error: $message in $file:$line");
+            throw new ErrorException($message, 0, $severity, $file, $line); 
+        });
+        set_exception_handler(function($e) { 
+            error_log('Exception: ' . $e->getMessage());
+            http_response_code(500); 
+            echo json_encode(['success' => false, 'error' => $e->getMessage()]); 
+        });
+        register_shutdown_function(function() { 
+            $error = error_get_last(); 
+            if ($error && in_array($error['type'], [E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR])) { 
+                error_log('Fatal error: ' . print_r($error, true));
+                http_response_code(500); 
+                header('Content-Type: application/json'); 
+                echo json_encode(['success' => false, 'error' => 'Fatal: ' . $error['message'] . ' in ' . $error['file'] . ':' . $error['line']]); 
+            } 
+        });
     }
     
     try {
-        $input = json_decode(file_get_contents('php://input'), true);
+        error_log('Reading request body...');
+        $rawInput = file_get_contents('php://input');
+        error_log('Raw input length: ' . strlen($rawInput));
+        $input = json_decode($rawInput, true);
+        error_log('JSON decode result: ' . ($input ? 'success' : 'failed'));
         
         if (!$input) {
             $input = $_POST;
@@ -66,30 +89,46 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             VALUES (?, ?, ?, ?, ?, ?, 'student', 'pending_verification', ?, NOW())
         ");
         
+        error_log('Executing database insert...');
         $result = $stmt->execute([$email, $email, $hashedPassword, $firstName, $lastName, $phone, $verificationToken]);
+        error_log('Database insert result: ' . ($result ? 'success' : 'failed'));
         
         if ($result) {
             $confirmationNumber = substr($verificationToken, 0, 8);
-            $response = [
-                'success' => true,
-                'message' => 'Account created successfully! A verification code has been sent to your email address. Please check your email and enter the code to verify your account.',
-                'redirect' => rtrim(BASE_PATH, '/') . '/modules/admin/verify/verify.php?email=' . urlencode($email)
-            ];
-            echo json_encode($response);
-            header('Connection: close');
-            ignore_user_abort(true);
-            if (function_exists('fastcgi_finish_request')) { 
-                fastcgi_finish_request(); 
-            } else { 
-                while (ob_get_level() > 0) { @ob_end_flush(); }
-                flush(); 
+            error_log('Confirmation number generated: ' . $confirmationNumber);
+            $emailSent = false;
+            
+            try {
+                error_log('Attempting to send verification email...');
+                $emailService = new SimpleEmailService();
+                $emailSent = $emailService->sendVerificationEmail(
+                    $email, 
+                    $firstName . ' ' . $lastName, 
+                    $confirmationNumber
+                );
+                error_log('Email sent result: ' . ($emailSent ? 'success' : 'failed'));
+            } catch (Exception $emailError) {
+                error_log('Email sending exception: ' . $emailError->getMessage());
             }
-            $emailService = new SimpleEmailService();
-            $emailService->sendVerificationEmail(
-                $email,
-                $firstName . ' ' . $lastName,
-                $confirmationNumber
-            );
+            
+            error_log('Preparing JSON response...');
+            if ($emailSent) {
+                $response = [
+                    'success' => true,
+                    'message' => 'Account created successfully! A verification code has been sent to your email address. Please check your email and enter the code to verify your account.',
+                    'redirect' => rtrim(BASE_PATH, '/') . '/modules/admin/verify/verify.php?email=' . urlencode($email)
+                ];
+            } else {
+                $response = [
+                    'success' => true,
+                    'message' => 'Account created successfully! However, there was an issue sending the verification email. Your verification code is: ' . strtoupper($confirmationNumber),
+                    'confirmation_info' => 'Please use this code to verify your account: ' . strtoupper($confirmationNumber),
+                    'redirect' => rtrim(BASE_PATH, '/') . '/modules/admin/verify/verify.php?email=' . urlencode($email)
+                ];
+            }
+            error_log('Sending JSON response: ' . json_encode($response));
+            echo json_encode($response);
+            error_log('=== SIGNUP REQUEST COMPLETED SUCCESSFULLY ===');
         } else {
             throw new Exception('Failed to create account. Please try again.');
         }
@@ -342,6 +381,9 @@ $errorMessage = $_GET['error'] ?? '';
                     confirm_password: formData.get('confirm_password')
                 };
                 
+                console.log('Sending signup request to:', '/modules/admin/signup/signup.php');
+                console.log('Request data:', data);
+                
                 const response = await fetch('/modules/admin/signup/signup.php', {
                     method: 'POST',
                     headers: {
@@ -350,12 +392,24 @@ $errorMessage = $_GET['error'] ?? '';
                     body: JSON.stringify(data)
                 });
                 
-                const result = await response.json();
+                console.log('Response status:', response.status);
+                console.log('Response headers:', response.headers);
+                
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    console.error('Response error:', errorText);
+                    throw new Error('Server returned ' + response.status);
+                }
+                
+                const responseText = await response.text();
+                console.log('Response text:', responseText);
+                
+                const result = JSON.parse(responseText);
+                console.log('Parsed result:', result);
                 
                 if (result.success) {
                     showAlert(result.message, 'success');
                     
-                    // Redirect after short delay
                     setTimeout(() => {
                         window.location.href = result.redirect;
                     }, 2000);
@@ -364,7 +418,8 @@ $errorMessage = $_GET['error'] ?? '';
                 }
                 
             } catch (error) {
-                showAlert('Network error. Please try again.', 'danger');
+                console.error('Signup error:', error);
+                showAlert('Network error: ' + error.message, 'danger');
             } finally {
                 submitBtn.disabled = false;
                 spinner.classList.add('d-none');
