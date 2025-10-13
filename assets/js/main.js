@@ -380,7 +380,7 @@ function initTypewriterEffect() {
 }
 
 // Announcement Popup
-let announcementPopupTimer = null;
+var announcementPopupTimer = window.announcementPopupTimer || null;
 
 function initAnnouncementPopup() {
     createAnnouncementPopup();
