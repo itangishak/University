@@ -3,6 +3,7 @@ require_once __DIR__ . '/../../../config/config.php';
 require_once __DIR__ . '/../../../config/oauth.php';
 require_once __DIR__ . '/../../../includes/Database.php';
 require_once __DIR__ . '/../../../includes/Auth.php';
+require_once __DIR__ . '/../../../includes/PHPMailerService.php';
 
 // Handle signup request
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -49,23 +50,52 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             throw new Exception('Email already exists');
         }
         
-        // Create user account with student role (email as username) - active status
+        // Generate verification token
+        $verificationToken = bin2hex(random_bytes(32));
+        $confirmationNumber = substr($verificationToken, 0, 8);
+        
+        // Create user account with pending verification status
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
         $stmt = $db->prepare("
-            INSERT INTO users (username, email, password_hash, first_name, last_name, phone, role, status, created_at) 
-            VALUES (?, ?, ?, ?, ?, ?, 'student', 'active', NOW())
+            INSERT INTO users (username, email, password_hash, first_name, last_name, phone, role, status, email_verification_token, created_at) 
+            VALUES (?, ?, ?, ?, ?, ?, 'student', 'pending_verification', ?, NOW())
         ");
         
-        $result = $stmt->execute([$email, $email, $hashedPassword, $firstName, $lastName, $phone]);
+        $result = $stmt->execute([$email, $email, $hashedPassword, $firstName, $lastName, $phone, $verificationToken]);
         
-        if ($result) {
+        if (!$result) {
+            throw new Exception('Failed to create account. Please try again.');
+        }
+        
+        // Try to send verification email (with timeout handling)
+        $emailSent = false;
+        try {
+            $emailService = new PHPMailerService();
+            $emailSent = $emailService->sendVerificationEmail(
+                $email, 
+                $firstName . ' ' . $lastName, 
+                $confirmationNumber
+            );
+        } catch (Exception $e) {
+            // Email failed but user is created - they can resend later
+            $emailSent = false;
+        }
+        
+        // Return success response with verification info
+        if ($emailSent) {
             echo json_encode([
                 'success' => true,
-                'message' => 'Account created successfully! You can now login with your credentials.',
-                'redirect' => rtrim(BASE_PATH, '/') . '/modules/admin/login/login.php'
+                'message' => 'Account created! Please check your email for the verification code.',
+                'redirect' => rtrim(BASE_PATH, '/') . '/modules/admin/verify/verify.php?email=' . urlencode($email)
             ]);
         } else {
-            throw new Exception('Failed to create account. Please try again.');
+            // Email failed - provide code directly
+            echo json_encode([
+                'success' => true,
+                'message' => 'Account created! Your verification code is: ' . strtoupper($confirmationNumber),
+                'code' => strtoupper($confirmationNumber),
+                'redirect' => rtrim(BASE_PATH, '/') . '/modules/admin/verify/verify.php?email=' . urlencode($email)
+            ]);
         }
         
     } catch (Exception $e) {
@@ -291,29 +321,26 @@ $errorMessage = $_GET['error'] ?? '';
             }
         });
         
-        // Handle signup form submission
-        document.getElementById('signupForm').addEventListener('submit', async function(e) {
+        // Handle signup form submission with AJAX
+        document.getElementById('signupForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             
-            const submitBtn = this.querySelector('button[type="submit"]');
+            const form = e.target;
+            const submitBtn = form.querySelector('button[type="submit"]');
             const spinner = document.getElementById('signupSpinner');
             const alertContainer = document.getElementById('alertContainer');
             
+            // Disable form during submission
             submitBtn.disabled = true;
             spinner.classList.remove('d-none');
             alertContainer.innerHTML = '';
             
             try {
-                const formData = new FormData(this);
-                const data = {
-                    first_name: formData.get('first_name'),
-                    last_name: formData.get('last_name'),
-                    email: formData.get('email'),
-                    phone: formData.get('phone'),
-                    password: formData.get('password'),
-                    confirm_password: formData.get('confirm_password')
-                };
+                // Prepare form data
+                const formData = new FormData(form);
+                const data = Object.fromEntries(formData.entries());
                 
+                // Send AJAX request
                 const response = await fetch('/modules/admin/signup/signup.php', {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
@@ -323,15 +350,22 @@ $errorMessage = $_GET['error'] ?? '';
                 const result = await response.json();
                 
                 if (result.success) {
+                    // Show success message
                     showAlert(result.message, 'success');
-                    setTimeout(() => { window.location.href = result.redirect; }, 1500);
+                    
+                    // Redirect to verification page
+                    setTimeout(() => {
+                        window.location.href = result.redirect;
+                    }, 1500);
                 } else {
+                    // Show error and re-enable form
                     showAlert(result.error || 'Signup failed', 'danger');
                     submitBtn.disabled = false;
                     spinner.classList.add('d-none');
                 }
             } catch (error) {
-                showAlert('An error occurred. Please try again.', 'danger');
+                // Handle network errors
+                showAlert('Connection error. Please try again.', 'danger');
                 submitBtn.disabled = false;
                 spinner.classList.add('d-none');
             }

@@ -42,18 +42,15 @@ class PHPMailerService {
             $this->mailer->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS; // SSL/TLS
             $this->mailer->Port = defined('SMTP_PORT') ? SMTP_PORT : 465;
             
+            // Performance settings
+            $this->mailer->Timeout = 10; // 10 seconds connection timeout
+            $this->mailer->SMTPKeepAlive = false; // Don't keep connection alive
+            
             // Sender info
             $this->mailer->setFrom($this->senderEmail, $this->senderName);
             
-            // Enable debug output if in debug mode
-            if (defined('EMAIL_DEBUG') && EMAIL_DEBUG) {
-                $this->mailer->SMTPDebug = SMTP::DEBUG_SERVER;
-                $this->mailer->Debugoutput = function($str, $level) {
-                    error_log("PHPMailer Debug [$level]: $str");
-                };
-            } else {
-                $this->mailer->SMTPDebug = SMTP::DEBUG_OFF;
-            }
+            // Disable debug in production for performance
+            $this->mailer->SMTPDebug = SMTP::DEBUG_OFF;
             
             // Additional settings
             $this->mailer->isHTML(true);
@@ -67,6 +64,7 @@ class PHPMailerService {
     
     /**
      * Send verification email with confirmation number
+     * Returns boolean for success/failure without throwing exceptions
      */
     public function sendVerificationEmail($recipientEmail, $recipientName, $confirmationNumber) {
         try {
@@ -80,38 +78,23 @@ class PHPMailerService {
             // Content
             $this->mailer->Subject = 'Verify Your Email - Burundi Adventist University';
             $this->mailer->Body = $this->getVerificationEmailTemplate($recipientName, $confirmationNumber);
-            $this->mailer->AltBody = strip_tags($this->getVerificationEmailTemplate($recipientName, $confirmationNumber));
+            $this->mailer->AltBody = 'Your verification code is: ' . strtoupper($confirmationNumber);
             
-            // For development/testing, log the email instead of sending
-            if (defined('EMAIL_DEBUG') && EMAIL_DEBUG) {
-                error_log("=== EMAIL DEBUG MODE ===");
-                error_log("To: $recipientEmail");
-                error_log("Subject: " . $this->mailer->Subject);
-                error_log("Confirmation Number: $confirmationNumber");
-                error_log("========================");
-                return true;
-            }
-            
-            // Send email
+            // Send email with timeout handling
             $result = $this->mailer->send();
-            
-            if ($result) {
-                error_log("Verification email sent successfully to: $recipientEmail");
-            } else {
-                error_log("Failed to send verification email to: $recipientEmail");
-            }
             
             return $result;
             
         } catch (Exception $e) {
-            error_log("PHPMailer Error: " . $this->mailer->ErrorInfo);
-            error_log("Exception: " . $e->getMessage());
+            // Log error but don't throw - return false for graceful handling
+            error_log("Email send failed: " . $e->getMessage());
             return false;
         }
     }
     
     /**
      * Send welcome email after successful verification
+     * Returns boolean for success/failure without throwing exceptions
      */
     public function sendWelcomeEmail($recipientEmail, $recipientName) {
         try {
@@ -125,31 +108,16 @@ class PHPMailerService {
             // Content
             $this->mailer->Subject = 'Welcome to Burundi Adventist University!';
             $this->mailer->Body = $this->getWelcomeEmailTemplate($recipientName);
-            $this->mailer->AltBody = strip_tags($this->getWelcomeEmailTemplate($recipientName));
+            $this->mailer->AltBody = 'Welcome to Burundi Adventist University!';
             
-            // For development/testing, log the email instead of sending
-            if (defined('EMAIL_DEBUG') && EMAIL_DEBUG) {
-                error_log("=== WELCOME EMAIL DEBUG MODE ===");
-                error_log("To: $recipientEmail");
-                error_log("Subject: " . $this->mailer->Subject);
-                error_log("================================");
-                return true;
-            }
-            
-            // Send email
+            // Send email with timeout handling
             $result = $this->mailer->send();
-            
-            if ($result) {
-                error_log("Welcome email sent successfully to: $recipientEmail");
-            } else {
-                error_log("Failed to send welcome email to: $recipientEmail");
-            }
             
             return $result;
             
         } catch (Exception $e) {
-            error_log("PHPMailer Error: " . $this->mailer->ErrorInfo);
-            error_log("Exception: " . $e->getMessage());
+            // Log error but don't throw - return false for graceful handling
+            error_log("Welcome email send failed: " . $e->getMessage());
             return false;
         }
     }
