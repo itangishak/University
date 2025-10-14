@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../../../config/config.php';
 require_once __DIR__ . '/../../../includes/Database.php';
-require_once __DIR__ . '/../../../includes/SimpleEmailService.php';
+require_once __DIR__ . '/../../../includes/PHPMailerService.php';
 
 // Handle resend verification request
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -45,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->execute([$newVerificationToken, $user['id']]);
         
         // Send new verification email
-        $emailService = new SimpleEmailService();
+        $emailService = new PHPMailerService();
         $emailSent = $emailService->sendVerificationEmail(
             $email,
             $user['first_name'] . ' ' . $user['last_name'],

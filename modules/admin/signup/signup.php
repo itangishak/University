@@ -3,7 +3,7 @@ require_once __DIR__ . '/../../../config/config.php';
 require_once __DIR__ . '/../../../config/oauth.php';
 require_once __DIR__ . '/../../../includes/Database.php';
 require_once __DIR__ . '/../../../includes/Auth.php';
-require_once __DIR__ . '/../../../includes/SimpleEmailService.php';
+require_once __DIR__ . '/../../../includes/PHPMailerService.php';
 
 // Handle signup request
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -100,7 +100,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             
             try {
                 error_log('Attempting to send verification email...');
-                $emailService = new SimpleEmailService();
+                $emailService = new PHPMailerService();
                 $emailSent = $emailService->sendVerificationEmail(
                     $email, 
                     $firstName . ' ' . $lastName, 

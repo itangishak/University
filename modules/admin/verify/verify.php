@@ -2,7 +2,7 @@
 require_once __DIR__ . '/../../../config/config.php';
 require_once __DIR__ . '/../../../includes/Database.php';
 require_once __DIR__ . '/../../../includes/Auth.php';
-require_once __DIR__ . '/../../../includes/SimpleEmailService.php';
+require_once __DIR__ . '/../../../includes/PHPMailerService.php';
 
 // Handle verification request
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -62,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $userData = $stmt->fetch(PDO::FETCH_ASSOC);
             
             // Send welcome email
-            $emailService = new SimpleEmailService();
+            $emailService = new PHPMailerService();
             $emailService->sendWelcomeEmail(
                 $email,
                 $userData['first_name'] . ' ' . $userData['last_name']
