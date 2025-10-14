@@ -39,8 +39,13 @@ class PHPMailerService {
             $this->mailer->SMTPAuth = true;
             $this->mailer->Username = defined('SMTP_USERNAME') ? SMTP_USERNAME : 'info@uab.edu.bi';
             $this->mailer->Password = defined('SMTP_PASSWORD') ? SMTP_PASSWORD : 'Default2025!';
-            $this->mailer->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS; // SSL/TLS
-            $this->mailer->Port = defined('SMTP_PORT') ? SMTP_PORT : 465;
+            $this->mailer->SMTPAutoTLS = true;
+            $port = defined('SMTP_PORT') ? SMTP_PORT : 465;
+            $this->mailer->Port = $port;
+            // Use implicit TLS for 465, STARTTLS otherwise (e.g., 587)
+            $this->mailer->SMTPSecure = ($port == 465) 
+                ? PHPMailer::ENCRYPTION_SMTPS 
+                : PHPMailer::ENCRYPTION_STARTTLS;
             
             // Performance settings
             $this->mailer->Timeout = 10; // 10 seconds connection timeout
@@ -49,8 +54,23 @@ class PHPMailerService {
             // Sender info
             $this->mailer->setFrom($this->senderEmail, $this->senderName);
             
-            // Disable debug in production for performance
-            $this->mailer->SMTPDebug = SMTP::DEBUG_OFF;
+            // Conditional debug output
+            if (defined('EMAIL_DEBUG') && EMAIL_DEBUG) {
+                $this->mailer->SMTPDebug = SMTP::DEBUG_SERVER;
+                $this->mailer->Debugoutput = function($str, $level) {
+                    error_log("PHPMailer SMTP[$level]: " . $str);
+                };
+                // Allow self-signed certs during debug to diagnose TLS issues
+                $this->mailer->SMTPOptions = [
+                    'ssl' => [
+                        'verify_peer' => false,
+                        'verify_peer_name' => false,
+                        'allow_self_signed' => true,
+                    ],
+                ];
+            } else {
+                $this->mailer->SMTPDebug = SMTP::DEBUG_OFF;
+            }
             
             // Additional settings
             $this->mailer->isHTML(true);
@@ -82,12 +102,18 @@ class PHPMailerService {
             
             // Send email with timeout handling
             $result = $this->mailer->send();
+            if (!$result) {
+                error_log("PHPMailer ErrorInfo (verification): " . $this->mailer->ErrorInfo);
+            }
             
             return $result;
             
         } catch (Exception $e) {
             // Log error but don't throw - return false for graceful handling
             error_log("Email send failed: " . $e->getMessage());
+            if (!empty($this->mailer->ErrorInfo)) {
+                error_log("PHPMailer ErrorInfo (verification): " . $this->mailer->ErrorInfo);
+            }
             return false;
         }
     }
@@ -112,12 +138,18 @@ class PHPMailerService {
             
             // Send email with timeout handling
             $result = $this->mailer->send();
+            if (!$result) {
+                error_log("PHPMailer ErrorInfo (welcome): " . $this->mailer->ErrorInfo);
+            }
             
             return $result;
             
         } catch (Exception $e) {
             // Log error but don't throw - return false for graceful handling
             error_log("Welcome email send failed: " . $e->getMessage());
+            if (!empty($this->mailer->ErrorInfo)) {
+                error_log("PHPMailer ErrorInfo (welcome): " . $this->mailer->ErrorInfo);
+            }
             return false;
         }
     }

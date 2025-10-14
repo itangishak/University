@@ -23,7 +23,7 @@ define('FROM_EMAIL', 'info@uab.edu.bi');
 define('FROM_NAME', 'Burundi Adventist University');
 
 // Email debug mode (set to true for development)
-define('EMAIL_DEBUG', false);
+define('EMAIL_DEBUG', true);
 
 // Debug Settings
 define('DEBUG_MODE', true);

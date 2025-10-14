@@ -88,6 +88,55 @@ echo "<div class='config'>
         <div class='config-item'><strong>Email Debug Mode:</strong> " . (defined('EMAIL_DEBUG') && EMAIL_DEBUG ? 'Enabled' : 'Disabled') . "</div>
       </div>";
 
+// Diagnostics: OpenSSL, DNS, and socket connectivity
+echo "<div class='config' style='margin-top:20px;'>
+        <h3>Diagnostics</h3>";
+
+// OpenSSL
+$opensslLoaded = extension_loaded('openssl');
+$opensslVer = defined('OPENSSL_VERSION_TEXT') ? OPENSSL_VERSION_TEXT : 'Unknown';
+echo "<div class='config-item'><strong>OpenSSL Loaded:</strong> " . ($opensslLoaded ? 'Yes' : 'No') . "</div>";
+echo "<div class='config-item'><strong>OpenSSL Version:</strong> " . htmlspecialchars($opensslVer) . "</div>";
+
+// DNS resolution
+$host = defined('SMTP_HOST') ? SMTP_HOST : '';
+$resolved = $host ? gethostbyname($host) : '';
+$dnsOk = $resolved && $resolved !== $host;
+echo "<div class='config-item'><strong>DNS Resolution:</strong> Host '" . htmlspecialchars($host) . "' → " . htmlspecialchars($resolved ?: 'N/A') . " (" . ($dnsOk ? 'OK' : 'Failed') . ")</div>";
+
+// Socket connectivity tests
+function test_socket($scheme, $host, $port, $timeout = 10) {
+    $target = $scheme . '://' . $host . ':' . $port;
+    $errno = 0; $errstr = '';
+    $start = microtime(true);
+    $ctx = stream_context_create([
+        'ssl' => [
+            'verify_peer' => false,
+            'verify_peer_name' => false,
+            'allow_self_signed' => true,
+            'crypto_method' => STREAM_CRYPTO_METHOD_TLS_CLIENT | STREAM_CRYPTO_METHOD_SSLv23_CLIENT,
+        ]
+    ]);
+    $fp = @stream_socket_client($target, $errno, $errstr, $timeout, STREAM_CLIENT_CONNECT, $ctx);
+    $elapsed = round((microtime(true) - $start) * 1000);
+    if ($fp) {
+        fclose($fp);
+        return [true, "Connected to $target in {$elapsed}ms"]; 
+    }
+    return [false, "Failed to connect to $target in {$elapsed}ms: [$errno] $errstr"]; 
+}
+
+$port = defined('SMTP_PORT') ? SMTP_PORT : 465;
+// For port 465, SMTPS (implicit TLS)
+list($ok465, $msg465) = test_socket('ssl', $host, $port);
+echo "<div class='config-item'><strong>Socket Test (ssl://$host:$port):</strong> " . ($ok465 ? '<span style=\'color:green\'>OK</span>' : '<span style=\'color:red\'>Failed</span>') . " — " . htmlspecialchars($msg465) . "</div>";
+
+// Also try STARTTLS endpoint 587 (optional check)
+list($ok587, $msg587) = test_socket('tcp', $host, 587);
+echo "<div class='config-item'><strong>Socket Test (tcp://$host:587):</strong> " . ($ok587 ? '<span style=\'color:green\'>OK</span>' : '<span style=\'color:red\'>Failed</span>') . " — " . htmlspecialchars($msg587) . "</div>";
+
+echo "</div>";
+
 // Test email sending
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['test_email'])) {
     $testEmail = filter_var($_POST['test_email'], FILTER_VALIDATE_EMAIL);
