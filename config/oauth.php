@@ -5,9 +5,22 @@
  */
 
 // Google OAuth Configuration
-define('GOOGLE_CLIENT_ID', 'your-google-client-id.apps.googleusercontent.com');
-define('GOOGLE_CLIENT_SECRET', 'your-google-client-secret');
-define('GOOGLE_REDIRECT_URI', BASE_PATH . '/modules/admin/oauth/google-callback.php');
+$googleClientConfigPath = __DIR__ . '/../assets/js/client_secret_1041275507083-hpk89sbs7npu61jgh0o35ljsn3i1a8eu.apps.googleusercontent.com.json';
+$googleConfig = [];
+if (is_readable($googleClientConfigPath)) {
+    $json = file_get_contents($googleClientConfigPath);
+    $decoded = json_decode($json, true);
+    if (is_array($decoded) && isset($decoded['web'])) {
+        $googleConfig = $decoded['web'];
+    }
+}
+
+define('GOOGLE_CLIENT_ID', $googleConfig['client_id'] ?? 'your-google-client-id.apps.googleusercontent.com');
+define('GOOGLE_CLIENT_SECRET', $googleConfig['client_secret'] ?? 'your-google-client-secret');
+$redirectFromJson = $googleConfig['redirect_uris'][0] ?? null;
+define('GOOGLE_REDIRECT_URI', $redirectFromJson ?: (rtrim(BASE_PATH, '/') . '/modules/admin/oauth/google-callback.php'));
+define('GOOGLE_AUTH_URI', $googleConfig['auth_uri'] ?? 'https://accounts.google.com/o/oauth2/auth');
+define('GOOGLE_TOKEN_URI', $googleConfig['token_uri'] ?? 'https://oauth2.googleapis.com/token');
 
 // OAuth Scopes
 define('GOOGLE_SCOPES', [
@@ -28,7 +41,7 @@ function getGoogleAuthUrl() {
         'prompt' => 'consent'
     ];
     
-    return 'https://accounts.google.com/o/oauth2/auth?' . http_build_query($params);
+    return GOOGLE_AUTH_URI . '?' . http_build_query($params);
 }
 
 /**
@@ -44,7 +57,7 @@ function getGoogleAccessToken($code) {
     ];
     
     $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, 'https://oauth2.googleapis.com/token');
+    curl_setopt($ch, CURLOPT_URL, GOOGLE_TOKEN_URI);
     curl_setopt($ch, CURLOPT_POST, true);
     curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -74,3 +87,4 @@ function getGoogleUserInfo($accessToken) {
     
     return json_decode($response, true);
 }
+

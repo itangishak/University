@@ -8,6 +8,19 @@ require_once __DIR__ . '/../../../config/oauth.php';
 require_once __DIR__ . '/../../../includes/Auth.php';
 require_once __DIR__ . '/../../../includes/NotificationSystem.php';
 
+if (isset($_GET['code'])) {
+    $forwardParams = ['code', 'scope', 'authuser', 'prompt', 'hd', 'state'];
+    $pairs = [];
+    foreach ($forwardParams as $p) {
+        if (isset($_GET[$p])) {
+            $pairs[] = $p . '=' . urlencode($_GET[$p]);
+        }
+    }
+    $qs = empty($pairs) ? '' : ('?' . implode('&', $pairs));
+    header('Location: ' . rtrim(BASE_PATH, '/') . '/modules/admin/oauth/google-callback.php' . $qs);
+    exit;
+}
+
 // Handle login request
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     header('Content-Type: application/json');
