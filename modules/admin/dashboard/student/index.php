@@ -412,8 +412,20 @@ if ($currentApplication) {
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Get auth token from session storage
-        const authToken = sessionStorage.getItem('auth_token');
+        function getAuthToken() {
+            return sessionStorage.getItem('auth_token');
+        }
+        (function() {
+            var params = new URLSearchParams(window.location.search);
+            var t = params.get('token');
+            if (t) {
+                sessionStorage.setItem('auth_token', t);
+                params.delete('token');
+                var q = params.toString();
+                var newUrl = window.location.pathname + (q ? '?' + q : '');
+                window.history.replaceState({}, '', newUrl);
+            }
+        })();
         
         // Navigation handling
         document.querySelectorAll('.nav-link[data-section]').forEach(link => {
@@ -459,20 +471,20 @@ if ($currentApplication) {
             }
         }
         
-        function loadApplicationForm() {
-            // Load application form via AJAX
-            fetch('<?php echo BASE_PATH; ?>/modules/admin/dashboard/student/application.php', {
-                headers: {
-                    'Authorization': 'Bearer ' + authToken
-                }
-            })
-            .then(response => response.text())
-            .then(html => {
+        async function loadApplicationForm() {
+            const token = getAuthToken();
+            const url = '<?php echo BASE_PATH; ?>/modules/admin/dashboard/student/application.php' + (token ? ('?token=' + encodeURIComponent(token)) : '');
+            try {
+                const response = await fetch(url, {
+                    headers: {
+                        'Authorization': 'Bearer ' + token
+                    }
+                });
+                const html = await response.text();
                 document.getElementById('applicationFormContainer').innerHTML = html;
-            })
-            .catch(error => {
+            } catch (error) {
                 console.error('Error loading application form:', error);
-            });
+            }
         }
         
         function loadDocuments() {

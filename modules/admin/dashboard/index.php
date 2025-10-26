@@ -7,20 +7,29 @@ $auth->requireAuth();
 
 $user = $auth->getCurrentUser();
 $role = $user['role'];
+$token = $auth->getSessionToken();
 
 // Redirect to role-specific dashboard
 switch ($role) {
     case 'student':
-        header('Location: ' . BASE_PATH . '/modules/admin/dashboard/student/');
+        $redir = rtrim(BASE_PATH, '/') . '/modules/admin/dashboard/student/';
+        if ($token) { $redir .= '?token=' . urlencode($token); }
+        header('Location: ' . $redir);
         break;
     case 'administrator':
-        header('Location: ' . BASE_PATH . '/modules/admin/dashboard/administrator/');
+        $redir = rtrim(BASE_PATH, '/') . '/modules/admin/dashboard/administrator/';
+        if ($token) { $redir .= '?token=' . urlencode($token); }
+        header('Location: ' . $redir);
         break;
     case 'communication_officer':
-        header('Location: ' . BASE_PATH . '/modules/admin/dashboard/communication_officer/');
+        $redir = rtrim(BASE_PATH, '/') . '/modules/admin/dashboard/communication_officer/';
+        if ($token) { $redir .= '?token=' . urlencode($token); }
+        header('Location: ' . $redir);
         break;
     case 'admission_officer':
-        header('Location: ' . BASE_PATH . '/modules/admin/dashboard/admission_officer/');
+        $redir = rtrim(BASE_PATH, '/') . '/modules/admin/dashboard/admission_officer/';
+        if ($token) { $redir .= '?token=' . urlencode($token); }
+        header('Location: ' . $redir);
         break;
     default:
         header('Location: ' . BASE_PATH . '/modules/admin/login/login.php');
