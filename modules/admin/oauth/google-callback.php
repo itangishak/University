@@ -41,12 +41,9 @@ try {
             $stmt->execute([$userInfo['id'], $userInfo['picture'] ?? null, $existingUser['id']]);
         }
         
-        // Log user in
         $auth = new Auth();
-        $auth->login($existingUser);
-        
-        // Redirect to dashboard
-        header('Location: ' . BASE_PATH . '/dashboard/' . $existingUser['role']);
+        $token = $auth->loginUserId($existingUser['id']);
+        header('Location: ' . BASE_PATH . '/dashboard/' . $existingUser['role'] . '?token=' . urlencode($token));
         exit;
     } else {
         // New user - create account
@@ -84,12 +81,9 @@ try {
             $stmt->execute([$userId]);
             $newUser = $stmt->fetch(PDO::FETCH_ASSOC);
             
-            // Log user in
             $auth = new Auth();
-            $auth->login($newUser);
-            
-            // Redirect to dashboard with welcome message
-            header('Location: ' . BASE_PATH . '/dashboard/' . $newUser['role'] . '?welcome=1');
+            $token = $auth->loginUserId($newUser['id']);
+            header('Location: ' . BASE_PATH . '/dashboard/' . $newUser['role'] . '?welcome=1&token=' . urlencode($token));
             exit;
         } else {
             throw new Exception('Failed to create user account');

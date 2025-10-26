@@ -52,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
         // Generate verification token
         $verificationToken = bin2hex(random_bytes(32));
-        $confirmationNumber = substr($verificationToken, 0, 8);
+        $confirmationNumber = strtoupper(substr($verificationToken, 0, 8));
         
         // Create user account with pending verification status
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
@@ -67,35 +67,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             throw new Exception('Failed to create account. Please try again.');
         }
         
-        // Try to send verification email (with timeout handling)
-        $emailSent = false;
+        // Respond immediately to improve perceived performance
+        $message = 'Account created! We sent a verification code to your email. If you do not see it, check Spam/Junk and mark it as "Not spam".'
+                 . '<br><strong>Your verification code:</strong> ' . $confirmationNumber
+                 . '<br><small>Tip: Search your inbox for \"Burundi Adventist University\" or \"info@uab.edu.bi\".</small>';
+        echo json_encode([
+            'success' => true,
+            'message' => $message,
+            'code' => $confirmationNumber,
+            'redirect' => rtrim(BASE_PATH, '/') . '/modules/admin/verify/verify.php?email=' . urlencode($email)
+        ]);
+        
+        // Flush response to client, then send email in background
+        if (function_exists('fastcgi_finish_request')) {
+            fastcgi_finish_request();
+        } else {
+            @ob_end_flush();
+            @flush();
+        }
+        
+        // Background email send (non-blocking for the user)
         try {
             $emailService = new PHPMailerService();
-            $emailSent = $emailService->sendVerificationEmail(
-                $email, 
-                $firstName . ' ' . $lastName, 
+            $emailService->sendVerificationEmail(
+                $email,
+                $firstName . ' ' . $lastName,
                 $confirmationNumber
             );
         } catch (Exception $e) {
-            // Email failed but user is created - they can resend later
-            $emailSent = false;
-        }
-        
-        // Return success response with verification info
-        if ($emailSent) {
-            echo json_encode([
-                'success' => true,
-                'message' => 'Account created! Please check your email for the verification code.',
-                'redirect' => rtrim(BASE_PATH, '/') . '/modules/admin/verify/verify.php?email=' . urlencode($email)
-            ]);
-        } else {
-            // Email failed - provide code directly
-            echo json_encode([
-                'success' => true,
-                'message' => 'Account created! Your verification code is: ' . strtoupper($confirmationNumber),
-                'code' => strtoupper($confirmationNumber),
-                'redirect' => rtrim(BASE_PATH, '/') . '/modules/admin/verify/verify.php?email=' . urlencode($email)
-            ]);
+            // Silently ignore; user can use code shown or resend
         }
         
     } catch (Exception $e) {

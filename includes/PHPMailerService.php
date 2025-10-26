@@ -53,6 +53,7 @@ class PHPMailerService {
             
             // Sender info
             $this->mailer->setFrom($this->senderEmail, $this->senderName);
+            $this->mailer->Sender = $this->senderEmail; // Align envelope sender with domain
             
             // Conditional debug output
             if (defined('EMAIL_DEBUG') && EMAIL_DEBUG) {
@@ -94,11 +95,14 @@ class PHPMailerService {
             
             // Recipients
             $this->mailer->addAddress($recipientEmail, $recipientName);
+            $this->mailer->addReplyTo($this->senderEmail, $this->senderName);
             
             // Content
             $this->mailer->Subject = 'Verify Your Email - Burundi Adventist University';
             $this->mailer->Body = $this->getVerificationEmailTemplate($recipientName, $confirmationNumber);
-            $this->mailer->AltBody = 'Your verification code is: ' . strtoupper($confirmationNumber);
+            $this->mailer->AltBody = "Burundi Adventist University\n\nEmail Verification\n\nHello $recipientName,\n\nYour verification code: " . strtoupper($confirmationNumber) . "\n\nNext steps:\n1) Go to the verification page\n2) Enter the code above\n\nIf you cannot find the email, check Spam/Junk or search for 'Burundi Adventist University'.";
+            // Anti-spam helpful headers
+            $this->mailer->addCustomHeader('List-Unsubscribe', '<mailto:' . $this->senderEmail . '>' );
             
             // Send email with timeout handling
             $result = $this->mailer->send();
@@ -130,6 +134,7 @@ class PHPMailerService {
             
             // Recipients
             $this->mailer->addAddress($recipientEmail, $recipientName);
+            $this->mailer->addReplyTo($this->senderEmail, $this->senderName);
             
             // Content
             $this->mailer->Subject = 'Welcome to Burundi Adventist University!';

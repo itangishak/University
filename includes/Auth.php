@@ -134,6 +134,56 @@ class Auth {
         return $sessionToken;
     }
     
+    public function loginUserId($userId) {
+        $user = $this->db->fetch("SELECT * FROM users WHERE id = ? LIMIT 1", [$userId]);
+        
+        if (!$user) {
+            throw new Exception('User not found');
+        }
+        
+        if ($user['status'] !== 'active') {
+            switch ($user['status']) {
+                case 'pending_verification':
+                    throw new Exception('Please verify your email address before logging in. Check your email for the verification code.');
+                case 'suspended':
+                    throw new Exception('Your account has been suspended. Please contact support.');
+                case 'inactive':
+                    throw new Exception('Your account is inactive. Please contact support.');
+                default:
+                    throw new Exception('Your account is not active. Please contact support.');
+            }
+        }
+        
+        $sessionToken = $this->generateSecureToken();
+        $expiresAt = date('Y-m-d H:i:s', strtotime('+24 hours'));
+        $ipAddress = $_SERVER['REMOTE_ADDR'] ?? null;
+        $userAgent = $_SERVER['HTTP_USER_AGENT'] ?? null;
+        
+        $sql = "INSERT INTO user_sessions (user_id, session_token, ip_address, user_agent, expires_at) 
+                VALUES (?, ?, ?, ?, ?)";
+        
+        $this->db->execute($sql, [
+            $user['id'],
+            $sessionToken,
+            $ipAddress,
+            $userAgent,
+            $expiresAt
+        ]);
+        
+        $this->sessionToken = $sessionToken;
+        $this->currentUser = [
+            'id' => $user['id'],
+            'username' => $user['username'],
+            'email' => $user['email'],
+            'role' => $user['role'],
+            'first_name' => $user['first_name'],
+            'last_name' => $user['last_name'],
+            'preferred_language' => $user['preferred_language']
+        ];
+        
+        return $sessionToken;
+    }
+    
     /**
      * Register new user
      */

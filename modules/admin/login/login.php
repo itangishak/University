@@ -32,17 +32,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($sessionToken) {
             $user = $auth->getCurrentUser();
             
-            // Create welcome notification
-            $notificationSystem = new NotificationSystem();
-            $notificationSystem->notify(
-                $user['id'],
-                'welcome',
-                'Welcome back!',
-                'You have successfully logged in to your account.',
-                null,
-                [],
-                false
-            );
+            try {
+                $notificationSystem = new NotificationSystem();
+                $notificationSystem->notify(
+                    $user['id'],
+                    'welcome',
+                    'Welcome back!',
+                    'You have successfully logged in to your account.',
+                    null,
+                    [],
+                    false
+                );
+            } catch (Exception $e) {
+                error_log($e->getMessage());
+            }
             
             echo json_encode([
                 'success' => true,
