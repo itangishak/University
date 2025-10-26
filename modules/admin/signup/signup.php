@@ -112,7 +112,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $auth = new Auth();
 if ($auth->isAuthenticated()) {
     $user = $auth->getCurrentUser();
-    header('Location: ' . BASE_PATH . '/dashboard/' . $user['role']);
+    header('Location: ' . rtrim(BASE_PATH, '/') . '/modules/admin/dashboard/' . $user['role'] . '/');
     exit;
 }
 

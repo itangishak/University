@@ -51,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'success' => true,
                 'token' => $sessionToken,
                 'user' => $user,
-                'redirect' => BASE_PATH . '/dashboard/' . $user['role']
+                'redirect' => rtrim(BASE_PATH, '/') . '/modules/admin/dashboard/' . $user['role'] . '/'
             ]);
         } else {
             throw new Exception('Invalid credentials');
@@ -80,7 +80,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'logout') {
 $auth = new Auth();
 if ($auth->isAuthenticated()) {
     $user = $auth->getCurrentUser();
-    header('Location: ' . BASE_PATH . '/dashboard/' . $user['role']);
+    header('Location: ' . rtrim(BASE_PATH, '/') . '/modules/admin/dashboard/' . $user['role'] . '/');
     exit;
 }
 

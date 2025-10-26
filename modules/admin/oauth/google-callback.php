@@ -43,7 +43,7 @@ try {
         
         $auth = new Auth();
         $token = $auth->loginUserId($existingUser['id']);
-        header('Location: ' . BASE_PATH . '/dashboard/' . $existingUser['role'] . '?token=' . urlencode($token));
+        header('Location: ' . rtrim(BASE_PATH, '/') . '/modules/admin/dashboard/' . $existingUser['role'] . '/?token=' . urlencode($token));
         exit;
     } else {
         // New user - create account
@@ -83,7 +83,7 @@ try {
             
             $auth = new Auth();
             $token = $auth->loginUserId($newUser['id']);
-            header('Location: ' . BASE_PATH . '/dashboard/' . $newUser['role'] . '?welcome=1&token=' . urlencode($token));
+            header('Location: ' . rtrim(BASE_PATH, '/') . '/modules/admin/dashboard/' . $newUser['role'] . '/?welcome=1&token=' . urlencode($token));
             exit;
         } else {
             throw new Exception('Failed to create user account');
