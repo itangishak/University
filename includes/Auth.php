@@ -22,23 +22,47 @@ class Auth {
     private function initializeSession() {
         $token = null;
         
-        // Check Authorization header first
+        // Check Authorization header (robust, case-insensitive, multiple server vars)
         $headers = function_exists('getallheaders') ? getallheaders() : [];
-        if (isset($headers['Authorization'])) {
-            $authHeader = $headers['Authorization'];
-            if (preg_match('/Bearer\s+(.*)$/i', $authHeader, $matches)) {
-                $token = $matches[1];
+        if (!empty($headers)) {
+            foreach ($headers as $k => $v) {
+                if (strtolower($k) === 'authorization' && is_string($v)) {
+                    if (preg_match('/Bearer\s+(.*)$/i', $v, $m)) {
+                        $token = trim($m[1]);
+                        break;
+                    }
+                }
+            }
+        }
+        if (!$token && !empty($_SERVER['HTTP_AUTHORIZATION'])) {
+            if (preg_match('/Bearer\s+(.*)$/i', $_SERVER['HTTP_AUTHORIZATION'], $m)) {
+                $token = trim($m[1]);
+            }
+        }
+        if (!$token && !empty($_SERVER['REDIRECT_HTTP_AUTHORIZATION'])) {
+            if (preg_match('/Bearer\s+(.*)$/i', $_SERVER['REDIRECT_HTTP_AUTHORIZATION'], $m)) {
+                $token = trim($m[1]);
+            }
+        }
+        if (!$token && !empty($_SERVER['Authorization'])) {
+            if (preg_match('/Bearer\s+(.*)$/i', $_SERVER['Authorization'], $m)) {
+                $token = trim($m[1]);
             }
         }
         
         // Fallback to query parameter (for initial login)
         if (!$token && isset($_GET['token'])) {
-            $token = $_GET['token'];
+            $token = trim((string)$_GET['token']);
         }
         
         // Fallback to POST parameter
         if (!$token && isset($_POST['token'])) {
-            $token = $_POST['token'];
+            $token = trim((string)$_POST['token']);
+        }
+        
+        // Fallback to cookie parameter
+        if (!$token && isset($_COOKIE['auth_token'])) {
+            $token = trim((string)$_COOKIE['auth_token']);
         }
         
         if ($token) {

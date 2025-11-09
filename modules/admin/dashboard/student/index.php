@@ -362,13 +362,13 @@ if ($currentApplication) {
                             <div class="card">
                                 <div class="card-body">
                                     <div id="applicationFormContainer">
-                                        <!-- Application form steps will be loaded here -->
-                                        <div class="text-center py-5">
-                                            <div class="spinner-border text-primary" role="status">
-                                                <span class="visually-hidden">Loading...</span>
-                                            </div>
-                                            <p class="mt-3">Loading application form...</p>
-                                        </div>
+<?php
+// Server-render the application form to ensure auth context is preserved without an extra fetch
+// Ensure the included file sees a valid token via $_GET as expected by Auth
+$__server_token = $auth->getSessionToken();
+if ($__server_token) { $_GET['token'] = $__server_token; }
+include __DIR__ . '/application.php';
+?>
                                     </div>
                                 </div>
                             </div>
@@ -420,14 +420,18 @@ if ($currentApplication) {
             var t = params.get('token');
             if (t) {
                 sessionStorage.setItem('auth_token', t);
+                try {
+                    document.cookie = 'auth_token=' + encodeURIComponent(t) + '; path=/; SameSite=Lax; secure';
+                } catch (e) {}
                 params.delete('token');
                 var q = params.toString();
                 var newUrl = window.location.pathname + (q ? '?' + q : '');
                 window.history.replaceState({}, '', newUrl);
             }
-            if (!sessionStorage.getItem('auth_token')) {
-                var st = '<?php echo htmlspecialchars($auth->getSessionToken() ?? "", ENT_QUOTES); ?>';
-                if (st) { sessionStorage.setItem('auth_token', st); }
+            var st = '<?php echo htmlspecialchars($auth->getSessionToken() ?? "", ENT_QUOTES); ?>';
+            if (st) { sessionStorage.setItem('auth_token', st); }
+            if (st) {
+                try { document.cookie = 'auth_token=' + encodeURIComponent(st) + '; path=/; SameSite=Lax; secure'; } catch (e) {}
             }
         })();
         
@@ -463,6 +467,13 @@ if ($currentApplication) {
         function loadSectionContent(sectionName) {
             switch(sectionName) {
                 case 'application':
+                    try {
+                        const container = document.getElementById('applicationFormContainer');
+                        if (container && (container.querySelector('.application-form') || container.querySelector('#createApplicationForm'))) {
+                            // already rendered; do nothing
+                            return;
+                        }
+                    } catch (e) {}
                     loadApplicationForm();
                     break;
                 case 'documents':
@@ -477,18 +488,21 @@ if ($currentApplication) {
         
         async function loadApplicationForm() {
             const token = getAuthToken();
-            const url = '<?php echo BASE_PATH; ?>/modules/admin/dashboard/student/application.php' + (token ? ('?token=' + encodeURIComponent(token)) : '');
+            const url = '<?php echo rtrim(BASE_PATH, '/'); ?>/modules/admin/dashboard/student/application.php' + (token ? ('?token=' + encodeURIComponent(token)) : '');
             try {
+                const container = document.getElementById('applicationFormContainer');
+                if (container && (container.querySelector('.application-form') || container.querySelector('#createApplicationForm'))) {
+                    // Already rendered on server; ensure inline scripts executed only once
+                    return;
+                }
                 const headers = {};
                 if (token) headers['Authorization'] = 'Bearer ' + token;
-                const response = await fetch(url, { headers });
+                const response = await fetch(url, { headers, credentials: 'include' });
                 if (response.status === 401) {
-                    const container = document.getElementById('applicationFormContainer');
                     container.innerHTML = '<div class="alert alert-warning">Session expired or authentication missing. Please reload the page.</div>';
                     return;
                 }
                 const html = await response.text();
-                const container = document.getElementById('applicationFormContainer');
                 container.innerHTML = html;
                 const scripts = Array.from(container.querySelectorAll('script'));
                 scripts.forEach(oldScript => {
@@ -507,9 +521,10 @@ if ($currentApplication) {
             try {
                 const headers = { 'Content-Type': 'application/json' };
                 if (token) headers['Authorization'] = 'Bearer ' + token;
-                const res = await fetch('<?php echo BASE_PATH; ?>/modules/admin/dashboard/student/application.php' + (token ? ('?token=' + encodeURIComponent(token)) : ''), {
+                const res = await fetch('<?php echo rtrim(BASE_PATH, '/'); ?>/modules/admin/dashboard/student/application.php' + (token ? ('?token=' + encodeURIComponent(token)) : ''), {
                     method: 'POST',
                     headers,
+                    credentials: 'include',
                     body: JSON.stringify({ action: 'list_documents' })
                 });
                 const out = await res.json();
