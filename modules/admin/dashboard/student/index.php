@@ -425,6 +425,10 @@ if ($currentApplication) {
                 var newUrl = window.location.pathname + (q ? '?' + q : '');
                 window.history.replaceState({}, '', newUrl);
             }
+            if (!sessionStorage.getItem('auth_token')) {
+                var st = '<?php echo htmlspecialchars($auth->getSessionToken() ?? "", ENT_QUOTES); ?>';
+                if (st) { sessionStorage.setItem('auth_token', st); }
+            }
         })();
         
         // Navigation handling
@@ -475,23 +479,21 @@ if ($currentApplication) {
             const token = getAuthToken();
             const url = '<?php echo BASE_PATH; ?>/modules/admin/dashboard/student/application.php' + (token ? ('?token=' + encodeURIComponent(token)) : '');
             try {
-                const response = await fetch(url, {
-                    headers: {
-                        'Authorization': 'Bearer ' + token
-                    }
-                });
+                const headers = {};
+                if (token) headers['Authorization'] = 'Bearer ' + token;
+                const response = await fetch(url, { headers });
+                if (response.status === 401) {
+                    const container = document.getElementById('applicationFormContainer');
+                    container.innerHTML = '<div class="alert alert-warning">Session expired or authentication missing. Please reload the page.</div>';
+                    return;
+                }
                 const html = await response.text();
                 const container = document.getElementById('applicationFormContainer');
                 container.innerHTML = html;
-                // Execute any inline scripts from loaded HTML
                 const scripts = Array.from(container.querySelectorAll('script'));
                 scripts.forEach(oldScript => {
                     const s = document.createElement('script');
-                    if (oldScript.src) {
-                        s.src = oldScript.src;
-                    } else {
-                        s.text = oldScript.textContent;
-                    }
+                    if (oldScript.src) { s.src = oldScript.src; } else { s.text = oldScript.textContent; }
                     document.body.appendChild(s);
                     document.body.removeChild(s);
                 });
@@ -503,12 +505,11 @@ if ($currentApplication) {
         async function loadDocuments() {
             const token = getAuthToken();
             try {
+                const headers = { 'Content-Type': 'application/json' };
+                if (token) headers['Authorization'] = 'Bearer ' + token;
                 const res = await fetch('<?php echo BASE_PATH; ?>/modules/admin/dashboard/student/application.php' + (token ? ('?token=' + encodeURIComponent(token)) : ''), {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + token
-                    },
+                    headers,
                     body: JSON.stringify({ action: 'list_documents' })
                 });
                 const out = await res.json();

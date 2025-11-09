@@ -690,6 +690,19 @@ function listApplicationDocuments($applicationId, $db, $language = 'en') {
 
 <script>
 // Application form JavaScript
+// Global helpers for API calls
+const APP_ENDPOINT = '<?php echo rtrim(BASE_PATH, '/'); ?>/modules/admin/dashboard/student/application.php';
+function apiUrl() {
+    const t = sessionStorage.getItem('auth_token');
+    return APP_ENDPOINT + (t ? ('?token=' + encodeURIComponent(t)) : '');
+}
+function apiHeaders(json) {
+    const h = {};
+    if (json) h['Content-Type'] = 'application/json';
+    const t = sessionStorage.getItem('auth_token');
+    if (t) h['Authorization'] = 'Bearer ' + t;
+    return h;
+}
 (function(){
 function initAppForm(){
     // Handle new application creation
@@ -760,12 +773,9 @@ function initAppForm(){
     if (submitBtn) {
         submitBtn.addEventListener('click', async function() {
             try {
-                const res = await fetch(window.location.href, {
+                const res = await fetch(apiUrl(), {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + sessionStorage.getItem('auth_token')
-                    },
+                    headers: apiHeaders(true),
                     body: JSON.stringify({ action: 'submit' })
                 });
                 const out = await res.json();
@@ -816,12 +826,9 @@ async function handleNewApplication(e) {
     };
     
     try {
-        const response = await fetch(window.location.href, {
+        const response = await fetch(apiUrl(), {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + sessionStorage.getItem('auth_token')
-            },
+            headers: apiHeaders(true),
             body: JSON.stringify(data)
         });
         
@@ -850,12 +857,9 @@ async function saveApplicationStep(step, formData) {
     }
     
     try {
-        const response = await fetch(window.location.href, {
+        const response = await fetch(apiUrl(), {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + sessionStorage.getItem('auth_token')
-            },
+            headers: apiHeaders(true),
             body: JSON.stringify(data)
         });
         
@@ -1017,12 +1021,9 @@ function collectWorkExperience() {
 
 async function postSaveStep(step, payload) {
     try {
-        const res = await fetch(window.location.href, {
+        const res = await fetch(apiUrl(), {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + sessionStorage.getItem('auth_token')
-            },
+            headers: apiHeaders(true),
             body: JSON.stringify(Object.assign({ step }, payload))
         });
         const out = await res.json();
@@ -1043,9 +1044,9 @@ async function uploadDocument(code, file) {
     fd.append('document_code', code);
     fd.append('file', file);
     try {
-        const res = await fetch(window.location.href, {
+        const res = await fetch(apiUrl(), {
             method: 'POST',
-            headers: { 'Authorization': 'Bearer ' + sessionStorage.getItem('auth_token') },
+            headers: apiHeaders(false),
             body: fd
         });
         const out = await res.json();
@@ -1063,12 +1064,9 @@ async function uploadDocument(code, file) {
 
 async function refreshDocumentsList() {
     try {
-        const res = await fetch(window.location.href, {
+        const res = await fetch(apiUrl(), {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + sessionStorage.getItem('auth_token')
-            },
+            headers: apiHeaders(true),
             body: JSON.stringify({ action: 'list_documents' })
         });
         const out = await res.json();
