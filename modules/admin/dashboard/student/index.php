@@ -481,15 +481,45 @@ if ($currentApplication) {
                     }
                 });
                 const html = await response.text();
-                document.getElementById('applicationFormContainer').innerHTML = html;
+                const container = document.getElementById('applicationFormContainer');
+                container.innerHTML = html;
+                // Execute any inline scripts from loaded HTML
+                const scripts = Array.from(container.querySelectorAll('script'));
+                scripts.forEach(oldScript => {
+                    const s = document.createElement('script');
+                    if (oldScript.src) {
+                        s.src = oldScript.src;
+                    } else {
+                        s.text = oldScript.textContent;
+                    }
+                    document.body.appendChild(s);
+                    document.body.removeChild(s);
+                });
             } catch (error) {
                 console.error('Error loading application form:', error);
             }
         }
         
-        function loadDocuments() {
-            // Implementation for document loading
-            console.log('Loading documents...');
+        async function loadDocuments() {
+            const token = getAuthToken();
+            try {
+                const res = await fetch('<?php echo BASE_PATH; ?>/modules/admin/dashboard/student/application.php' + (token ? ('?token=' + encodeURIComponent(token)) : ''), {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    },
+                    body: JSON.stringify({ action: 'list_documents' })
+                });
+                const out = await res.json();
+                if (out && out.success) {
+                    const countEl = document.getElementById('documentCount');
+                    if (countEl) countEl.textContent = out.count || 0;
+                    // Optionally render list in documents-section later
+                }
+            } catch (e) {
+                console.warn('Could not load documents', e);
+            }
         }
         
         function loadApplicationStatus() {
@@ -504,8 +534,7 @@ if ($currentApplication) {
         
         // Load document count on page load
         document.addEventListener('DOMContentLoaded', function() {
-            // Fetch document count and update display
-            // This would be implemented with an AJAX call
+            loadDocuments();
         });
     </script>
 </body>
