@@ -11,16 +11,20 @@ class Database {
     
     private function __construct() {
         try {
+            $options = [
+                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+                PDO::ATTR_EMULATE_PREPARES => false
+            ];
+            if (defined('PDO::MYSQL_ATTR_INIT_COMMAND')) {
+                $attr = constant('PDO::MYSQL_ATTR_INIT_COMMAND');
+                $options[$attr] = "SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci";
+            }
             $this->connection = new PDO(
                 "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=utf8mb4",
                 DB_USER,
                 DB_PASS,
-                [
-                    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-                    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-                    PDO::ATTR_EMULATE_PREPARES => false,
-                    PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci"
-                ]
+                $options
             );
         } catch (PDOException $e) {
             error_log("Database connection failed: " . $e->getMessage());

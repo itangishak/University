@@ -14,16 +14,18 @@ $default_language = 'fr';
 
 // Detect browser language if not set in session
 if (!isset($_SESSION['language'])) {
-    $browser_lang = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
+    $httpLang = $_SERVER['HTTP_ACCEPT_LANGUAGE'] ?? '';
+    $browser_lang = $httpLang ? substr($httpLang, 0, 2) : $default_language;
     $_SESSION['language'] = in_array($browser_lang, ['fr', 'en']) ? $browser_lang : $default_language;
 }
 
 // Manual language switch (only on GET to avoid breaking POST/AJAX requests)
-if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['lang']) && in_array($_GET['lang'], ['fr', 'en'])) {
+if ((($_SERVER['REQUEST_METHOD'] ?? '') === 'GET') && isset($_GET['lang']) && in_array($_GET['lang'], ['fr', 'en'])) {
     $_SESSION['language'] = $_GET['lang'];
     
     // Get current path without query parameters
-    $current_path = strtok($_SERVER['REQUEST_URI'], '?');
+    $requestUri = $_SERVER['REQUEST_URI'] ?? '';
+    $current_path = $requestUri ? strtok($requestUri, '?') : '';
     $query = $_GET;
     unset($query['lang']);
     
@@ -34,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['lang']) && in_array($_G
     }
     
     // Ensure proper path handling for different environments
-    if ($_SERVER['HTTP_HOST'] === 'uab.edu.bi') {
+    if (($_SERVER['HTTP_HOST'] ?? '') === 'uab.edu.bi') {
         // Handle production URLs with full domain
         $base_url = 'https://uab.edu.bi';
         if ($current_path === '/' || $current_path === '/index.php') {

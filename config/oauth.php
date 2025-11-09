@@ -5,20 +5,40 @@
  */
 
 // Google OAuth Configuration
-$googleClientConfigPath = __DIR__ . '/../assets/js/client_secret_1041275507083-hpk89sbs7npu61jgh0o35ljsn3i1a8eu.apps.googleusercontent.com.json';
 $googleConfig = [];
-if (is_readable($googleClientConfigPath)) {
-    $json = file_get_contents($googleClientConfigPath);
-    $decoded = json_decode($json, true);
-    if (is_array($decoded) && isset($decoded['web'])) {
-        $googleConfig = $decoded['web'];
+$env = [
+    'client_id' => getenv('GOOGLE_CLIENT_ID') ?: null,
+    'client_secret' => getenv('GOOGLE_CLIENT_SECRET') ?: null,
+    'redirect_uri' => getenv('GOOGLE_REDIRECT_URI') ?: null,
+    'auth_uri' => getenv('GOOGLE_AUTH_URI') ?: null,
+    'token_uri' => getenv('GOOGLE_TOKEN_URI') ?: null,
+];
+foreach ($env as $k => $v) {
+    if ($v) { $googleConfig[$k] = $v; }
+}
+$secureCredsPath = __DIR__ . '/secure/google_oauth.php';
+if (is_readable($secureCredsPath)) {
+    $secure = include $secureCredsPath;
+    if (is_array($secure)) {
+        $googleConfig = array_merge($googleConfig, $secure);
+    }
+}
+if (empty($googleConfig['client_id']) || empty($googleConfig['client_secret'])) {
+    $googleClientConfigPath = __DIR__ . '/../assets/js/client_secret_1041275507083-hpk89sbs7npu61jgh0o35ljsn3i1a8eu.apps.googleusercontent.com.json';
+    if (is_readable($googleClientConfigPath)) {
+        $json = file_get_contents($googleClientConfigPath);
+        $decoded = json_decode($json, true);
+        if (is_array($decoded) && isset($decoded['web'])) {
+            $googleConfig = array_merge($googleConfig, $decoded['web']);
+        }
     }
 }
 
 define('GOOGLE_CLIENT_ID', $googleConfig['client_id'] ?? 'your-google-client-id.apps.googleusercontent.com');
 define('GOOGLE_CLIENT_SECRET', $googleConfig['client_secret'] ?? 'your-google-client-secret');
 $redirectFromJson = $googleConfig['redirect_uris'][0] ?? null;
-define('GOOGLE_REDIRECT_URI', $redirectFromJson ?: (rtrim(BASE_PATH, '/') . '/modules/admin/oauth/google-callback.php'));
+$redirectFromConfig = $googleConfig['redirect_uri'] ?? $redirectFromJson;
+define('GOOGLE_REDIRECT_URI', $redirectFromConfig ?: (rtrim(BASE_PATH, '/') . '/modules/admin/oauth/google-callback.php'));
 define('GOOGLE_AUTH_URI', $googleConfig['auth_uri'] ?? 'https://accounts.google.com/o/oauth2/auth');
 define('GOOGLE_TOKEN_URI', $googleConfig['token_uri'] ?? 'https://oauth2.googleapis.com/token');
 
